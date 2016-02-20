@@ -13,8 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
-import com.sk89q.worldguard.bukkit.WGBukkit;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
 
 public class PlayerListener implements Listener {

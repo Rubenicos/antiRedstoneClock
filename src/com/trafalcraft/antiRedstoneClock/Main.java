@@ -41,6 +41,15 @@ public class Main extends JavaPlugin{
 		plugin.saveDefaultConfig();
 		plugin.reloadConfig();
 		
+		System.out.println(!getConfig().getString("version").equals("0.2")+"");
+		if(!getConfig().getString("version").equals("0.2")){
+			System.out.println("update config file");
+			getConfig().set("version", "0.2");
+			getConfig().set("IgnoreWorlds", "redstoneWorld/survival");
+			plugin.saveConfig();
+			plugin.reloadConfig();
+		}
+		
 		//if(instance.getConfig().getInt("version") != 0.1){
 			//plus tard
 		//}
@@ -106,6 +115,11 @@ public class Main extends JavaPlugin{
 					try{
 						getPlugin().reloadConfig();
 						CustomConfig.load();
+						String sIgnoreWorld = getPlugin().getConfig().getString("IgnoreWorlds");
+						ignoreWorld.clear();
+						for(int i = 0;i<sIgnoreWorld.split("/").length;i++){
+							ignoreWorld.add(sIgnoreWorld.split("/")[i]);
+						}
 						sender.sendMessage(CustomConfig.Prefix+CustomConfig.reloadSuccess.toString());
 					}catch(YAMLException e){
 						if(sender instanceof Player){

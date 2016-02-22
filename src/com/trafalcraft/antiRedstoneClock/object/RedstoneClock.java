@@ -7,7 +7,6 @@ import com.trafalcraft.antiRedstoneClock.Main;
 
 public class RedstoneClock {
 	
-	//Date  initTime = SystemClockFactory.getDatetime();
 	private static SimpleDateFormat formater = new SimpleDateFormat("mm");
 	private String initTime;
 	private int boucle;

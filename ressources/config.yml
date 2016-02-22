@@ -22,6 +22,10 @@ Sign:
 #Fr: La list des mondes sur lequel le plugin est desactive separe par des "/", mettre un faut non si aucun 
 IgnoreWorlds: redstoneWorld/survie
 
+#En:The list of Region on which the plugin is disabled separate by "/", put a fake name if nothing
+#Fr: La list des Regions sur lequel le plugin est desactive separe par des "/", mettre un faut non si aucun 
+IgnoreRegion: redstone/admins
+
 Msg:
   default:
     prefix: '&bAntiRedstoneClock &9&l> &r&b '

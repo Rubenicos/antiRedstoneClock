@@ -14,15 +14,19 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
 import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
+import com.trafalcraft.antiRedstoneClock.util.WorldGuardLink;
 
 public class PlayerListener implements Listener {
 	
 	@EventHandler (priority = EventPriority.LOWEST)
 	public void onRedstoneClock(BlockRedstoneEvent e){
-		for(String ignoreWorld:Main.getAllowedWorld()){
+		for(String ignoreWorld:Main.getAllowedWorlds()){
 			if(e.getBlock().getWorld().getName().equals(ignoreWorld)){
 				return;
 			}
+		}
+		if(WorldGuardLink.checkAllowedRegion(e.getBlock().getLocation())){
+			return;
 		}
 		if(e.getBlock().getType() == Material.REDSTONE_WIRE){
 			if(e.getOldCurrent() == 0){
@@ -145,14 +149,12 @@ public class PlayerListener implements Listener {
 							}
 						}
 					}
-					Main.getRDC().removeRedstoneByLocation(e.getBlock().getLocation());
 				}
 			}
 
 		
 		
 		}
-		//Main.getInstance().getLogger().info("Plugin chargé en "+duration/1000000+"ms");  //2ms
 	}
 	
 	@EventHandler (priority = EventPriority.HIGHEST)
@@ -163,6 +165,7 @@ public class PlayerListener implements Listener {
 			}
 		}
 	}
+
 
 	
 }

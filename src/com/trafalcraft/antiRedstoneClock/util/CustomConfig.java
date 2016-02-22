@@ -65,20 +65,4 @@ public enum CustomConfig {
 	    	Main.setLine4(Main.getPlugin().getConfig().getString("Sign.Line4").replace("&", "§"));
 	    }
 	    
-	    /*public static void DefaultMsg(){
-	    	//default
-	    	Main.getPlugin().getConfig().set("Msg.default.prefix", Prefix.toString().replace("§", "&"));
-	    	Main.getPlugin().getConfig().set("Msg.default.error", ERREUR.toString().replace("§", "&"));
-	    	Main.getPlugin().getConfig().set("Msg.default.no_permission", NO_PERMISSIONS.toString().replace("§", "&"));
-	    	Main.getPlugin().getConfig().set("Msg.default.command_use", Command_Use.toString().replace("§", "&"));
-	    	
-	    	Main.getPlugin().getConfig().set("Msg.message.MsgToAdmin", MsgToAdmin.toString().replace("§", "&"));
-	    	
-	    	Main.getPlugin().getConfig().set("Msg.Exception.duplicate_object", duplicate_object.toString().replace("§", "&"));
-	    }*/
-		
-/*	    void set(String value) {
-	        //this.value = value;
-	    }
-*/
 }

@@ -28,9 +28,11 @@ public class Main extends JavaPlugin{
 	private String line4;
 	
 	private static ArrayList<String> ignoreWorld = new ArrayList<String>();
+	private static ArrayList<String> ignoreRegion = new ArrayList<String>();
 	
 	public void onEnable(){
-		long startTime = System.nanoTime();
+		long startTime = System.currentTimeMillis();
+		
 		instance = this;
 		plugin = this;
 		this.rdc = new RedstoneClockController(); 
@@ -41,13 +43,21 @@ public class Main extends JavaPlugin{
 		plugin.saveDefaultConfig();
 		plugin.reloadConfig();
 		
-		System.out.println(!getConfig().getString("version").equals("0.2")+"");
-		if(!getConfig().getString("version").equals("0.2")){
-			System.out.println("update config file");
-			getConfig().set("version", "0.2");
-			getConfig().set("IgnoreWorlds", "redstoneWorld/survival");
-			plugin.saveConfig();
-			plugin.reloadConfig();
+		if(!getConfig().getString("version").equals("0.3")){
+			if(getConfig().getString("version").equals("0.1")){
+				System.out.println("update config file to 0.3");
+				getConfig().set("version", "0.2");
+				getConfig().set("IgnoreWorlds", "redstoneWorld/survival");
+				getConfig().set("IgnoreRegions", "redstone/admins");
+				plugin.saveConfig();
+				plugin.reloadConfig();
+			}if(getConfig().getString("version").equals("0.2")){
+				System.out.println("update config file to 0.3");
+				getConfig().set("version", "0.3");
+				getConfig().set("IgnoreRegions", "redstone/admins");
+				plugin.saveConfig();
+				plugin.reloadConfig();
+			}
 		}
 		
 		//if(instance.getConfig().getInt("version") != 0.1){
@@ -69,6 +79,10 @@ public class Main extends JavaPlugin{
 			for(int i = 0;i<sIgnoreWorld.split("/").length;i++){
 				ignoreWorld.add(sIgnoreWorld.split("/")[i]);
 			}
+			String sIgnoreRegion = getPlugin().getConfig().getString("IgnoreRegions");
+			for(int i = 0;i<sIgnoreRegion.split("/").length;i++){
+				ignoreRegion.add(sIgnoreRegion.split("/")[i]);
+			}
 		}catch(YAMLException e){
 			setMaxImpulsions(150);
 			setDelay(300);
@@ -81,12 +95,11 @@ public class Main extends JavaPlugin{
 			e.printStackTrace();
 		}
 		
-		long endTime = System.nanoTime();
+		long endTime = System.currentTimeMillis();
 
 		long duration = (endTime - startTime);
-		
 		//redstoneOverload();
-		this.getLogger().info("Plugin chargé en "+duration/1000000+"ms");  //2ms
+		this.getLogger().info("Plugin chargé en "+duration+"ms");  //2ms
 	}
 	
 	private void checkTimer(){
@@ -145,9 +158,7 @@ public class Main extends JavaPlugin{
 	
 	public static Main getInstance(){
 		return instance;
-	}		//if(instance.getConfig().getInt("version") != 0.1){
-	//plus tard
-//}
+	}
 	public static JavaPlugin getPlugin(){
 		return plugin;
 	}
@@ -209,8 +220,11 @@ public class Main extends JavaPlugin{
 		instance.line4 = value;
 	}
 	
-	public static Collection<String> getAllowedWorld(){
+	public static Collection<String> getAllowedWorlds(){
 		return ignoreWorld;
+	}
+	public static Collection<String> getAllowedRegions(){
+		return ignoreRegion;
 	}
 	
 

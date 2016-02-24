@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -49,12 +50,18 @@ public class Main extends JavaPlugin{
 				getConfig().set("version", "0.2");
 				getConfig().set("IgnoreWorlds", "redstoneWorld/survival");
 				getConfig().set("IgnoreRegions", "redstone/admins");
+				getConfig().set("Msg.message.newValueInConfig", "The new value of $setting is $value");
+				getConfig().set("Msg.message.RedStoneClockListHeader", "RedstoneClockList: $page");
+				getConfig().set("Msg.message.RedStoneClockListFooter", "");
 				plugin.saveConfig();
 				plugin.reloadConfig();
 			}if(getConfig().getString("version").equals("0.2")){
 				System.out.println("update config file to 0.3");
 				getConfig().set("version", "0.3");
 				getConfig().set("IgnoreRegions", "redstone/admins");
+				getConfig().set("Msg.message.newValueInConfig", "The new value of $setting is $value");
+				getConfig().set("Msg.message.RedStoneClockListHeader", "RedstoneClockList: $page");
+				getConfig().set("Msg.message.RedStoneClockListFooter", "");
 				plugin.saveConfig();
 				plugin.reloadConfig();
 			}
@@ -141,7 +148,72 @@ public class Main extends JavaPlugin{
 						instance.getLogger().warning("An error as occured in the config.yml please fix it!");
 						e.printStackTrace();
 					}
-				}/*else if(args[0].equalsIgnoreCase("help")){
+				} else if(args[0].equalsIgnoreCase("checkList")){
+					try{
+						int test = Integer.parseInt(args[1]) * 5;
+						int indice = 0;
+						sender.sendMessage(CustomConfig.RedStoneClockListHeader.toString().replace("$page", "("+args[1]+"/"+getRDC().getAllLoc().size()/5+")"));
+						for(Location loc : getRDC().getAllLoc()){
+							if(!(indice > test) && !(indice < test-4)){
+								if(getRDC().getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.750){
+									sender.sendMessage("§4RedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+getRDC().getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
+								}else if (getRDC().getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.5){
+									sender.sendMessage("§eRedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+getRDC().getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
+								}else if (getRDC().getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.250){
+									sender.sendMessage("§aRedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+getRDC().getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
+								}else{
+									sender.sendMessage("§2RedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+getRDC().getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
+								}
+							}
+							indice++;
+						}
+						sender.sendMessage(CustomConfig.RedStoneClockListFooter.toString());
+					}catch(NumberFormatException e){
+						sender.sendMessage(CustomConfig.Command_Use.toString().replace("$commande", "checkList <number>"));
+					}
+				}else if(args[0].equalsIgnoreCase("setMaxImpulsion")){
+					try{
+						Integer.parseInt(args[1]);
+						getConfig().set("MaxImpulsion", args[1]);
+						saveConfig();
+						sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"MaxImpulsion\"").replace("$value", args[1]));
+					}catch(NumberFormatException e){
+						sender.sendMessage(CustomConfig.Command_Use.toString().replace("$commande", "setMaxImpulsion <number>"));
+					}
+				}else if(args[0].equalsIgnoreCase("setDelay")){
+					try{
+						Integer.parseInt(args[1]);
+						getConfig().set("Delay", args[1]);
+						saveConfig();
+						sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"Delay\"").replace("$value", args[1]));
+					}catch(NumberFormatException e){
+						sender.sendMessage(CustomConfig.Command_Use.toString().replace("$commande", "setDelay <number>"));
+					}
+				}else if(args[0].equalsIgnoreCase("notifyAdmin")){
+					if(args.length == 1){
+						if(getConfig().getBoolean("NotifyAdmins") == true){
+							getConfig().set("NotifyAdmins", false);
+							saveConfig();
+							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", "false"));
+						}else{
+							getConfig().set("NotifyAdmins", true);
+							saveConfig();
+							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", "true"));
+						}
+					}else{
+						if(Boolean.parseBoolean(args[1])== true){
+							getConfig().set("NotifyAdmins", true);
+							saveConfig();
+							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", args[1]));
+						}else if(Boolean.parseBoolean(args[1])== false){
+							getConfig().set("NotifyAdmins", false);
+							saveConfig();
+							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", args[1]));
+						}
+					}
+				}
+					/*else if(args[0].equalsIgnoreCase("help")){
+				}
 					if(sender instanceof Player){
 						CustomConfig.getHelp((Player) sender);
 					}

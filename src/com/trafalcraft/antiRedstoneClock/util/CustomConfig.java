@@ -14,7 +14,9 @@ public enum CustomConfig {
 	MsgToAdmin("Redstone clock disable in x:$X y:$Y Z:$Z. In the world $World"),
 	reloadSuccess("Reload Success!"),
 	unknownCmd("Unknown command. Type \"/help\" for help."),
-	
+	newValueInConfig("The new value of $setting is $value"),
+	RedStoneClockListHeader("RedstoneClockList: $page"),
+	RedStoneClockListFooter(""),
 	//Exception
 	duplicate_object("This list already contains this redstone");
 
@@ -53,6 +55,9 @@ public enum CustomConfig {
 	    	MsgToAdmin.replaceby(Main.getPlugin().getConfig().getString("Msg.message.MsgToAdmin").replace("&", "§"));
 	    	reloadSuccess.replaceby(Main.getPlugin().getConfig().getString("Msg.message.reloadSuccess").replace("&", "§"));
 	    	unknownCmd.replaceby(Main.getPlugin().getConfig().getString("Msg.message.unknownCmd").replace("&", "§"));
+	    	newValueInConfig.replaceby(Main.getPlugin().getConfig().getString("Msg.message.newValueInConfig").replace("&", "§"));
+	    	RedStoneClockListHeader.replaceby(Main.getPlugin().getConfig().getString("Msg.message.RedStoneClockListHeader").replace("&", "§"));
+	    	RedStoneClockListFooter.replaceby(Main.getPlugin().getConfig().getString("Msg.message.RedStoneClockListFooter").replace("&", "§"));
 	    	
 	    	duplicate_object.replaceby(Main.getPlugin().getConfig().getString("Msg.Exception.duplicate_object").replace("&", "§"));
 	    	

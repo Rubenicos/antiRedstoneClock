@@ -47,7 +47,16 @@ public class RedstoneClockController {
 		return activeMap.size();
 	}
 
+	public Map<Location, RedstoneClock> getHashMap(){
+		return activeMap;
+	}
+	
     public Collection<RedstoneClock> getAll() {
         return activeMap.values();
     }
+    
+    public Collection<Location> getAllLoc() {
+        return activeMap.keySet();
+    }
+    
 }

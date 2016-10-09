@@ -2,6 +2,7 @@ package com.trafalcraft.antiRedstoneClock.object;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Location;
 
@@ -9,53 +10,54 @@ import com.google.common.collect.Maps;
 import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
 
 public class RedstoneClockController {
-	private final Map<Location, RedstoneClock> activeMap = Maps.newHashMap();
+	//private static Map<Location, RedstoneClock> activeMap = Maps.newHashMap();
+	private static ConcurrentMap<Location, RedstoneClock> activeMap = Maps.newConcurrentMap();
 	
-	public void addRedstone(Location location) throws Exception{
+	public static void addRedstone(Location location) throws Exception{
 		if(contains(location)){
 			 throw new Exception(CustomConfig.ERREUR+CustomConfig.duplicate_object.toString());
 		}else{
-			activeMap.put(location, new RedstoneClock());
+			activeMap.put(location, new RedstoneClock(location));
 			return;
 		}
 	}
 	
-	public boolean contains(Location location){
-		if(this.activeMap.containsKey(location)){
+	public static boolean contains(Location location){
+		if(activeMap.containsKey(location)){
 			return true;
 		}
 		return false;
 	}
 	
-	public void removeRedstoneByLocation(Location location){
-		if(this.activeMap.containsKey(location)){
+	public static void removeRedstoneByLocation(Location location){
+		if(activeMap.containsKey(location)){
 			activeMap.remove(location);
 		}
 	}
 	
-	public void removeRedstoneByObject(RedstoneClock rc){
-		if(this.activeMap.containsKey(rc)){
-			activeMap.remove(rc);
+	public static void removeRedstoneByObject(RedstoneClock rc){
+		if(activeMap.containsValue(rc)){
+			activeMap.remove(rc.getLocation());
 		}
 	}
 	
-	public RedstoneClock getRedstoneClock(Location location){
+	public static RedstoneClock getRedstoneClock(Location location){
 		return activeMap.get(location);
 	}
 	
-	public int size(Location location){
+	public static int size(Location location){
 		return activeMap.size();
 	}
 
-	public Map<Location, RedstoneClock> getHashMap(){
+	public static Map<Location, RedstoneClock> getHashMap(){
 		return activeMap;
 	}
 	
-    public Collection<RedstoneClock> getAll() {
+    public static Collection<RedstoneClock> getAll() {
         return activeMap.values();
     }
     
-    public Collection<Location> getAllLoc() {
+    public static Collection<Location> getAllLoc() {
         return activeMap.keySet();
     }
     

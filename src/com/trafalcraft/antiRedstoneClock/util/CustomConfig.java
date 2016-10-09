@@ -1,6 +1,9 @@
 package com.trafalcraft.antiRedstoneClock.util;
 
 
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import com.trafalcraft.antiRedstoneClock.Main;
 
 public enum CustomConfig {
@@ -20,16 +23,19 @@ public enum CustomConfig {
 	//Exception
 	duplicate_object("This list already contains this redstone");
 
-	/*static JavaPlugin plugin = Main.getInstance();
+	static JavaPlugin plugin = Main.getInstance();
 	  public static void getHelp(Player sender){
 	        sender.sendMessage("");
-	        sender.sendMessage("§3§l-------------------AntiRedstoneClock-------------------");
-	        sender.sendMessage("§3/arc setup <nom de l'arene> §b- crée l'arène.");
-	        sender.sendMessage("§3/arc spawn<numero> §b- Configurer le lieu de spawn des joueurs.");
+	        sender.sendMessage("§3§l-------------AntiRedstoneClock-------------");
+	        sender.sendMessage("§3/arc checkList <nom de l'arene> §b- display the active redstoneclock.");
+	        sender.sendMessage("§3/arc setMaxImpulsion <numero> §b- Change the 0\"MaxImpulsion\" setting.");
+	        sender.sendMessage("§3/arc setDelay <numero> §b- Change the \"Delay\" setting.");
+	        sender.sendMessage("§3/arc notifyAdmin <numero> §b- change the \"notifyAdmin\" setting.");
+	        sender.sendMessage("§3/arc reload <numero> §b- To reload the config file.");
 	        sender.sendMessage("                       §3Version: §6" + plugin.getDescription().getVersion());
 	        sender.sendMessage("§3------------------------------------------------");
 	        sender.sendMessage("");
-		  }*/
+		  }
 	  
 	  
 	    private String value;
@@ -64,6 +70,7 @@ public enum CustomConfig {
 	    	Main.setMaxImpulsions(Main.getPlugin().getConfig().getInt("MaxImpulsion"));
 	    	Main.setDelay(Main.getPlugin().getConfig().getInt("Delay"));
 	    	Main.setNotifyAdmin(Main.getPlugin().getConfig().getBoolean("NotifyAdmins"));
+	    	Main.setDropItems(Main.getPlugin().getConfig().getBoolean("DropItems"));
 	    	Main.setLine1(Main.getPlugin().getConfig().getString("Sign.Line1").replace("&", "§"));
 	    	Main.setLine2(Main.getPlugin().getConfig().getString("Sign.Line2").replace("&", "§"));
 	    	Main.setLine3(Main.getPlugin().getConfig().getString("Sign.Line3").replace("&", "§"));

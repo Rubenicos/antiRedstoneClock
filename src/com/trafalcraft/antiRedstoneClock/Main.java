@@ -17,12 +17,12 @@ import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
 
 public class Main extends JavaPlugin{
 
-	private RedstoneClockController rdc;
 	private static Main instance;
 	private static JavaPlugin plugin;
 	private int maxImpulsions;
 	private int delay;
 	private boolean notifyAdmin;
+	private boolean DropItems;
 	private String line1;
 	private String line2;
 	private String line3;
@@ -36,17 +36,15 @@ public class Main extends JavaPlugin{
 		
 		instance = this;
 		plugin = this;
-		this.rdc = new RedstoneClockController(); 
 		Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-		checkTimer();
 		
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveDefaultConfig();
 		plugin.reloadConfig();
 		
-		if(!getConfig().getString("version").equals("0.3")){
+		if(!getConfig().getString("version").equals("0.4")){
 			if(getConfig().getString("version").equals("0.1")){
-				System.out.println("update config file to 0.3");
+				System.out.println("update config file to 0.2");
 				getConfig().set("version", "0.2");
 				getConfig().set("IgnoreWorlds", "redstoneWorld/survival");
 				getConfig().set("IgnoreRegions", "redstone/admins");
@@ -55,13 +53,21 @@ public class Main extends JavaPlugin{
 				getConfig().set("Msg.message.RedStoneClockListFooter", "");
 				plugin.saveConfig();
 				plugin.reloadConfig();
-			}if(getConfig().getString("version").equals("0.2")){
+			}
+			if(getConfig().getString("version").equals("0.2")){
 				System.out.println("update config file to 0.3");
 				getConfig().set("version", "0.3");
 				getConfig().set("IgnoreRegions", "redstone/admins");
 				getConfig().set("Msg.message.newValueInConfig", "The new value of $setting is $value");
 				getConfig().set("Msg.message.RedStoneClockListHeader", "RedstoneClockList: $page");
 				getConfig().set("Msg.message.RedStoneClockListFooter", "");
+				plugin.saveConfig();
+				plugin.reloadConfig();
+			}
+			if(getConfig().getString("version").equals("0.3")){
+				System.out.println("update config file to 0.4");
+				getConfig().set("version", "0.4");
+				getConfig().set("DropItems", true);
 				plugin.saveConfig();
 				plugin.reloadConfig();
 			}
@@ -102,6 +108,7 @@ public class Main extends JavaPlugin{
 			e.printStackTrace();
 		}
 		
+		checkTimer(getDelay());
 		long endTime = System.currentTimeMillis();
 
 		long duration = (endTime - startTime);
@@ -109,18 +116,18 @@ public class Main extends JavaPlugin{
 		this.getLogger().info("Plugin chargé en "+duration+"ms");  //2ms
 	}
 	
-	private void checkTimer(){
+	private static void checkTimer(int delay){
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new Runnable() {
 			
 			@Override
 			public void run() {
-				for(RedstoneClock brdc : getRDC().getAll()){
-					if(brdc.getMinutes() > brdc.getEndTimerInMinutes()){
-						getRDC().removeRedstoneByObject(brdc);
+				for(RedstoneClock brdc : RedstoneClockController.getAll()){
+					if(brdc.isEnd()){
+						RedstoneClockController.removeRedstoneByObject(brdc);
 					}
 				}
 			}
-		}, 0, 20*Main.getDelay());
+		}, 100, 20*delay);
 	}
 	
 	public void onDisable(){
@@ -131,6 +138,10 @@ public class Main extends JavaPlugin{
 		//Player p = (Player) sender;
 		if(cmd.getName().equalsIgnoreCase("antiredstoneclock")){
 			if(sender.isOp() || sender.hasPermission("antiRedstoneClock.Admin")){
+				if(args.length == 0){
+					CustomConfig.getHelp((Player) sender);
+					return false;
+				}
 				if(args[0].equalsIgnoreCase("reload")){
 					try{
 						getPlugin().reloadConfig();
@@ -150,19 +161,22 @@ public class Main extends JavaPlugin{
 					}
 				} else if(args[0].equalsIgnoreCase("checkList")){
 					try{
-						int test = Integer.parseInt(args[1]) * 5;
+						int test = 5;
+						if(args.length > 1){
+							test = Integer.parseInt(args[1]) * 5;
+						}
 						int indice = 0;
-						sender.sendMessage(CustomConfig.RedStoneClockListHeader.toString().replace("$page", "("+args[1]+"/"+getRDC().getAllLoc().size()/5+")"));
-						for(Location loc : getRDC().getAllLoc()){
+						sender.sendMessage(CustomConfig.RedStoneClockListHeader.toString().replace("$page", "("+test/5+"/"+RedstoneClockController.getAllLoc().size()/5+")"));
+						for(Location loc : RedstoneClockController.getAllLoc()){
 							if(!(indice > test) && !(indice < test-4)){
-								if(getRDC().getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.750){
-									sender.sendMessage("§4RedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+getRDC().getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
-								}else if (getRDC().getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.5){
-									sender.sendMessage("§eRedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+getRDC().getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
-								}else if (getRDC().getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.250){
-									sender.sendMessage("§aRedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+getRDC().getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
+								if(RedstoneClockController.getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.750){
+									sender.sendMessage("§4RedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+RedstoneClockController.getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
+								}else if (RedstoneClockController.getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.5){
+									sender.sendMessage("§eRedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+RedstoneClockController.getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
+								}else if (RedstoneClockController.getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.250){
+									sender.sendMessage("§aRedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+RedstoneClockController.getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
 								}else{
-									sender.sendMessage("§2RedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+getRDC().getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
+									sender.sendMessage("§2RedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+RedstoneClockController.getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
 								}
 							}
 							indice++;
@@ -211,7 +225,10 @@ public class Main extends JavaPlugin{
 							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", args[1]));
 						}
 					}
+				}else{
+					CustomConfig.getHelp((Player) sender);
 				}
+				
 					/*else if(args[0].equalsIgnoreCase("help")){
 				}
 					if(sender instanceof Player){
@@ -236,10 +253,6 @@ public class Main extends JavaPlugin{
 	}
 	
 	
-	public static RedstoneClockController getRDC(){
-		return instance.rdc;
-	}
-	
 	public static int getMaxImpulsions(){
 		return instance.maxImpulsions;
 	}
@@ -256,12 +269,20 @@ public class Main extends JavaPlugin{
 		instance.delay = delay;
 	}
 	
-	public static boolean getNotifyAdmin(){
+	public static boolean isNotifyAdmin(){
 		return instance.notifyAdmin;
 	}
 	
 	public static void setNotifyAdmin(boolean value ){
 		instance.notifyAdmin = value;
+	}
+	
+	public static boolean isDropItems() {
+		return instance.DropItems;
+	}
+
+	public static void setDropItems(boolean dropItems) {
+		instance.DropItems = dropItems;
 	}
 	
 	public static String getLine1(){

@@ -44,7 +44,7 @@ public class Main extends JavaPlugin{
 		
 		if(!getConfig().getString("version").equals("0.4")){
 			if(getConfig().getString("version").equals("0.1")){
-				System.out.println("update config file to 0.2");
+				this.getLogger().info("update config file to 0.2");
 				getConfig().set("version", "0.2");
 				getConfig().set("IgnoreWorlds", "redstoneWorld/survival");
 				getConfig().set("IgnoreRegions", "redstone/admins");
@@ -55,7 +55,7 @@ public class Main extends JavaPlugin{
 				plugin.reloadConfig();
 			}
 			if(getConfig().getString("version").equals("0.2")){
-				System.out.println("update config file to 0.3");
+				this.getLogger().info("update config file to 0.3");
 				getConfig().set("version", "0.3");
 				getConfig().set("IgnoreRegions", "redstone/admins");
 				getConfig().set("Msg.message.newValueInConfig", "The new value of $setting is $value");
@@ -65,7 +65,7 @@ public class Main extends JavaPlugin{
 				plugin.reloadConfig();
 			}
 			if(getConfig().getString("version").equals("0.3")){
-				System.out.println("update config file to 0.4");
+				this.getLogger().info("update config file to 0.4");
 				getConfig().set("version", "0.4");
 				getConfig().set("DropItems", true);
 				plugin.saveConfig();
@@ -166,9 +166,9 @@ public class Main extends JavaPlugin{
 							test = Integer.parseInt(args[1]) * 5;
 						}
 						int indice = 0;
-						sender.sendMessage(CustomConfig.RedStoneClockListHeader.toString().replace("$page", "("+test/5+"/"+RedstoneClockController.getAllLoc().size()/5+")"));
+						sender.sendMessage(CustomConfig.RedStoneClockListHeader.toString().replace("$page", "("+test/5+"/"+((RedstoneClockController.getAllLoc().size()/5)+1)+")"));
 						for(Location loc : RedstoneClockController.getAllLoc()){
-							if(!(indice > test) && !(indice < test-4)){
+							if(!(indice+1 > test+1) && !(indice+1 < test-4)){
 								if(RedstoneClockController.getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.750){
 									sender.sendMessage("§4RedStoneClock> §fWorld:"+loc.getWorld().getName()+",X:"+loc.getX()+",Y:"+loc.getY()+",Z:"+loc.getZ()+" b:"+RedstoneClockController.getRedstoneClock(loc).getBoucle()+"/"+getMaxImpulsions());
 								}else if (RedstoneClockController.getRedstoneClock(loc).getBoucle() > Main.getMaxImpulsions()*0.5){

@@ -31,6 +31,8 @@ public class PlayerListener implements Listener {
 			return;
 		}
 		if(e.getBlock().getType() == Material.REDSTONE_WIRE){
+			//Player p2 = Bukkit.getPlayer("Amosar");
+			//p2.sendMessage(e.getOldCurrent()+"");
 			if(e.getOldCurrent() == 0){
 				if(!RedstoneClockController.contains(e.getBlock().getLocation())){
 					try {
@@ -64,6 +66,7 @@ public class PlayerListener implements Listener {
 							}
 							RedstoneClockController.removeRedstoneByLocation(e.getBlock().getLocation());
 						}else{
+							System.out.println(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getBoucle());
 							RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).addBoucle();
 						}
 					}
@@ -122,8 +125,9 @@ public class PlayerListener implements Listener {
 		}
 	}
 	
-	@EventHandler (priority = EventPriority.LOWEST)
+/*	@EventHandler (priority = EventPriority.LOWEST)
 	public void onRedstoneClock2(BlockPhysicsEvent e){
+		System.out.println(e.getBlock().getType());
 		if(e.getBlock().getType() == Material.REDSTONE_COMPARATOR_OFF ){
 			if(!RedstoneClockController.contains(e.getBlock().getLocation())){
 				try {
@@ -134,12 +138,16 @@ public class PlayerListener implements Listener {
 			}else{
 				if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).isEnd()){
 					if(e.getBlock().getBlockPower() == 15){
-						if(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).isEnd()){
+						if(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getlastStatus()){
 							RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).updateStatus();
+						}else{
+							return;
 						}
 					}else if(e.getBlock().getBlockPower() == 0){
-						if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).isEnd()){
+						if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getlastStatus()){
 							RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).updateStatus();
+						}else{
+							return;
 						}
 					}else{
 						return;
@@ -182,7 +190,7 @@ public class PlayerListener implements Listener {
 
 		
 		}
-	}
+	}*/
 	
 	
 	@EventHandler (priority = EventPriority.HIGHEST)

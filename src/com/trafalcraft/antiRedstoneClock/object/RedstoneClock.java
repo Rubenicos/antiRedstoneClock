@@ -6,14 +6,14 @@ import com.trafalcraft.antiRedstoneClock.Main;
 
 public class RedstoneClock {
 	
-	private long endTime;
+	private final long endTime;
 	private int boucle;
-	private Location loc;
+	private final Location loc;
 	//only for comparator
 	private boolean lastStatus;
 	
 	public RedstoneClock(Location loc){
-		endTime = (long) System.currentTimeMillis()/1000+Main.getDelay();
+		endTime = System.currentTimeMillis() /1000+Main.getDelay();
 		boucle = 0;
 		this.loc = loc;
 		//only for comparator
@@ -38,11 +38,7 @@ public class RedstoneClock {
 	
 	//only for comparator
 	public void updateStatus(){
-		if(lastStatus){
-			lastStatus = false;
-		}else{
-			lastStatus = true;
-		}
+		lastStatus = !lastStatus;
 	}
 	//only for comparator
 	public boolean getlastStatus(){
@@ -50,6 +46,6 @@ public class RedstoneClock {
 	}
 	
 	public boolean isEnd(){
-		return ((long) System.currentTimeMillis()/1000)>=endTime;
+		return (System.currentTimeMillis() /1000)>=endTime;
 	}
 }

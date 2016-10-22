@@ -28,8 +28,8 @@ public class Main extends JavaPlugin{
 	private String line3;
 	private String line4;
 	
-	private static ArrayList<String> ignoreWorld = new ArrayList<String>();
-	private static ArrayList<String> ignoreRegion = new ArrayList<String>();
+	private static final ArrayList<String> ignoreWorld = new ArrayList<>();
+	private static final ArrayList<String> ignoreRegion = new ArrayList<>();
 	
 	public void onEnable(){
 		long startTime = System.currentTimeMillis();
@@ -118,7 +118,7 @@ public class Main extends JavaPlugin{
 	
 	private static void checkTimer(int delay){
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new Runnable() {
-			
+
 			@Override
 			public void run() {
 				for(RedstoneClock brdc : RedstoneClockController.getAll()){
@@ -205,7 +205,7 @@ public class Main extends JavaPlugin{
 					}
 				}else if(args[0].equalsIgnoreCase("notifyAdmin")){
 					if(args.length == 1){
-						if(getConfig().getBoolean("NotifyAdmins") == true){
+						if(getConfig().getBoolean("NotifyAdmins")){
 							getConfig().set("NotifyAdmins", false);
 							saveConfig();
 							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", "false"));
@@ -215,11 +215,11 @@ public class Main extends JavaPlugin{
 							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", "true"));
 						}
 					}else{
-						if(Boolean.parseBoolean(args[1])== true){
+						if(Boolean.parseBoolean(args[1])){
 							getConfig().set("NotifyAdmins", true);
 							saveConfig();
 							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", args[1]));
-						}else if(Boolean.parseBoolean(args[1])== false){
+						}else if(!Boolean.parseBoolean(args[1])){
 							getConfig().set("NotifyAdmins", false);
 							saveConfig();
 							sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"NotifyAdmins\"").replace("$value", args[1]));

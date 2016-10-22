@@ -11,22 +11,18 @@ import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
 
 public class RedstoneClockController {
 	//private static Map<Location, RedstoneClock> activeMap = Maps.newHashMap();
-	private static ConcurrentMap<Location, RedstoneClock> activeMap = Maps.newConcurrentMap();
+	private static final ConcurrentMap<Location, RedstoneClock> activeMap = Maps.newConcurrentMap();
 	
 	public static void addRedstone(Location location) throws Exception{
 		if(contains(location)){
 			 throw new Exception(CustomConfig.ERREUR+CustomConfig.duplicate_object.toString());
 		}else{
 			activeMap.put(location, new RedstoneClock(location));
-			return;
 		}
 	}
 	
 	public static boolean contains(Location location){
-		if(activeMap.containsKey(location)){
-			return true;
-		}
-		return false;
+		return activeMap.containsKey(location);
 	}
 	
 	public static void removeRedstoneByLocation(Location location){

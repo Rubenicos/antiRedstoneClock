@@ -23,15 +23,15 @@ public enum CustomConfig {
 	//Exception
 	duplicate_object("This list already contains this redstone");
 
-	static JavaPlugin plugin = Main.getInstance();
+	static final JavaPlugin plugin = Main.getInstance();
 	  public static void getHelp(Player sender){
 	        sender.sendMessage("");
 	        sender.sendMessage("§3§l-------------AntiRedstoneClock-------------");
-	        sender.sendMessage("§3/arc checkList <nom de l'arene> §b- display the active redstoneclock.");
-	        sender.sendMessage("§3/arc setMaxImpulsion <numero> §b- Change the 0\"MaxImpulsion\" setting.");
-	        sender.sendMessage("§3/arc setDelay <numero> §b- Change the \"Delay\" setting.");
-	        sender.sendMessage("§3/arc notifyAdmin <numero> §b- change the \"notifyAdmin\" setting.");
-	        sender.sendMessage("§3/arc reload <numero> §b- To reload the config file.");
+	        sender.sendMessage("§3/arc checkList <Page number> §b- display the active redstoneclock.");
+	        sender.sendMessage("§3/arc setMaxImpulsion <number> §b- Change the 0\"MaxImpulsion\" setting.");
+	        sender.sendMessage("§3/arc setDelay <number> §b- Change the \"Delay\" setting.");
+	        sender.sendMessage("§3/arc notifyAdmin <number> §b- change the \"notifyAdmin\" setting.");
+	        sender.sendMessage("§3/arc reload <number> §b- To reload the config file.");
 	        sender.sendMessage("                       §3Version: §6" + plugin.getDescription().getVersion());
 	        sender.sendMessage("§3------------------------------------------------");
 	        sender.sendMessage("");
@@ -40,14 +40,14 @@ public enum CustomConfig {
 	  
 	    private String value;
 
-		private CustomConfig(String value) {
+		CustomConfig(String value) {
 			this.value = value;
 	    }
 		
 	    public String toString(){
 	    	return value;
 	    }
-	    public void replaceby(String value){
+	    private void replaceby(String value){
 			this.value = value;
 	    }
 	    

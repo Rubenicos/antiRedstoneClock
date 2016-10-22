@@ -66,13 +66,12 @@ public class PlayerListener implements Listener {
 							}
 							RedstoneClockController.removeRedstoneByLocation(e.getBlock().getLocation());
 						}else{
-							System.out.println(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getBoucle());
 							RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).addBoucle();
 						}
 					}
 				}
 
-				
+
 			}
 		}else if(e.getBlock().getType() == Material.DIODE_BLOCK_ON
 				|| e.getBlock().getType() == Material.REDSTONE_COMPARATOR_ON){
@@ -93,7 +92,7 @@ public class PlayerListener implements Listener {
 							e.getBlock().setType(Material.AIR);
 						}
 						Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
-							
+
 							@Override
 							public void run() {
 								b.setType(Material.SIGN_POST);
@@ -121,10 +120,10 @@ public class PlayerListener implements Listener {
 				}
 			}
 
-		
+
 		}
 	}
-	
+
 /*	@EventHandler (priority = EventPriority.LOWEST)
 	public void onRedstoneClock2(BlockPhysicsEvent e){
 		System.out.println(e.getBlock().getType());

@@ -6,12 +6,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.trafalcraft.antiRedstoneClock.Main;
 
+import java.util.Arrays;
+
 public enum CustomConfig {
 	
 	Prefix("&bAntiRedstoneClock &9&l> &r&b "),
-	ERREUR("&4AntiRedstoneClock &l> &r&c "),
-	NO_PERMISSIONS("&4Erreur &9&l> &r&bYou dont have permission to do that!"),
-	Command_Use("&4SnowBallWar &l> &r&cCommand usage: &6/arc $commande"),
+	ERROR("&4AntiRedstoneClock &l> &r&c "),
+	NO_PERMISSIONS("&4ERROR &9&l> &r&bYou don't have permission to do that!"),
+	Command_Use("&4SnowBallWar &l> &r&cCommand usage: &6/arc $command"),
 
 	//Msg
 	MsgToAdmin("Redstone clock disable in x:$X y:$Y Z:$Z. In the world $World"),
@@ -28,10 +30,10 @@ public enum CustomConfig {
 	        sender.sendMessage("");
 	        sender.sendMessage("§3§l-------------AntiRedstoneClock-------------");
 	        sender.sendMessage("§3/arc checkList <Page number> §b- display the active redstoneclock.");
-	        sender.sendMessage("§3/arc setMaxImpulsion <number> §b- Change the 0\"MaxImpulsion\" setting.");
-	        sender.sendMessage("§3/arc setDelay <number> §b- Change the \"Delay\" setting.");
-	        sender.sendMessage("§3/arc notifyAdmin <number> §b- change the \"notifyAdmin\" setting.");
-	        sender.sendMessage("§3/arc reload <number> §b- To reload the config file.");
+	        sender.sendMessage("§3/arc setMaxPulses <number> §b- Change the \"MaxPulses\" setting.");
+	        sender.sendMessage("§3/arc SetDelay <number> §b- Change the \"Delay\" setting.");
+	        sender.sendMessage("§3/arc NotifyAdmin <number> §b- change the \"NotifyAdmin\" setting.");
+	        sender.sendMessage("§3/arc Reload §b- To Reload the config file.");
 	        sender.sendMessage("                       §3Version: §6" + plugin.getDescription().getVersion());
 	        sender.sendMessage("§3------------------------------------------------");
 	        sender.sendMessage("");
@@ -47,27 +49,38 @@ public enum CustomConfig {
 	    public String toString(){
 	    	return value;
 	    }
-	    private void replaceby(String value){
+	    private void replaceBy(String value){
 			this.value = value;
 	    }
+
+	    public static void setDefaultsValues(){
+            Main.setMaximumPulses(150);
+            Main.setDelay(300);
+            Main.setNotifyAdmin(true);
+            Main.setLine1("The redstoneClock");
+            Main.setLine2("are");
+            Main.setLine3("§4PROHIBITED");
+            Main.setLine4("");
+            Main.getInstance().getLogger().warning("An error as occurred in the config.yml please fix it!");
+        }
 	    
 	    public static void load(){
 
-	    	Prefix.replaceby(Main.getPlugin().getConfig().getString("Msg.default.prefix").replace("&", "§"));
-	    	ERREUR.replaceby(Main.getPlugin().getConfig().getString("Msg.default.error").replace("&", "§"));
-	    	NO_PERMISSIONS.replaceby(Main.getPlugin().getConfig().getString("Msg.default.no_permission").replace("&", "§"));
-	    	Command_Use.replaceby(Main.getPlugin().getConfig().getString("Msg.default.command_use").replace("&", "§"));
+	    	Prefix.replaceBy(Main.getPlugin().getConfig().getString("Msg.default.prefix").replace("&", "§"));
+	    	ERROR.replaceBy(Main.getPlugin().getConfig().getString("Msg.default.error").replace("&", "§"));
+	    	NO_PERMISSIONS.replaceBy(Main.getPlugin().getConfig().getString("Msg.default.no_permission").replace("&", "§"));
+	    	Command_Use.replaceBy(Main.getPlugin().getConfig().getString("Msg.default.command_use").replace("&", "§"));
 	    	
-	    	MsgToAdmin.replaceby(Main.getPlugin().getConfig().getString("Msg.message.MsgToAdmin").replace("&", "§"));
-	    	reloadSuccess.replaceby(Main.getPlugin().getConfig().getString("Msg.message.reloadSuccess").replace("&", "§"));
-	    	unknownCmd.replaceby(Main.getPlugin().getConfig().getString("Msg.message.unknownCmd").replace("&", "§"));
-	    	newValueInConfig.replaceby(Main.getPlugin().getConfig().getString("Msg.message.newValueInConfig").replace("&", "§"));
-	    	RedStoneClockListHeader.replaceby(Main.getPlugin().getConfig().getString("Msg.message.RedStoneClockListHeader").replace("&", "§"));
-	    	RedStoneClockListFooter.replaceby(Main.getPlugin().getConfig().getString("Msg.message.RedStoneClockListFooter").replace("&", "§"));
+	    	MsgToAdmin.replaceBy(Main.getPlugin().getConfig().getString("Msg.message.MsgToAdmin").replace("&", "§"));
+	    	reloadSuccess.replaceBy(Main.getPlugin().getConfig().getString("Msg.message.reloadSuccess").replace("&", "§"));
+	    	unknownCmd.replaceBy(Main.getPlugin().getConfig().getString("Msg.message.unknownCmd").replace("&", "§"));
+	    	newValueInConfig.replaceBy(Main.getPlugin().getConfig().getString("Msg.message.newValueInConfig").replace("&", "§"));
+	    	RedStoneClockListHeader.replaceBy(Main.getPlugin().getConfig().getString("Msg.message.RedStoneClockListHeader").replace("&", "§"));
+	    	RedStoneClockListFooter.replaceBy(Main.getPlugin().getConfig().getString("Msg.message.RedStoneClockListFooter").replace("&", "§"));
 	    	
-	    	duplicate_object.replaceby(Main.getPlugin().getConfig().getString("Msg.Exception.duplicate_object").replace("&", "§"));
+	    	duplicate_object.replaceBy(Main.getPlugin().getConfig().getString("Msg.Exception.duplicate_object").replace("&", "§"));
 	    	
-	    	Main.setMaxImpulsions(Main.getPlugin().getConfig().getInt("MaxImpulsion"));
+	    	Main.setMaximumPulses(Main.getPlugin().getConfig().getInt("MaxPulses"));
 	    	Main.setDelay(Main.getPlugin().getConfig().getInt("Delay"));
 	    	Main.setNotifyAdmin(Main.getPlugin().getConfig().getBoolean("NotifyAdmins"));
 	    	Main.setDropItems(Main.getPlugin().getConfig().getBoolean("DropItems"));
@@ -75,6 +88,11 @@ public enum CustomConfig {
 	    	Main.setLine2(Main.getPlugin().getConfig().getString("Sign.Line2").replace("&", "§"));
 	    	Main.setLine3(Main.getPlugin().getConfig().getString("Sign.Line3").replace("&", "§"));
 	    	Main.setLine4(Main.getPlugin().getConfig().getString("Sign.Line4").replace("&", "§"));
+
+            String sIgnoreWorld = Main.getPlugin().getConfig().getString("IgnoreWorlds");
+            Main.getIgnoredWorlds().addAll(Arrays.asList(sIgnoreWorld.split("/")));
+            String sIgnoreRegion = Main.getPlugin().getConfig().getString("IgnoreRegions");
+            Main.getIgnoredRegions().addAll(Arrays.asList(sIgnoreRegion.split("/")));
 	    }
 	    
 }

@@ -1,29 +1,78 @@
 package com.trafalcraft.antiRedstoneClock;
 
-import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
 
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
 import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
 import com.trafalcraft.antiRedstoneClock.util.WorldGuardLink;
-import org.bukkit.material.Observer;
 
 public class PlayerListener implements Listener {
 	
 	@EventHandler (priority = EventPriority.LOWEST)
 	public void onRedstoneClock(BlockRedstoneEvent e){
-        if (checkIgnoreWorldsAndRegions(e)) return;
-        if(e.getBlock().getType() == Material.REDSTONE_WIRE){
+		for(String ignoreWorld:Main.getAllowedWorlds()){
+			if(e.getBlock().getWorld().getName().equals(ignoreWorld)){
+				return;
+			}
+		}
+		if(WorldGuardLink.checkAllowedRegion(e.getBlock().getLocation())){
+			return;
+		}
+		if(e.getBlock().getType() == Material.REDSTONE_WIRE){
+			//Player p2 = Bukkit.getPlayer("Amosar");
+			//p2.sendMessage(e.getOldCurrent()+"");
 			if(e.getOldCurrent() == 0){
-                checkAndUpdateRedstoneClockState(e);
-            }
+				if(!RedstoneClockController.contains(e.getBlock().getLocation())){
+					try {
+						RedstoneClockController.addRedstone(e.getBlock().getLocation());
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}else{
+					if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).isEnd()){
+						if(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getBoucle() >= Main.getMaxImpulsions()){
+							if(Main.isDropItems()){
+
+								e.getBlock().breakNaturally();
+							}
+							e.getBlock().setType(Material.SIGN_POST);
+							BlockState block = e.getBlock().getState();
+							Sign sign = (Sign)block;
+							sign.setLine(0, Main.getLine1());
+							sign.setLine(1, Main.getLine2());
+							sign.setLine(2, Main.getLine3());
+							sign.setLine(3, Main.getLine4());
+							sign.update();
+							Main.getInstance().getLogger().info(CustomConfig.Prefix+CustomConfig.MsgToAdmin.toString().replace("$X", e.getBlock().getX()+"").replace("$Y", e.getBlock().getY()+"").replace("$Z", e.getBlock().getZ()+"").replace("$World", e.getBlock().getWorld().getName()));
+							//Main.getInstance().getLogger().info("Boucle de redstone désactivé au coordoonée x:"+e.getBlock().getX()+" y:"+e.getBlock().getY()+" z:"+e.getBlock().getZ()+". Dans le monde:"+e.getBlock().getWorld().getName());
+							if(Main.isNotifyAdmin()){
+								for(Player p : Bukkit.getOnlinePlayers()){
+									if(p.isOp() || p.hasPermission("antiRedstoneClock.notifyAdmin")){
+										p.sendMessage(CustomConfig.Prefix+CustomConfig.MsgToAdmin.toString().replace("$X", e.getBlock().getX()+"").replace("$Y", e.getBlock().getY()+"").replace("$Z", e.getBlock().getZ()+"").replace("$World", e.getBlock().getWorld().getName()));
+									}
+								}
+							}
+							RedstoneClockController.removeRedstoneByLocation(e.getBlock().getLocation());
+						}else{
+							RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).addBoucle();
+						}
+					}
+				}
+
+
+			}
 		}else if(e.getBlock().getType() == Material.DIODE_BLOCK_ON
 				|| e.getBlock().getType() == Material.REDSTONE_COMPARATOR_ON){
 
@@ -34,10 +83,8 @@ public class PlayerListener implements Listener {
 					e1.printStackTrace();
 				}
 			}else{
-
-                RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
-                if(!redstoneClock.isEnd()){
-					if(redstoneClock.getClock() >= Main.getMaximumPulses()){
+				if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).isEnd()){
+					if(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getBoucle() >= Main.getMaxImpulsions()){
 						final Block b = e.getBlock();
 						if(Main.isDropItems()){
 							e.getBlock().breakNaturally();
@@ -59,7 +106,7 @@ public class PlayerListener implements Listener {
 								Bukkit.getLogger().info(CustomConfig.Prefix+CustomConfig.MsgToAdmin.toString().replace("$X", b.getX()+"").replace("$Y", b.getY()+"").replace("$Z", b.getZ()+"").replace("$World", b.getWorld().getName()));
 								if(Main.isNotifyAdmin()){
 									for(Player p : Bukkit.getOnlinePlayers()){
-										if(p.isOp() || p.hasPermission("antiRedstoneClock.NotifyAdmin")){
+										if(p.isOp() || p.hasPermission("antiRedstoneClock.notifyAdmin")){
 											p.sendMessage(CustomConfig.Prefix+CustomConfig.MsgToAdmin.toString().replace("$X", b.getX()+"").replace("$Y", b.getY()+"").replace("$Z", b.getZ()+"").replace("$World", b.getWorld().getName()));
 										}
 									}
@@ -68,7 +115,7 @@ public class PlayerListener implements Listener {
 							}
 						}, 1L);
 					}else{
-						redstoneClock.addOneToClock();
+						RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).addBoucle();
 					}
 				}
 			}
@@ -77,96 +124,73 @@ public class PlayerListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onObserverUpdate(BlockPhysicsEvent e){
-		if(e.getBlock().getType() == Material.OBSERVER){
-			Observer obs = (Observer) e.getBlock().getState().getData();
-            if(obs.isPowered()){
-                if (checkIgnoreWorldsAndRegions(e)) return;
-                checkAndUpdateRedstoneClockState(e);
-            }
+/*	@EventHandler (priority = EventPriority.LOWEST)
+	public void onRedstoneClock2(BlockPhysicsEvent e){
+		System.out.println(e.getBlock().getType());
+		if(e.getBlock().getType() == Material.REDSTONE_COMPARATOR_OFF ){
+			if(!RedstoneClockController.contains(e.getBlock().getLocation())){
+				try {
+					RedstoneClockController.addRedstone(e.getBlock().getLocation());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}else{
+				if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).isEnd()){
+					if(e.getBlock().getBlockPower() == 15){
+						if(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getlastStatus()){
+							RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).updateStatus();
+						}else{
+							return;
+						}
+					}else if(e.getBlock().getBlockPower() == 0){
+						if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getlastStatus()){
+							RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).updateStatus();
+						}else{
+							return;
+						}
+					}else{
+						return;
+					}
+					if(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getBoucle() >= Main.getMaxImpulsions()){
+						final Block b = e.getBlock();
+						if(Main.isDropItems()){
+							e.getBlock().breakNaturally();
+						}else{
+							e.getBlock().setType(Material.AIR);
+						}
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
+							
+							@Override
+							public void run() {
+								b.setType(Material.SIGN_POST);
+								BlockState block = b.getState();
+								Sign sign = (Sign)block;
+								sign.setLine(0, Main.getLine1());
+								sign.setLine(1, Main.getLine2());
+								sign.setLine(2, Main.getLine3());
+								sign.setLine(3, Main.getLine4());
+								sign.update();
+								Bukkit.getLogger().info(CustomConfig.Prefix+CustomConfig.MsgToAdmin.toString().replace("$X", b.getX()+"").replace("$Y", b.getY()+"").replace("$Z", b.getZ()+"").replace("$World", b.getWorld().getName()));
+								if(Main.isNotifyAdmin()){
+									for(Player p : Bukkit.getOnlinePlayers()){
+										if(p.isOp() || p.hasPermission("antiRedstoneClock.notifyAdmin")){
+											p.sendMessage(CustomConfig.Prefix+CustomConfig.MsgToAdmin.toString().replace("$X", b.getX()+"").replace("$Y", b.getY()+"").replace("$Z", b.getZ()+"").replace("$World", b.getWorld().getName()));
+										}
+									}
+								}
+								RedstoneClockController.removeRedstoneByLocation(b.getLocation());
+							}
+						}, 1L);
+					}else{
+						RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).addBoucle();
+					}
+				}
+			}
+
+		
 		}
-	}
-
-    @EventHandler
-    public void onComparatorUpdate(BlockPhysicsEvent e){
-       if(e.getBlock().getType() == Material.REDSTONE_COMPARATOR_OFF){
-           if (checkIgnoreWorldsAndRegions(e)) return;
-           org.bukkit.material.Comparator comparator = (org.bukkit.material.Comparator) e.getBlock().getState().getData();
-           if(!RedstoneClockController.contains(e.getBlock().getLocation())){
-               try {
-                   RedstoneClockController.addRedstone(e.getBlock().getLocation());
-               } catch (Exception e1) {
-                   e1.printStackTrace();
-               }
-           }else {
-               RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
-               byte comparatorData = comparator.getData();
-               if(redstoneClock.getLastStatus() != comparatorData){
-                   if (!redstoneClock.isEnd()) {
-                       if (redstoneClock.getClock() >= Main.getMaximumPulses()) {
-                           removeRedstoneClock(e);
-                       } else {
-                           if(redstoneClock.getLastStatus() > comparatorData) {
-                               redstoneClock.addOneToClock();
-                           }
-                           redstoneClock.updateStatus(comparatorData);
-                       }
-                   }
-               }
-           }
-        }
-    }
-
-    private void checkAndUpdateRedstoneClockState(BlockEvent e) {
-        if(!RedstoneClockController.contains(e.getBlock().getLocation())){
-            try {
-                RedstoneClockController.addRedstone(e.getBlock().getLocation());
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        }else{
-            if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).isEnd()){
-                if(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getClock() >= Main.getMaximumPulses()){
-                    removeRedstoneClock(e);
-                }else{
-                    RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).addOneToClock();
-                }
-            }
-        }
-    }
-
-    private boolean checkIgnoreWorldsAndRegions(BlockEvent e) {
-        for(String ignoreWorld: Main.getIgnoredWorlds()){
-            if(e.getBlock().getWorld().getName().equals(ignoreWorld)){
-                return true;
-            }
-        }
-        return WorldGuardLink.checkAllowedRegion(e.getBlock().getLocation());
-    }
-
-    private void removeRedstoneClock(BlockEvent e) {
-        if (Main.isDropItems()) {
-            e.getBlock().breakNaturally();
-        }
-        e.getBlock().setType(Material.SIGN_POST);
-        BlockState block = e.getBlock().getState();
-        Sign sign = (Sign) block;
-        sign.setLine(0, Main.getLine1());
-        sign.setLine(1, Main.getLine2());
-        sign.setLine(2, Main.getLine3());
-        sign.setLine(3, Main.getLine4());
-        sign.update();
-        Main.getInstance().getLogger().info(CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString().replace("$X", e.getBlock().getX() + "").replace("$Y", e.getBlock().getY() + "").replace("$Z", e.getBlock().getZ() + "").replace("$World", e.getBlock().getWorld().getName()));
-        if (Main.isNotifyAdmin()) {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                if (p.isOp() || p.hasPermission("antiRedstoneClock.NotifyAdmin")) {
-                    p.sendMessage(CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString().replace("$X", e.getBlock().getX() + "").replace("$Y", e.getBlock().getY() + "").replace("$Z", e.getBlock().getZ() + "").replace("$World", e.getBlock().getWorld().getName()));
-                }
-            }
-        }
-        RedstoneClockController.removeRedstoneByLocation(e.getBlock().getLocation());
-    }
+	}*/
+	
 	
 	@EventHandler (priority = EventPriority.HIGHEST)
 	public void onPlayerBreakRedstone(BlockBreakEvent e){
@@ -175,8 +199,7 @@ public class PlayerListener implements Listener {
 				|| e.getBlock().getType() == Material.DIODE_BLOCK_OFF
 				|| e.getBlock().getType() == Material.REDSTONE_COMPARATOR
 				|| e.getBlock().getType() == Material.REDSTONE_COMPARATOR_OFF
-				|| e.getBlock().getType() == Material.REDSTONE_COMPARATOR_ON
-                || e.getBlock().getType() == Material.OBSERVER){
+				|| e.getBlock().getType() == Material.REDSTONE_COMPARATOR_ON){
 			if(RedstoneClockController.contains(e.getBlock().getLocation())){
 				RedstoneClockController.removeRedstoneByLocation(e.getBlock().getLocation());
 			}

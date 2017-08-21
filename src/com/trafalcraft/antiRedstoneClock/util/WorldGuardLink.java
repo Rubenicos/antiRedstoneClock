@@ -32,7 +32,7 @@ public class WorldGuardLink {
 		if(getWorldGuard().getRegionManager(loc.getWorld()) != null){
 			RegionManager worldGuard = getWorldGuard().getRegionManager(loc.getWorld());
 			ApplicableRegionSet regions = worldGuard.getApplicableRegions(loc);
-			for(String ignoreRegion:Main.getIgnoredRegions()){
+			for(String ignoreRegion:Main.getAllowedRegions()){
 				for(ProtectedRegion region : regions.getRegions()){
 					if(region.getId().equals(ignoreRegion)){
 						return true;

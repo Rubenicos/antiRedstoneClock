@@ -13,7 +13,7 @@ public enum CustomConfig {
 	Prefix("&bAntiRedstoneClock &9&l> &r&b "),
 	ERROR("&4AntiRedstoneClock &l> &r&c "),
 	NO_PERMISSIONS("&4ERROR &9&l> &r&bYou don't have permission to do that!"),
-	Command_Use("&4SnowBallWar &l> &r&cCommand usage: &6/arc $command"),
+	Command_Use("&4AntiRedstoneClock &l> &r&cCommand usage: &6/arc $command"),
 
 	//Msg
 	MsgToAdmin("Redstone clock disable in x:$X y:$Y Z:$Z. In the world $World"),

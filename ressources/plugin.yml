@@ -1,7 +1,8 @@
 name: antiRedstoneClock
-version: 0.8
+version: 0.9
 description: Limit the redstoneClock
 author: Amosar
+website: https://www.spigotmc.org/resources/antiredstoneclock.18557
  
 main: com.trafalcraft.antiRedstoneClock.Main
 

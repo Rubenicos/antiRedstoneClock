@@ -17,7 +17,7 @@ public class SetMaxPulses {
     public void performCMD(CommandSender sender, String... args){
         try{
             Main.setMaximumPulses(Integer.parseInt(args[1]));
-            Main.getInstance().getConfig().set("MaxImpulsion", Main.getMaximumPulses());
+            Main.getInstance().getConfig().set("MaxPulses", Main.getMaximumPulses());
             Main.getInstance().saveConfig();
             sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"MaxPulses\"").replace("$value", args[1]));
         }catch(NumberFormatException e){

@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.trafalcraft.antiRedstoneClock.commands.*;
+import com.trafalcraft.antiRedstoneClock.listener.ComparatorListener;
+import com.trafalcraft.antiRedstoneClock.listener.ObserverListener;
+import com.trafalcraft.antiRedstoneClock.listener.PistonListener;
+import com.trafalcraft.antiRedstoneClock.listener.RedstoneListener;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -37,13 +42,12 @@ public class Main extends JavaPlugin{
 		
 		instance = this;
 		plugin = this;
-		Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 		
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveDefaultConfig();
 		plugin.reloadConfig();
 
-        if(!getConfig().getString("version").equals("0.5")){
+        if(!getConfig().getString("version").equals("0.6")){
             File f = new File(getPlugin().getDataFolder().getPath()+"//config.yml");
             File newFile = new File(f.getPath()+"-"+getConfig().getString("version")+".old");
             f.renameTo(newFile);
@@ -58,6 +62,26 @@ public class Main extends JavaPlugin{
             CustomConfig.setDefaultsValues();
 			e.printStackTrace();
 		}
+
+		Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        try{
+            Material checked = Material.REDSTONE_COMPARATOR_OFF;
+            if(plugin.getConfig().getBoolean("checkedClock.comparator")) {
+                Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(), this);
+            }
+        }catch (java.lang.NoSuchFieldError ignored){}
+        try{
+            Material checked = Material.OBSERVER;
+            if(plugin.getConfig().getBoolean("checkedClock.observer")) {
+                Bukkit.getServer().getPluginManager().registerEvents(new ObserverListener(), this);
+            }
+        }catch (java.lang.NoSuchFieldError ignored){}
+        if(plugin.getConfig().getBoolean("checkedClock.piston")) {
+            Bukkit.getServer().getPluginManager().registerEvents(new PistonListener(), this);
+        }
+        if(plugin.getConfig().getBoolean("checkedClock.redstoneAndRepeater")) {
+            Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(), this);
+        }
 		
 		checkTimer(getDelay());
 		long endTime = System.currentTimeMillis();
@@ -81,7 +105,6 @@ public class Main extends JavaPlugin{
 	}
 	
 	public void onDisable(){
-
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[]args){

@@ -11,30 +11,37 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 public class ComparatorListener implements Listener{
 
     @EventHandler
-    public void onComparatorUpdate(BlockPhysicsEvent e){
-        if(e.getBlock().getType() == Material.REDSTONE_COMPARATOR_OFF){
-            if (Util.checkIgnoreWorldsAndRegions(e)) return;
-            org.bukkit.material.Comparator comparator = (org.bukkit.material.Comparator) e.getBlock().getState().getData();
-            if(!RedstoneClockController.contains(e.getBlock().getLocation())){
-                try {
-                    RedstoneClockController.addRedstone(e.getBlock().getLocation());
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            }else {
-                RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
-                byte comparatorData = comparator.getData();
-                if(redstoneClock.getLastStatus() != comparatorData){
-                    if (!redstoneClock.isEnd()) {
-                        if (redstoneClock.getClock() >= Main.getMaximumPulses()) {
-                            Util.removeRedstoneClock(e);
-                        } else {
-                            if(redstoneClock.getLastStatus() > comparatorData) {
-                                redstoneClock.addOneToClock();
-                            }
-                            redstoneClock.updateStatus(comparatorData);
-                        }
+    public void onComparatorUpdate(BlockPhysicsEvent e) {
+        if (e.getBlock().getType() == Material.REDSTONE_COMPARATOR_OFF) {
+                if (Util.checkIgnoreWorldsAndRegions(e))
+                return;
+            if (!RedstoneClockController.contains(e.getBlock().getLocation())) {
+                if(e.getBlock().isBlockPowered()
+                        || e.getBlock().isBlockIndirectlyPowered()) {
+                    try {
+                        RedstoneClockController.addRedstone(e.getBlock().getLocation());
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
                     }
+                }
+            }else{
+                RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
+                int status = 0;
+                if(e.getBlock().isBlockPowered()
+                        || e.getBlock().isBlockIndirectlyPowered()){
+                    status = 1;
+                }
+                if(redstoneClock.getLastStatus() != status){
+                        if(status == 0) {
+                                if (!redstoneClock.isEnd()) {
+                                        if (redstoneClock.getClock() >= Main.getMaximumPulses() * 4) {
+                                                Util.removeRedstoneClock(e);
+                                        } else {
+                                                redstoneClock.addOneToClock();
+                                        }
+                                }
+                        }
+                        redstoneClock.updateStatus(status);
                 }
             }
         }

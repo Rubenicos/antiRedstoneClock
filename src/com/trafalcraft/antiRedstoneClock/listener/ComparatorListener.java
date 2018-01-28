@@ -34,7 +34,7 @@ public class ComparatorListener implements Listener{
                 if(redstoneClock.getLastStatus() != status){
                         if(status == 0) {
                                 if (!redstoneClock.isEnd()) {
-                                        if (redstoneClock.getClock() >= Main.getMaximumPulses() * 4) {
+                                        if (redstoneClock.getClock() >= Main.getMaximumPulses()) {
                                                 Util.removeRedstoneClock(e);
                                         } else {
                                                 redstoneClock.addOneToClock();

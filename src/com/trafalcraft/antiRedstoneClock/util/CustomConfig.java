@@ -34,7 +34,7 @@ public enum CustomConfig {
                 sender.sendMessage("§3/arc SetDelay <number> §b- Change the \"Delay\" setting.");
                 sender.sendMessage("§3/arc NotifyAdmin <true/false> §b- change the \"NotifyAdmin\" setting.");
                 sender.sendMessage(
-                        "§3/arc AutoRemoveDetectedClock <true/false> §b- change the \"NotifyAdmin\" setting.");
+                        "§3/arc AutoRemoveDetectedClock <true/false> §b- change the \"AutoRemoveDetectedClock\" setting.");
                 sender.sendMessage("§3/arc Reload §b- To Reload the config file.");
                 sender.sendMessage("                       §3Version: §6" + plugin.getDescription().getVersion());
                 sender.sendMessage("§3------------------------------------------------");

@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yaml.snakeyaml.error.YAMLException;
 
@@ -28,7 +27,7 @@ public class Main extends JavaPlugin{
 	private int delay;
 	private boolean notifyAdmin;
 	private boolean DropItems;
-        private boolean automaticallyBreakDetectedClock;
+	private boolean automaticallyBreakDetectedClock;
 	private String line1;
 	private String line2;
 	private String line3;
@@ -114,7 +113,7 @@ public class Main extends JavaPlugin{
 		if(cmd.getName().equalsIgnoreCase("antiredstoneclock")){
 			if(sender.isOp() || sender.hasPermission("antiRedstoneClock.Admin")){
 				if(args.length == 0){
-					CustomConfig.getHelp((Player) sender);
+					CustomConfig.getHelp(sender);
 					return false;
 				}
 				if(args[0].equalsIgnoreCase("Reload")){
@@ -130,7 +129,7 @@ public class Main extends JavaPlugin{
                 } else if (args[0].equalsIgnoreCase("AutoRemoveDetectedClock")) {
                         AutoRemoveDetectedClock.getInstance().performCMD(sender, args);
 				}else{
-					CustomConfig.getHelp((Player) sender);
+					CustomConfig.getHelp(sender);
 				}
 			}else{
 				sender.sendMessage(CustomConfig.unknownCmd.toString());

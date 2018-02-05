@@ -1,8 +1,8 @@
 package com.trafalcraft.antiRedstoneClock.util;
 
 import com.trafalcraft.antiRedstoneClock.Main;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -26,7 +26,7 @@ public enum CustomConfig {
 
         static final JavaPlugin plugin = Main.getInstance();
 
-        public static void getHelp(Player sender) {
+        public static void getHelp(CommandSender sender) {
                 sender.sendMessage("");
                 sender.sendMessage("§3§l-------------AntiRedstoneClock-------------");
                 sender.sendMessage("§3/arc checkList <Page number> §b- display the active redstoneclock.");

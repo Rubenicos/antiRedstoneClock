@@ -11,90 +11,89 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockEvent;
 
 class Util {
-        static void checkAndUpdateRedstoneClockState(BlockEvent e) {
-                if(!RedstoneClockController.contains(e.getBlock().getLocation())){
+        static void checkAndUpdateRedstoneClockState(Block block) {
+                if (!RedstoneClockController.contains(block.getLocation())) {
                         try {
-                                RedstoneClockController.addRedstone(e.getBlock().getLocation());
+                                RedstoneClockController.addRedstone(block.getLocation());
                         } catch (Exception e1) {
                                 e1.printStackTrace();
                         }
                 }else{
-                        if(!RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).isEnd()){
-                                if(RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).getClock() >= Main.getMaximumPulses()){
-                                        removeRedstoneClock(e);
+                        if (!RedstoneClockController.getRedstoneClock(block.getLocation()).isEnd()) {
+                                if (RedstoneClockController.getRedstoneClock(block.getLocation()).getClock() >= Main
+                                        .getMaximumPulses()) {
+                                        removeRedstoneClock(block);
                                 }else{
-                                        RedstoneClockController.getRedstoneClock(e.getBlock().getLocation()).addOneToClock();
+                                        RedstoneClockController.getRedstoneClock(block.getLocation()).addOneToClock();
                                 }
                         }
                 }
         }
 
-        static boolean checkIgnoreWorldsAndRegions(BlockEvent e) {
+        static boolean checkIgnoreWorldsAndRegions(Block block) {
                 for(String ignoreWorld: Main.getIgnoredWorlds()){
-                        if(e.getBlock().getWorld().getName().equals(ignoreWorld)){
+                        if (block.getWorld().getName().equals(ignoreWorld)) {
                                 return true;
                         }
                 }
-                return WorldGuardLink.checkAllowedRegion(e.getBlock().getLocation());
+                return WorldGuardLink.checkAllowedRegion(block.getLocation());
         }
 
-        static void removeRedstoneClock(BlockEvent e) {
-                Block b = e.getBlock();
+        static synchronized void removeRedstoneClock(Block block) {
                 if (Main.automaticallyDropDetectedItem()) {
                         if (Main.isDropItems()) {
-                                e.getBlock().breakNaturally();
+                                block.breakNaturally();
                         } else {
-                                e.getBlock().setType(Material.AIR);
+                                block.setType(Material.AIR);
                         }
                         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
-                                b.setType(Material.SIGN_POST);
-                                BlockState block = b.getState();
-                                Sign sign = (Sign) block;
+                                block.setType(Material.SIGN_POST);
+                                BlockState blockState = block.getState();
+                                Sign sign = (Sign) blockState;
                                 sign.setLine(0, Main.getLine1());
                                 sign.setLine(1, Main.getLine2());
                                 sign.setLine(2, Main.getLine3());
                                 sign.setLine(3, Main.getLine4());
-                                sign.update();
+                                sign.update(false, false);
                                 Bukkit.getLogger()
                                         .info(CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString()
-                                                .replace("$X", b.getX() + "")
-                                                .replace("$Y", b.getY() + "").replace("$Z", b.getZ() + "")
-                                                .replace("$World", b.getWorld().getName()));
+                                                .replace("$X", block.getX() + "")
+                                                .replace("$Y", block.getY() + "").replace("$Z", block.getZ() + "")
+                                                .replace("$World", block.getWorld().getName()));
                                 if (Main.isNotifyAdmin()) {
                                         for (Player p : Bukkit.getOnlinePlayers()) {
                                                 if (p.isOp() || p.hasPermission("antiRedstoneClock.NotifyAdmin")) {
                                                         p.sendMessage(
                                                                 CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString()
-                                                                        .replace("$X", b.getX() + "")
-                                                                        .replace("$Y", b.getY() + "")
-                                                                        .replace("$Z", b.getZ() + "")
-                                                                        .replace("$World", b.getWorld().getName()));
+                                                                        .replace("$X", block.getX() + "")
+                                                                        .replace("$Y", block.getY() + "")
+                                                                        .replace("$Z", block.getZ() + "")
+                                                                        .replace("$World", block.getWorld().getName()));
                                                 }
                                         }
                                 }
-                                RedstoneClockController.removeRedstoneByLocation(b.getLocation());
+                                RedstoneClockController.removeRedstoneByLocation(block.getLocation());
                         }, 1L);
                 } else {
-                        RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(b.getLocation());
+                        RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(block.getLocation());
                         if (!redstoneClock.getDetected()) {
                                 redstoneClock.setDetected(true);
                                 Bukkit.getLogger()
                                         .info(CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString()
-                                                .replace("$X", b.getX() + "")
-                                                .replace("$Y", b.getY() + "").replace("$Z", b.getZ() + "")
-                                                .replace("$World", b.getWorld().getName()));
+                                                .replace("$X", block.getX() + "")
+                                                .replace("$Y", block.getY() + "").replace("$Z", block.getZ() + "")
+                                                .replace("$World", block.getWorld().getName()));
                                 if (Main.isNotifyAdmin()) {
                                         for (Player p : Bukkit.getOnlinePlayers()) {
                                                 if (p.isOp() || p.hasPermission("antiRedstoneClock.NotifyAdmin")) {
                                                         p.sendMessage(
                                                                 CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString()
-                                                                        .replace("$X", b.getX() + "")
-                                                                        .replace("$Y", b.getY() + "")
-                                                                        .replace("$Z", b.getZ() + "")
-                                                                        .replace("$World", b.getWorld().getName()));
+                                                                        .replace("$X", block.getX() + "")
+                                                                        .replace("$Y", block.getY() + "")
+                                                                        .replace("$Z", block.getZ() + "")
+                                                                        .replace("$World", block.getWorld().getName()));
                                                 }
                                         }
                                 }

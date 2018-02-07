@@ -13,10 +13,11 @@ public class RedstoneListener implements Listener{
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onRedstoneClock(BlockRedstoneEvent e){
-        if (Util.checkIgnoreWorldsAndRegions(e)) return;
+        if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
+            return;
         if(e.getBlock().getType() == Material.REDSTONE_WIRE){
             if(e.getOldCurrent() == 0){
-                Util.checkAndUpdateRedstoneClockState(e);
+                Util.checkAndUpdateRedstoneClockState(e.getBlock());
             }
         }else if(e.getBlock().getType() == Material.DIODE_BLOCK_ON
                 || e.getBlock().getType() == Material.REDSTONE_COMPARATOR_ON){
@@ -32,7 +33,7 @@ public class RedstoneListener implements Listener{
                 RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
                 if(!redstoneClock.isEnd()){
                     if(redstoneClock.getClock() >= Main.getMaximumPulses()){
-                        Util.removeRedstoneClock(e);
+                        Util.removeRedstoneClock(e.getBlock());
                     }else{
                         redstoneClock.addOneToClock();
                     }

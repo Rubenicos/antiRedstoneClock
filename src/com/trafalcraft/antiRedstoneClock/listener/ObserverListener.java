@@ -13,8 +13,9 @@ public class ObserverListener implements Listener {
         if(e.getBlock().getType() == Material.OBSERVER){
             Observer obs = (Observer) e.getBlock().getState().getData();
             if(obs.isPowered()){
-                if (Util.checkIgnoreWorldsAndRegions(e)) return;
-                Util.checkAndUpdateRedstoneClockState(e);
+                if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
+                    return;
+                Util.checkAndUpdateRedstoneClockState(e.getBlock());
             }
         }
     }

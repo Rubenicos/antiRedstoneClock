@@ -11,13 +11,14 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 public class PistonListener implements Listener {
     @EventHandler
     public void onPistonExtendEvent(BlockPistonExtendEvent e){
-        if (Util.checkIgnoreWorldsAndRegions(e)) return;
+        if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
+            return;
         if(RedstoneClockController.contains(e.getBlock().getLocation())){
             RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
             if(redstoneClock.getLastStatus() == 1 ) {
                 if (!redstoneClock.isEnd()) {
                     if (redstoneClock.getClock() >= Main.getMaximumPulses()) {
-                        Util.removeRedstoneClock(e);
+                        Util.removeRedstoneClock(e.getBlock());
                     } else {
                         redstoneClock.addOneToClock();
                         redstoneClock.updateStatus(0);

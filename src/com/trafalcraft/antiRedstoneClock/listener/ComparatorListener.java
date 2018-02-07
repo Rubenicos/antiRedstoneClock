@@ -13,7 +13,7 @@ public class ComparatorListener implements Listener{
     @EventHandler
     public void onComparatorUpdate(BlockPhysicsEvent e) {
         if (e.getBlock().getType() == Material.REDSTONE_COMPARATOR_OFF) {
-                if (Util.checkIgnoreWorldsAndRegions(e))
+                if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
                 return;
             if (!RedstoneClockController.contains(e.getBlock().getLocation())) {
                 if(e.getBlock().isBlockPowered()
@@ -35,7 +35,7 @@ public class ComparatorListener implements Listener{
                         if(status == 0) {
                                 if (!redstoneClock.isEnd()) {
                                         if (redstoneClock.getClock() >= Main.getMaximumPulses()) {
-                                                Util.removeRedstoneClock(e);
+                                                Util.removeRedstoneClock(e.getBlock());
                                         } else {
                                                 redstoneClock.addOneToClock();
                                         }

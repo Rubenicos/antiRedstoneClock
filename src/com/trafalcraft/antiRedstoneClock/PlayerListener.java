@@ -1,13 +1,15 @@
 package com.trafalcraft.antiRedstoneClock;
 
+import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
 import org.bukkit.Material;
-import org.bukkit.block.*;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
-
-import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 
 public class PlayerListener implements Listener {
 	
@@ -30,36 +32,34 @@ public class PlayerListener implements Listener {
                 }
             }
         }catch(java.lang.NoSuchFieldError ignored){}
-		if(e.getBlock().getType() == Material.SIGN || e.getBlock().getType() ==  Material.SIGN_POST){
-			BlockState block = e.getBlock().getState();
-			Sign sign = (Sign)block;
-			if(sign.getLine(0).equalsIgnoreCase(Main.getLine1())
-					&& sign.getLine(1).equalsIgnoreCase(Main.getLine2())
-					&& sign.getLine(2).equalsIgnoreCase(Main.getLine3())
-					&& sign.getLine(3).equalsIgnoreCase(Main.getLine4())){
-				e.setCancelled(true);
-				e.getBlock().setType(Material.AIR);
-			}
-		}
+            if (e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.SIGN_POST) {
+                    BlockState block = e.getBlock().getState();
+                    Sign sign = (Sign) block;
+                    if (sign.getLine(0).equalsIgnoreCase(Main.getLine1())
+                            && sign.getLine(1).equalsIgnoreCase(Main.getLine2())
+                            && sign.getLine(2).equalsIgnoreCase(Main.getLine3())
+                            && sign.getLine(3).equalsIgnoreCase(Main.getLine4())) {
+
+                            e.setCancelled(true);
+                            e.getBlock().setType(Material.AIR);
+                    }
+            }
 	}
 	
 	@EventHandler (priority = EventPriority.HIGHEST)
 	public void onItemDrop(BlockPhysicsEvent e){
-		if(e.getBlock().getType() == Material.SIGN || e.getBlock().getType() ==  Material.SIGN_POST){
-			BlockState block = e.getBlock().getState();
-			Sign sign = (Sign)block;
-			if(sign.getLine(0).equalsIgnoreCase(Main.getLine1())
-					&& sign.getLine(1).equalsIgnoreCase(Main.getLine2())
-					&& sign.getLine(2).equalsIgnoreCase(Main.getLine3())
-					&& sign.getLine(3).equalsIgnoreCase(Main.getLine4())
-					&& e.getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR){
-				
-				e.setCancelled(true);
-				e.getBlock().setType(Material.AIR);
-			}
-		}
+            if (e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.SIGN_POST) {
+                    BlockState block = e.getBlock().getState();
+                    Sign sign = (Sign) block;
+                    if ((sign.getLine(0).equalsIgnoreCase(Main.getLine1())
+                            && sign.getLine(1).equalsIgnoreCase(Main.getLine2())
+                            && sign.getLine(2).equalsIgnoreCase(Main.getLine3())
+                            && sign.getLine(3).equalsIgnoreCase(Main.getLine4())
+                            && e.getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR)) {
+
+                            e.setCancelled(true);
+                            e.getBlock().setType(Material.AIR);
+                    }
+            }
 	}
-
-
-	
 }

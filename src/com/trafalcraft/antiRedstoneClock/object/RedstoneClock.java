@@ -6,25 +6,25 @@ import org.bukkit.Location;
 public class RedstoneClock {
 
 	private final long endTime;
-	private int clock;
+	private int numberOfClock;
 	private final Location loc;
 	//only for comparator
 	private int value;
 	private boolean detected;
 
 	public RedstoneClock(Location loc){
-		endTime = System.currentTimeMillis() /1000+Main.getDelay();
-		clock = 0;
+		endTime = System.currentTimeMillis() / 1000 + Main.getInstance().getConfig().getInt("Delay");
+		numberOfClock = 0;
 		this.loc = loc;
 		detected = false;
 	}
 
 	public void addOneToClock(){
-		clock++;
+		numberOfClock++;
 	}
 
-	public int getClock(){
-		return clock;
+	public int getNumberOfClock() {
+		return numberOfClock;
 	}
 
 	public Location getLocation(){

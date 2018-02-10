@@ -17,7 +17,7 @@ public class PistonListener implements Listener {
             RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
             if(redstoneClock.getLastStatus() == 1 ) {
                 if (!redstoneClock.isEnd()) {
-                    if (redstoneClock.getClock() >= Main.getMaximumPulses()) {
+                    if (redstoneClock.getNumberOfClock() >= Main.getInstance().getConfig().getInt("MaxPulses")) {
                         Util.removeRedstoneClock(e.getBlock());
                     } else {
                         redstoneClock.addOneToClock();

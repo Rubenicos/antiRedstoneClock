@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
 
-public enum CustomConfig {
+public enum Msg {
 
         Prefix("&bAntiRedstoneClock &9&l> &r&b "),
         ERROR("&4AntiRedstoneClock &l> &r&c "),
@@ -35,6 +35,8 @@ public enum CustomConfig {
                 sender.sendMessage("§3/arc NotifyAdmin <true/false> §b- change the \"NotifyAdmin\" setting.");
                 sender.sendMessage(
                         "§3/arc AutoRemoveDetectedClock <true/false> §b- change the \"AutoRemoveDetectedClock\" setting.");
+                sender.sendMessage(
+                        "§3/arc CreateSignWhenClockIsBreak <true/false> §b- change the \"CreateSignWhenClockIsBreak\" setting.");
                 sender.sendMessage("§3/arc Reload §b- To Reload the config file.");
                 sender.sendMessage("                       §3Version: §6" + plugin.getDescription().getVersion());
                 sender.sendMessage("§3------------------------------------------------");
@@ -43,7 +45,7 @@ public enum CustomConfig {
 
         private String value;
 
-        CustomConfig(String value) {
+        Msg(String value) {
                 this.value = value;
         }
 
@@ -53,17 +55,6 @@ public enum CustomConfig {
 
         private void replaceBy(String value) {
                 this.value = value;
-        }
-
-        public static void setDefaultsValues() {
-                Main.setMaximumPulses(150);
-                Main.setDelay(300);
-                Main.setNotifyAdmin(true);
-                Main.setLine1("The redstoneClock");
-                Main.setLine2("are");
-                Main.setLine3("§4PROHIBITED");
-                Main.setLine4("");
-                Main.getInstance().getLogger().warning("An error as occurred in the config.yml please fix it!");
         }
 
         public static void load() {
@@ -83,16 +74,6 @@ public enum CustomConfig {
                         config.getString("Msg.message.RedStoneClockListFooter").replace("&", "§"));
 
                 duplicate_object.replaceBy(config.getString("Msg.Exception.duplicate_object").replace("&", "§"));
-
-                Main.setMaximumPulses(config.getInt("MaxPulses"));
-                Main.setDelay(config.getInt("Delay"));
-                Main.setNotifyAdmin(config.getBoolean("NotifyAdmins"));
-                Main.setDropItems(config.getBoolean("DropItems"));
-                Main.setLine1(config.getString("Sign.Line1").replace("&", "§"));
-                Main.setLine2(config.getString("Sign.Line2").replace("&", "§"));
-                Main.setLine3(config.getString("Sign.Line3").replace("&", "§"));
-                Main.setLine4(config.getString("Sign.Line4").replace("&", "§"));
-                Main.setAutomaticallyDropDetectedItem(config.getBoolean("AutomaticallyBreakDetectedClock"));
 
                 String sIgnoreWorld = config.getString("IgnoreWorlds");
                 Main.getIgnoredWorlds().addAll(Arrays.asList(sIgnoreWorld.split("/")));

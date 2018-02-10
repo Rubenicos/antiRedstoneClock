@@ -13,6 +13,8 @@ NotifyAdmins: true
 #En:Is it necessary to dropper items ( Redstone / repeater) when a loop is destroyed?
 #Fr:Faut-il dropper les items (Redstone/repeater) quand une boucle est détruite?
 DropItems: true
+
+CreateSignWhenClockIsBreak: true
 #En:Write the text you want in the sign
 #Fr:Ecrire le texte a mettre sur les panneaux
 Sign:

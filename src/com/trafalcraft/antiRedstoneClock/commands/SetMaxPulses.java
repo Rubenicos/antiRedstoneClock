@@ -1,7 +1,7 @@
 package com.trafalcraft.antiRedstoneClock.commands;
 
 import com.trafalcraft.antiRedstoneClock.Main;
-import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
+import com.trafalcraft.antiRedstoneClock.util.Msg;
 import org.bukkit.command.CommandSender;
 
 public class SetMaxPulses {
@@ -16,12 +16,12 @@ public class SetMaxPulses {
 
     public void performCMD(CommandSender sender, String... args){
         try{
-            Main.setMaximumPulses(Integer.parseInt(args[1]));
-            Main.getInstance().getConfig().set("MaxPulses", Main.getMaximumPulses());
+            Main.getInstance().getConfig().set("MaxPulses", Integer.parseInt(args[1]));
             Main.getInstance().saveConfig();
-            sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"MaxPulses\"").replace("$value", args[1]));
+            sender.sendMessage(Msg.Prefix + Msg.newValueInConfig.toString().replace("$setting", "\"MaxPulses\"")
+                    .replace("$value", args[1]));
         }catch(NumberFormatException e){
-            sender.sendMessage(CustomConfig.Command_Use.toString().replace("$command", "setMaxPulses <number>"));
+            sender.sendMessage(Msg.Command_Use.toString().replace("$command", "setMaxPulses <number>"));
         }
     }
 }

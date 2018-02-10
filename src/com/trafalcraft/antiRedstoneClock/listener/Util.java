@@ -3,7 +3,7 @@ package com.trafalcraft.antiRedstoneClock.listener;
 import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
-import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
+import com.trafalcraft.antiRedstoneClock.util.Msg;
 import com.trafalcraft.antiRedstoneClock.util.WorldGuardLink;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,8 +22,8 @@ class Util {
                         }
                 }else{
                         if (!RedstoneClockController.getRedstoneClock(block.getLocation()).isEnd()) {
-                                if (RedstoneClockController.getRedstoneClock(block.getLocation()).getClock() >= Main
-                                        .getMaximumPulses()) {
+                                if (RedstoneClockController.getRedstoneClock(block.getLocation()).getNumberOfClock()
+                                        >= Main.getInstance().getConfig().getInt("MaxPulses")) {
                                         removeRedstoneClock(block);
                                 }else{
                                         RedstoneClockController.getRedstoneClock(block.getLocation()).addOneToClock();
@@ -41,32 +41,38 @@ class Util {
                 return WorldGuardLink.checkAllowedRegion(block.getLocation());
         }
 
-        static synchronized void removeRedstoneClock(Block block) {
-                if (Main.automaticallyDropDetectedItem()) {
-                        if (Main.isDropItems()) {
+        static void removeRedstoneClock(Block block) {
+                if (Main.getInstance().getConfig().getBoolean("AutomaticallyBreakDetectedClock")) {
+                        if (Main.getInstance().getConfig().getBoolean("DropItems")) {
                                 block.breakNaturally();
                         } else {
                                 block.setType(Material.AIR);
                         }
                         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
-                                block.setType(Material.SIGN_POST);
-                                BlockState blockState = block.getState();
-                                Sign sign = (Sign) blockState;
-                                sign.setLine(0, Main.getLine1());
-                                sign.setLine(1, Main.getLine2());
-                                sign.setLine(2, Main.getLine3());
-                                sign.setLine(3, Main.getLine4());
-                                sign.update(false, false);
+                                if (Main.getInstance().getConfig().getBoolean("CreateSignWhenClockIsBreak")) {
+                                        block.setType(Material.SIGN_POST, false);
+                                        BlockState blockState = block.getState();
+                                        Sign sign = (Sign) blockState;
+                                        sign.setLine(0, Main.getInstance().getConfig().getString("Sign.Line1")
+                                                .replace("&", "§"));
+                                        sign.setLine(1, Main.getInstance().getConfig().getString("Sign.Line2")
+                                                .replace("&", "§"));
+                                        sign.setLine(2, Main.getInstance().getConfig().getString("Sign.Line3")
+                                                .replace("&", "§"));
+                                        sign.setLine(3, Main.getInstance().getConfig().getString("Sign.Line4")
+                                                .replace("&", "§"));
+                                        sign.update(false, false);
+                                }
                                 Bukkit.getLogger()
-                                        .info(CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString()
+                                        .info(Msg.Prefix + Msg.MsgToAdmin.toString()
                                                 .replace("$X", block.getX() + "")
                                                 .replace("$Y", block.getY() + "").replace("$Z", block.getZ() + "")
                                                 .replace("$World", block.getWorld().getName()));
-                                if (Main.isNotifyAdmin()) {
+                                if (Main.getInstance().getConfig().getBoolean("NotifyAdmins")) {
                                         for (Player p : Bukkit.getOnlinePlayers()) {
                                                 if (p.isOp() || p.hasPermission("antiRedstoneClock.NotifyAdmin")) {
                                                         p.sendMessage(
-                                                                CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString()
+                                                                Msg.Prefix + Msg.MsgToAdmin.toString()
                                                                         .replace("$X", block.getX() + "")
                                                                         .replace("$Y", block.getY() + "")
                                                                         .replace("$Z", block.getZ() + "")
@@ -81,15 +87,16 @@ class Util {
                         if (!redstoneClock.getDetected()) {
                                 redstoneClock.setDetected(true);
                                 Bukkit.getLogger()
-                                        .info(CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString()
+                                        .info(Msg.Prefix + Msg.MsgToAdmin.toString()
                                                 .replace("$X", block.getX() + "")
-                                                .replace("$Y", block.getY() + "").replace("$Z", block.getZ() + "")
+                                                .replace("$Y", block.getY() + "")
+                                                .replace("$Z", block.getZ() + "")
                                                 .replace("$World", block.getWorld().getName()));
-                                if (Main.isNotifyAdmin()) {
+                                if (Main.getInstance().getConfig().getBoolean("NotifyAdmins")) {
                                         for (Player p : Bukkit.getOnlinePlayers()) {
                                                 if (p.isOp() || p.hasPermission("antiRedstoneClock.NotifyAdmin")) {
                                                         p.sendMessage(
-                                                                CustomConfig.Prefix + CustomConfig.MsgToAdmin.toString()
+                                                                Msg.Prefix + Msg.MsgToAdmin.toString()
                                                                         .replace("$X", block.getX() + "")
                                                                         .replace("$Y", block.getY() + "")
                                                                         .replace("$Z", block.getZ() + "")

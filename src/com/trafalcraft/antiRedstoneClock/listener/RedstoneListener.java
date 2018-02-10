@@ -32,7 +32,7 @@ public class RedstoneListener implements Listener{
 
                 RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
                 if(!redstoneClock.isEnd()){
-                    if(redstoneClock.getClock() >= Main.getMaximumPulses()){
+                    if (redstoneClock.getNumberOfClock() >= Main.getInstance().getConfig().getInt("MaxPulses")) {
                         Util.removeRedstoneClock(e.getBlock());
                     }else{
                         redstoneClock.addOneToClock();

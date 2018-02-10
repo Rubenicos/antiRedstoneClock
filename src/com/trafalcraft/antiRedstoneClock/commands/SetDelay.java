@@ -1,7 +1,7 @@
 package com.trafalcraft.antiRedstoneClock.commands;
 
 import com.trafalcraft.antiRedstoneClock.Main;
-import com.trafalcraft.antiRedstoneClock.util.CustomConfig;
+import com.trafalcraft.antiRedstoneClock.util.Msg;
 import org.bukkit.command.CommandSender;
 
 public class SetDelay {
@@ -16,12 +16,13 @@ public class SetDelay {
 
     public void performCMD(CommandSender sender, String... args){
         try{
-            Main.setDelay(Integer.parseInt(args[1]));
-            Main.getInstance().getConfig().set("Delay", Main.getDelay());
+            Main.getInstance().getConfig().set("Delay", Integer.parseInt(args[1]));
             Main.getInstance().saveConfig();
-            sender.sendMessage(CustomConfig.Prefix+CustomConfig.newValueInConfig.toString().replace("$setting", "\"Delay\"").replace("$value", args[1]));
+            sender.sendMessage(
+                    Msg.Prefix + Msg.newValueInConfig.toString().replace("$setting", "\"Delay\"")
+                            .replace("$value", args[1]));
         }catch(NumberFormatException e){
-            sender.sendMessage(CustomConfig.Command_Use.toString().replace("$command", "SetDelay <number>"));
+            sender.sendMessage(Msg.Command_Use.toString().replace("$command", "SetDelay <number>"));
         }
     }
 }

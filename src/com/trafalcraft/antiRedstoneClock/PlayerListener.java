@@ -35,10 +35,14 @@ public class PlayerListener implements Listener {
             if (e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.SIGN_POST) {
                     BlockState block = e.getBlock().getState();
                     Sign sign = (Sign) block;
-                    if (sign.getLine(0).equalsIgnoreCase(Main.getLine1())
-                            && sign.getLine(1).equalsIgnoreCase(Main.getLine2())
-                            && sign.getLine(2).equalsIgnoreCase(Main.getLine3())
-                            && sign.getLine(3).equalsIgnoreCase(Main.getLine4())) {
+                    if (sign.getLine(0).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line1")
+                            .replace("&", "§"))
+                            && sign.getLine(1).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line2")
+                            .replace("&", "§"))
+                            && sign.getLine(2).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line3")
+                            .replace("&", "§"))
+                            && sign.getLine(3).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line4")
+                            .replace("&", "§"))) {
 
                             e.setCancelled(true);
                             e.getBlock().setType(Material.AIR);
@@ -51,10 +55,14 @@ public class PlayerListener implements Listener {
             if (e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.SIGN_POST) {
                     BlockState block = e.getBlock().getState();
                     Sign sign = (Sign) block;
-                    if ((sign.getLine(0).equalsIgnoreCase(Main.getLine1())
-                            && sign.getLine(1).equalsIgnoreCase(Main.getLine2())
-                            && sign.getLine(2).equalsIgnoreCase(Main.getLine3())
-                            && sign.getLine(3).equalsIgnoreCase(Main.getLine4())
+                    if ((sign.getLine(0).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line1")
+                            .replace("&", "§"))
+                            && sign.getLine(1).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line2")
+                            .replace("&", "§"))
+                            && sign.getLine(2).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line3")
+                            .replace("&", "§"))
+                            && sign.getLine(3).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line4")
+                            .replace("&", "§"))
                             && e.getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR)) {
 
                             e.setCancelled(true);

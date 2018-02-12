@@ -62,6 +62,8 @@ class Util {
                                         sign.setLine(3, Main.getInstance().getConfig().getString("Sign.Line4")
                                                 .replace("&", "§"));
                                         sign.update(false, false);
+                                } else {
+                                        block.setType(Material.AIR);
                                 }
                                 Bukkit.getLogger()
                                         .info(Msg.Prefix + Msg.MsgToAdmin.toString()

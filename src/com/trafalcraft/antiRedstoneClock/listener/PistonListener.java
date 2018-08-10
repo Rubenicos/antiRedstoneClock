@@ -10,12 +10,12 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 
 public class PistonListener implements Listener {
     @EventHandler
-    public void onPistonExtendEvent(BlockPistonExtendEvent e){
+    public void onPistonExtendEvent(BlockPistonExtendEvent e) {
         if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
             return;
-        if(RedstoneClockController.contains(e.getBlock().getLocation())){
+        if (RedstoneClockController.contains(e.getBlock().getLocation())) {
             RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
-            if(redstoneClock.getLastStatus() == 1 ) {
+            if (redstoneClock.getLastStatus() == 1) {
                 if (!redstoneClock.isEnd()) {
                     if (redstoneClock.getNumberOfClock() >= Main.getInstance().getConfig().getInt("MaxPulses")) {
                         Util.removeRedstoneClock(e.getBlock());
@@ -25,7 +25,7 @@ public class PistonListener implements Listener {
                     }
                 }
             }
-        }else{
+        } else {
             try {
                 RedstoneClockController.addRedstone(e.getBlock().getLocation());
             } catch (Exception e1) {
@@ -35,8 +35,8 @@ public class PistonListener implements Listener {
     }
 
     @EventHandler
-    public void onPistonRetractEvent(BlockPistonRetractEvent e){
-        if(RedstoneClockController.contains(e.getBlock().getLocation())){
+    public void onPistonRetractEvent(BlockPistonRetractEvent e) {
+        if (RedstoneClockController.contains(e.getBlock().getLocation())) {
             RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
             redstoneClock.updateStatus(1);
         }

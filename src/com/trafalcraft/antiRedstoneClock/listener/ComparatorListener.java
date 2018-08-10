@@ -4,47 +4,55 @@ import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockRedstoneEvent;
 
-public class ComparatorListener implements Listener{
+public class ComparatorListener implements Listener {
 
-    @EventHandler
-    public void onComparatorUpdate(BlockPhysicsEvent e) {
-        if (e.getBlock().getType() == Material.REDSTONE_COMPARATOR_OFF) {
-                if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
-                return;
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onRedstoneComparatorClock(BlockRedstoneEvent e) {
+        if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
+            return;
+        if (checkTypeAndItemPowered(e.getBlock())) {
             if (!RedstoneClockController.contains(e.getBlock().getLocation())) {
-                if(e.getBlock().isBlockPowered()
-                        || e.getBlock().isBlockIndirectlyPowered()) {
-                    try {
-                        RedstoneClockController.addRedstone(e.getBlock().getLocation());
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
+                try {
+                    RedstoneClockController.addRedstone(e.getBlock().getLocation());
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
-            }else{
+            } else {
                 RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
-                int status = 0;
-                if(e.getBlock().isBlockPowered()
-                        || e.getBlock().isBlockIndirectlyPowered()){
-                    status = 1;
-                }
-                if(redstoneClock.getLastStatus() != status){
-                        if(status == 0) {
-                                if (!redstoneClock.isEnd()) {
-                                        if (redstoneClock.getNumberOfClock()
-                                                >= Main.getInstance().getConfig().getInt("MaxPulses")) {
-                                                Util.removeRedstoneClock(e.getBlock());
-                                        } else {
-                                                redstoneClock.addOneToClock();
-                                        }
-                                }
-                        }
-                        redstoneClock.updateStatus(status);
+                if (!redstoneClock.isEnd()) {
+                    if (redstoneClock.getNumberOfClock() >= Main.getInstance().getConfig().getInt("MaxPulses")) {
+                        Util.removeRedstoneClock(e.getBlock());
+                    } else {
+                        redstoneClock.addOneToClock();
+                    }
                 }
             }
         }
     }
+
+    private boolean checkTypeAndItemPowered(Block block) {
+        boolean result = false;
+        try {
+            if (block.getType() == Material.COMPARATOR) {
+                Powerable powerable = (Powerable) block.getBlockData();
+                if (powerable.isPowered()) {
+                    result = true;
+                }
+            }
+        } catch (NoSuchFieldError e) {
+            //1.12.2 and older version compatibility
+            if (block.getType() == Material.getMaterial("REDSTONE_COMPARATOR_ON")) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
 }

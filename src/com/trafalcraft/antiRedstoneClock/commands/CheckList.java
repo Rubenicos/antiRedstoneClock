@@ -6,8 +6,10 @@ import com.trafalcraft.antiRedstoneClock.util.Msg;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collection;
+
 public class CheckList {
-    private static CheckList ourInstance = new CheckList();
+    private static final CheckList ourInstance = new CheckList();
 
     public static CheckList getInstance() {
         return ourInstance;
@@ -16,46 +18,43 @@ public class CheckList {
     private CheckList() {
     }
 
-    public void performCMD(CommandSender sender, String... args){
-        try{
-            int test = 5;
-            if(args.length > 1){
-                test = Integer.parseInt(args[1]) * 5;
+    public void performCMD(CommandSender sender, String... args) {
+        try {
+            int page = 1;
+            if (args.length > 1) {
+                page = Integer.parseInt(args[1]);
             }
-            int i = 0;
-            sender.sendMessage(Msg.RedStoneClockListHeader.toString().replace("$page",
-                    "(" + test / 5 + "/" + ((RedstoneClockController.getAllLoc().size() / 5) + 1) + ")"));
-            for(Location loc : RedstoneClockController.getAllLoc()){
-                if(!(i+1 > test+1) && !(i+1 < test-4)){
+            Collection<Location> allLocation = RedstoneClockController.getAllLoc();
+            int totalPage = (int) Math.ceil(allLocation.size() / 5.0);
+            sender.sendMessage(Msg.RED_STONE_CLOCK_LIST_HEADER.toString().replace("$page",
+                    "(" + page + "/" + totalPage + ")"));
+
+            int i = 1;
+            int minElements = 5 * (page - 1);
+            int maxElements = 5 * page;
+            for (Location loc : allLocation) {
+                if (i > minElements && i <= maxElements) {
                     int maxPulses = Main.getInstance().getConfig().getInt("MaxPulses");
                     int clock = RedstoneClockController.getRedstoneClock(loc).getNumberOfClock();
+                    String color = "§2";    //Dark_Green
                     if (clock > maxPulses * 0.75) {
-                        sender.sendMessage(
-                                "§4RedStoneClock> §fWorld:" + loc.getWorld().getName() + ",X:" + loc.getX() + ",Y:"
-                                        + loc.getY() + ",Z:" + loc.getZ() + " b:" + clock
-                                        + "/" + maxPulses);
+                        color = "§4";       //Dark_Red
                     } else if (clock > maxPulses * 0.5) {
-                        sender.sendMessage(
-                                "§eRedStoneClock> §fWorld:" + loc.getWorld().getName() + ",X:" + loc.getX() + ",Y:"
-                                        + loc.getY() + ",Z:" + loc.getZ() + " b:" + clock
-                                        + "/" + maxPulses);
+                        color = "§e";       //yellow
                     } else if (clock > maxPulses * 0.250) {
-                        sender.sendMessage(
-                                "§aRedStoneClock> §fWorld:" + loc.getWorld().getName() + ",X:" + loc.getX() + ",Y:"
-                                        + loc.getY() + ",Z:" + loc.getZ() + " b:" + clock
-                                        + "/" + maxPulses);
-                    }else{
-                        sender.sendMessage(
-                                "§2RedStoneClock> §fWorld:" + loc.getWorld().getName() + ",X:" + loc.getX() + ",Y:"
-                                        + loc.getY() + ",Z:" + loc.getZ() + " b:" + clock
-                                        + "/" + maxPulses);
+                        color = "§a";       // green
                     }
+                    sender.sendMessage(color + "RedStoneClock> §fWorld:" + loc.getWorld().getName()
+                            + ",X:" + loc.getX()
+                            + ",Y:" + loc.getY()
+                            + ",Z:" + loc.getZ()
+                            + " b:" + clock + "/" + maxPulses);
                 }
                 i++;
             }
-            sender.sendMessage(Msg.RedStoneClockListFooter.toString());
-        }catch(NumberFormatException e){
-            sender.sendMessage(Msg.Command_Use.toString().replace("$command", "checkList <number>"));
+            sender.sendMessage(Msg.RED_STONE_CLOCK_LIST_FOOTER.toString());
+        } catch (NumberFormatException e) {
+            sender.sendMessage(Msg.COMMAND_USE.toString().replace("$command", "checkList <number>"));
         }
     }
 }

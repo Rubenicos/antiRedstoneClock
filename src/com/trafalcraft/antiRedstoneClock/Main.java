@@ -5,6 +5,7 @@ import com.trafalcraft.antiRedstoneClock.listener.ComparatorListener;
 import com.trafalcraft.antiRedstoneClock.listener.ObserverListener;
 import com.trafalcraft.antiRedstoneClock.listener.PistonListener;
 import com.trafalcraft.antiRedstoneClock.listener.RedstoneListener;
+import com.trafalcraft.antiRedstoneClock.metrics.Metrics;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -32,6 +33,16 @@ public class Main extends JavaPlugin {
         instance.getConfig().options().copyDefaults(true);
         instance.saveConfig();
         instance.reloadConfig();
+
+        if (instance.getConfig().getBoolean("metrics")) {
+            this.getLogger().info("Enabling Metrics");
+            try {
+                Metrics metrics = new Metrics(this);
+                this.getLogger().info("Metrics loaded");
+            } catch (Exception e) {
+                this.getLogger().info("An error occured while trying to enable metrics. Skipping...");
+            }
+        }
 
         try {
             Msg.load();

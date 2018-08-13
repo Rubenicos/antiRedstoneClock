@@ -1,6 +1,9 @@
 #En:Don't touch this value
 #Fr: Ne pas modifier cette valeur 
 version: 0.7
+#En:Enable metrics
+#Fr: Activer metrics
+metrics: true
 #En:Maximal number Redstone blink authorized during the "Delay" period
 #Fr:Nombre maximal de clignotement de redstone autorise pendant la periode "Delay"
 MaxPulses: 150

@@ -4,8 +4,6 @@ import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.Powerable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,7 +15,7 @@ public class ObserverListener implements Listener {
     public void onRedstoneComparatorClock(BlockRedstoneEvent e) {
         if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
             return;
-        if (checkTypeAndItemPowered(e.getBlock())) {
+        if (e.getBlock().getType() == Material.OBSERVER && e.getOldCurrent() == 0) {
             if (!RedstoneClockController.contains(e.getBlock().getLocation())) {
                 try {
                     RedstoneClockController.addRedstone(e.getBlock().getLocation());
@@ -40,17 +38,6 @@ public class ObserverListener implements Listener {
                 }
             }
         }
-    }
-
-    private boolean checkTypeAndItemPowered(Block block) {
-        boolean result = false;
-        if (block.getType() == Material.OBSERVER) {
-            Powerable powerable = (Powerable) block.getBlockData();
-            if (powerable.isPowered()) {
-                result = true;
-            }
-        }
-        return result;
     }
 
 }

@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 
 public class PlayerListener implements Listener {
 
@@ -32,13 +33,6 @@ public class PlayerListener implements Listener {
             if (checkRedStoneItems_1_13(block.getType())
                     || checkRedStoneItemsOlderThan_1_13(block.getType())) {
                 cleanRedstone(block);
-            } else if (block.getType() == Material.getMaterial("SIGN")
-                    || block.getType() == Material.getMaterial("SIGN_POST")) {
-                BlockState blockState = block.getState();
-                Sign sign = (Sign) blockState;
-                if (checkSign(sign)) {
-                    block.setType(Material.AIR);
-                }
             }
         }
     }
@@ -65,6 +59,20 @@ public class PlayerListener implements Listener {
     private void cleanRedstone(Block block) {
         if (RedstoneClockController.contains(block.getLocation())) {
             RedstoneClockController.removeRedstoneByLocation(block.getLocation());
+        }
+    }
+
+    //WorkAround for sign duplication glitch
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onItemDrop(BlockPhysicsEvent e) {
+        if (e.getBlock().getType() == Material.getMaterial("SIGN")
+                || e.getBlock().getType() == Material.getMaterial("SIGN_POST")) {
+            BlockState block = e.getBlock().getState();
+            Sign sign = (Sign) block;
+            if (checkSign(sign)) {
+                e.setCancelled(true);
+                e.getBlock().setType(Material.AIR);
+            }
         }
     }
 

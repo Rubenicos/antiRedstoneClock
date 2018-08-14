@@ -4,7 +4,7 @@ import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
-import com.trafalcraft.antiRedstoneClock.util.WorldGuardLink;
+import com.trafalcraft.antiRedstoneClock.util.WorldGuard.WorldGuardHook;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -38,7 +38,7 @@ class Util {
                 return true;
             }
         }
-        return WorldGuardLink.checkAllowedRegion(block.getLocation());
+        return WorldGuardHook.checkAllowedRegion(block.getLocation());
     }
 
     static void removeRedstoneClock(Block block) {

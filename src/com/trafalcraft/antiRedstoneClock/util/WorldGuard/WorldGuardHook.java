@@ -1,5 +1,6 @@
-package com.trafalcraft.antiRedstoneClock.util;
+package com.trafalcraft.antiRedstoneClock.util.WorldGuard;
 
+import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -10,8 +11,8 @@ import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 
 
-public class WorldGuardLink {
-    private static WorldGuardPlugin getWorldGuard() {
+public class WorldGuardHook {
+    public static WorldGuardPlugin getWorldGuard() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 
         // WorldGuard may not be loaded
@@ -24,12 +25,19 @@ public class WorldGuardLink {
 
 
     public static boolean checkAllowedRegion(Location loc) {
-        if (getWorldGuard() == null) {
+        WorldGuardPlugin worldGuard = getWorldGuard();
+        if (worldGuard == null) {
             return false;
         }
-        if (getWorldGuard().getRegionManager(loc.getWorld()) != null) {
-            RegionManager worldGuard = getWorldGuard().getRegionManager(loc.getWorld());
-            ApplicableRegionSet regions = worldGuard.getApplicableRegions(loc);
+        RegionManager regionManager;
+        if (worldGuard.getDescription().getVersion().startsWith("6")) {
+            regionManager = WorldGuard_6.getRegionManager(worldGuard, loc.getWorld());
+        } else {
+            regionManager = WorldGuard_7.getRegionManager(worldGuard, loc.getWorld());
+        }
+
+        if (regionManager != null) {
+            ApplicableRegionSet regions = regionManager.getApplicableRegions(new Vector(loc.getX(), loc.getY(), loc.getZ()));
             for (String ignoreRegion : Main.getIgnoredRegions()) {
                 for (ProtectedRegion region : regions.getRegions()) {
                     if (region.getId().equals(ignoreRegion)) {
@@ -40,4 +48,6 @@ public class WorldGuardLink {
         }
         return false;
     }
+
+
 }

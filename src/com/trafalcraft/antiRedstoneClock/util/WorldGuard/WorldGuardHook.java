@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 
 
 public class WorldGuardHook {
-    public static WorldGuardPlugin getWorldGuard() {
+    private static WorldGuardPlugin getWorldGuard() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 
         // WorldGuard may not be loaded

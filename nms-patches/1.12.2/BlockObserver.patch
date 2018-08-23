@@ -1,0 +1,31 @@
+--- a/minecraft/server/BlockObserver.java
++++ b/minecraft/server/BlockObserver.java
+@@ -2,6 +2,8 @@
+ 
+ import java.util.Random;
+ 
++import org.bukkit.craftbukkit.event.CraftEventFactory;
++
+ public class BlockObserver extends BlockDirectional {
+ 
+     public static final BlockStateBoolean a = BlockStateBoolean.of("powered");
+@@ -26,8 +28,18 @@
+ 
+     public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
+         if (((Boolean) iblockdata.get(BlockObserver.a)).booleanValue()) {
++            // CraftBukkit start
++            if (CraftEventFactory.callRedstoneChange(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), 15, 0).getNewCurrent() != 0) {
++                return;
++            }
++            // CraftBukkit end
+             world.setTypeAndData(blockposition, iblockdata.set(BlockObserver.a, Boolean.valueOf(false)), 2);
+         } else {
++            // CraftBukkit start
++            if (CraftEventFactory.callRedstoneChange(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(), 0, 15).getNewCurrent() != 15) {
++                return;
++            }
++            // CraftBukkit end
+             world.setTypeAndData(blockposition, iblockdata.set(BlockObserver.a, Boolean.valueOf(true)), 2);
+             world.a(blockposition, (Block) this, 2);
+         }
+

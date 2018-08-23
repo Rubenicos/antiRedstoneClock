@@ -30,10 +30,10 @@ public class WorldGuardHook {
             return false;
         }
         RegionManager regionManager;
-        if (worldGuard.getDescription().getVersion().startsWith("6")) {
-            regionManager = WorldGuard_6.getRegionManager(worldGuard, loc.getWorld());
-        } else {
+        if (worldGuard.getDescription().getVersion().startsWith("7")) {
             regionManager = WorldGuard_7.getRegionManager(worldGuard, loc.getWorld());
+        } else {
+            regionManager = WorldGuard_6.getRegionManager(worldGuard, loc.getWorld());
         }
 
         if (regionManager != null) {

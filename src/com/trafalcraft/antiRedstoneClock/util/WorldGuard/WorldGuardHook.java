@@ -1,6 +1,5 @@
 package com.trafalcraft.antiRedstoneClock.util.WorldGuard;
 
-import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -37,7 +36,7 @@ public class WorldGuardHook {
         }
 
         if (regionManager != null) {
-            ApplicableRegionSet regions = regionManager.getApplicableRegions(new Vector(loc.getX(), loc.getY(), loc.getZ()));
+            ApplicableRegionSet regions = VectorAdaptor.getRegion(regionManager, loc);
             for (String ignoreRegion : Main.getIgnoredRegions()) {
                 for (ProtectedRegion region : regions.getRegions()) {
                     if (region.getId().equals(ignoreRegion)) {

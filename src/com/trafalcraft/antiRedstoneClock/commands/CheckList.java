@@ -3,6 +3,10 @@ package com.trafalcraft.antiRedstoneClock.commands;
 import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
@@ -44,11 +48,18 @@ public class CheckList {
                     } else if (clock > maxPulses * 0.250) {
                         color = "§a";       // green
                     }
-                    sender.sendMessage(color + "RedStoneClock> §fWorld:" + loc.getWorld().getName()
+                    TextComponent textComponent = new TextComponent(color + "RedStoneClock> §fWorld:" + loc.getWorld().getName()
                             + ",X:" + loc.getX()
                             + ",Y:" + loc.getY()
                             + ",Z:" + loc.getZ()
                             + " b:" + clock + "/" + maxPulses);
+                    textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp "
+                                                + loc.getX()+ " "
+                                                + loc.getY()+ " "
+                                                + loc.getZ()));
+                    textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            new ComponentBuilder("Click to teleport you to the redstoneclock").create()));
+                    sender.spigot().sendMessage(textComponent);
                 }
                 i++;
             }

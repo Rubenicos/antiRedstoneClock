@@ -10,7 +10,7 @@ class WorldGuard_7 {
     static RegionManager getRegionManager(WorldGuardPlugin worldGuard, World world) {
         BukkitWorldGuardPlatform wgPlatform = (BukkitWorldGuardPlatform)
                 WorldGuard.getInstance().getPlatform();
-        RegionManager regionManager = wgPlatform.getRegionContainer().get(wgPlatform.getWorldByName(world.getName()));
-        return regionManager;
+        com.sk89q.worldedit.world.World worldEditWorld = wgPlatform.getMatcher().getWorldByName(world.getName());
+        return wgPlatform.getRegionContainer().get(worldEditWorld);
     }
 }

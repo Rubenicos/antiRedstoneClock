@@ -21,13 +21,16 @@ class Util {
                 e1.printStackTrace();
             }
         } else {
-            if (!RedstoneClockController.getRedstoneClock(block.getLocation()).isEnd()) {
-                if (RedstoneClockController.getRedstoneClock(block.getLocation()).getNumberOfClock()
+            RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(block.getLocation());
+            if (!redstoneClock.isTimedOut()) {
+                if (redstoneClock.getNumberOfClock()
                         >= Main.getInstance().getConfig().getInt("MaxPulses")) {
                     removeRedstoneClock(block);
                 } else {
-                    RedstoneClockController.getRedstoneClock(block.getLocation()).addOneToClock();
+                    redstoneClock.addOneToClock();
                 }
+            } else {
+                RedstoneClockController.removeRedstoneByObject(redstoneClock);
             }
         }
     }

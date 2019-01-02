@@ -38,7 +38,7 @@ public class RedstoneClock {
         return value;
     }
 
-    public boolean isEnd() {
+    public boolean isTimedOut() {
         return (System.currentTimeMillis() / 1000) >= endTime;
     }
 

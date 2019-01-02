@@ -25,13 +25,15 @@ public class ObserverListener implements Listener {
             } else {
                 RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
                 if (redstoneClock.getLastStatus() == 1) {
-                    if (!redstoneClock.isEnd()) {
+                    if (!redstoneClock.isTimedOut()) {
                         if (redstoneClock.getNumberOfClock() >= Main.getInstance().getConfig().getInt("MaxPulses")) {
                             Util.removeRedstoneClock(e.getBlock());
                         } else {
                             redstoneClock.addOneToClock();
                             redstoneClock.updateStatus(0);
                         }
+                    } else {
+                        RedstoneClockController.removeRedstoneByObject(redstoneClock);
                     }
                 } else {
                     redstoneClock.updateStatus(1);

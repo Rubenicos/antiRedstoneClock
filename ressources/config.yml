@@ -4,33 +4,33 @@ version: 0.7
 #En:Enable metrics
 #Fr: Activer metrics
 metrics: true
-#En:Maximal number Redstone blink authorized during the "Delay" period
+#En:Maximal number of redstone blinks authorized during the "Delay" period
 #Fr:Nombre maximal de clignotement de redstone autorise pendant la periode "Delay"
 MaxPulses: 150
-#En: Time (in second) before the reset of the variable "MaxImpulsion"
+#En: Time (in seconds) before the reset of the "MaxImpulsion" variable
 #Fr:Temp (en secondes) avant de reset la premiere variable
 Delay: 300
 #En:You need it prevent an admin?
 #Fr:Faut-il prevenir un admin?
 NotifyAdmins: true
-#En:Is it necessary to dropper items ( Redstone / repeater) when a loop is destroyed?
+#En:Is it necessary to drop items (Redstone / repeater) when a loop is destroyed?
 #Fr:Faut-il dropper les items (Redstone/repeater) quand une boucle est détruite?
 DropItems: true
 
 CreateSignWhenClockIsBreak: true
-#En:Write the text you want in the sign
+#En:Write the text you want on the sign
 #Fr:Ecrire le texte a mettre sur les panneaux
 Sign:
-  Line1: 'The RedstonClock'
+  Line1: 'RedstoneClocks'
   Line2: 'Are'
   Line3: '&4prohibited'
   Line4: ''
 
-#En:The list of worlds on which the plugin is disabled separate by "/", put a fake name if nothing
+#En:The list of worlds on which the plugin is disabled separate by "/", put a fake name if none
 #Fr: La list des mondes sur lequel le plugin est desactive separe par des "/", mettre un faut non si aucun 
 IgnoreWorlds: redstoneWorld/survival
 
-#En:The list of Region on which the plugin is disabled separate by "/", put a fake name if nothing
+#En:The list of Region on which the plugin is disabled separate by "/", put a fake name if none
 #Fr: La list des Regions sur lequel le plugin est desactive separe par des "/", mettre un faut non si aucun 
 IgnoreRegions: redstone/admins
 

@@ -5,7 +5,7 @@ import com.trafalcraft.antiRedstoneClock.listener.ComparatorListener;
 import com.trafalcraft.antiRedstoneClock.listener.ObserverListener;
 import com.trafalcraft.antiRedstoneClock.listener.PistonListener;
 import com.trafalcraft.antiRedstoneClock.listener.RedstoneListener;
-import com.trafalcraft.antiRedstoneClock.metrics.Metrics;
+import org.bstats.bukkit.Metrics;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -37,7 +37,7 @@ public class Main extends JavaPlugin {
         if (instance.getConfig().getBoolean("metrics")) {
             this.getLogger().info("Enabling Metrics");
             try {
-                Metrics metrics = new Metrics(this);
+                new Metrics(this);
                 this.getLogger().info("Metrics loaded");
             } catch (Exception e) {
                 this.getLogger().info("An error occured while trying to enable metrics. Skipping...");
@@ -55,12 +55,10 @@ public class Main extends JavaPlugin {
         if (instance.getConfig().getBoolean("checkedClock.comparator")) {
             Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(), this);
         }
-        try {
-            Material checked = Material.OBSERVER;
+        if (Material.getMaterial("OBSERVER") != null) {
             if (instance.getConfig().getBoolean("checkedClock.observer")) {
                 Bukkit.getServer().getPluginManager().registerEvents(new ObserverListener(), this);
             }
-        } catch (java.lang.NoSuchFieldError ignored) {
         }
         if (instance.getConfig().getBoolean("checkedClock.piston")) {
             Bukkit.getServer().getPluginManager().registerEvents(new PistonListener(), this);

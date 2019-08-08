@@ -17,7 +17,7 @@ class VectorAdaptor {
         } catch (NoClassDefFoundError e) {
             //Compatibility for older worldguard version
             try {
-                Class vector = Class.forName("com.sk89q.worldedit.Vector");
+                Class<?> vector = Class.forName("com.sk89q.worldedit.Vector");
                 Object vectorInst = vector.getConstructor(double.class, double.class, double.class)
                         .newInstance(loc.getX(), loc.getY(), loc.getZ());
                 Method applicationRegions = regionManager.getClass()

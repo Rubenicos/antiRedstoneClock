@@ -55,15 +55,15 @@ class Util {
             Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
                 if (Main.getInstance().getConfig().getBoolean("CreateSignWhenClockIsBreak")) {
                     Sign sign;
-                    try {
-                        block.setType(Material.SIGN, false);
-                        BlockState blockState = block.getState();
-                        sign = (Sign) blockState;
-                    } catch (ClassCastException error) {
+                    if (Material.getMaterial("OAK_SIGN") != null) {
+                        block.setType(Material.getMaterial("OAK_SIGN"), false);
+                    } else if (Material.getMaterial("SIGN") != null) {
+                        block.setType(Material.getMaterial("SIGN"), false);
+                    } else if (Material.getMaterial("SIGN_POST") != null) {
                         block.setType(Material.getMaterial("SIGN_POST"), false);
-                        BlockState blockState = block.getState();
-                        sign = (Sign) blockState;
                     }
+                    BlockState blockState = block.getState();
+                    sign = (Sign) blockState;
                     sign.setLine(0, Main.getInstance().getConfig().getString("Sign.Line1")
                             .replace("&", "§"));
                     sign.setLine(1, Main.getInstance().getConfig().getString("Sign.Line2")

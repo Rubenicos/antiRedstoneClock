@@ -37,6 +37,7 @@ public class Main extends JavaPlugin {
         if (instance.getConfig().getBoolean("metrics")) {
             this.getLogger().info("Enabling Metrics");
             try {
+                Class.forName("org.bstats.bukkit.Metrics");
                 new Metrics(this);
                 this.getLogger().info("Metrics loaded");
             } catch (Exception e) {

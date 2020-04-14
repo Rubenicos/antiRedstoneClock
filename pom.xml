@@ -6,11 +6,10 @@
 
   <groupId>com.trafalcraft.antiRedstoneClock</groupId>
   <artifactId>antiRedstoneClock</artifactId>
-  <version>1.0.6-1.4.4</version>
+  <version>1.0.6-1.5.2</version>
 
   <name>antiRedstoneClock</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://www.spigotmc.org/resources/antiredstoneclock.18557</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -74,7 +73,6 @@
           <relocations>
             <relocation>
               <pattern>org.bstats</pattern>
-              <!-- Replace this with your package! -->
               <shadedPattern>com.trafalcraft.antiRedstoneClock.util</shadedPattern>
             </relocation>
           </relocations>

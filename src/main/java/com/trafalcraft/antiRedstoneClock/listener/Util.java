@@ -55,24 +55,34 @@ class Util {
             Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
                 if (Main.getInstance().getConfig().getBoolean("CreateSignWhenClockIsBreak")) {
                     Sign sign;
+                    
                     if (Material.getMaterial("OAK_SIGN") != null) {
                         block.setType(Material.getMaterial("OAK_SIGN"), false);
-                    } else if (Material.getMaterial("SIGN") != null) {
-                        block.setType(Material.getMaterial("SIGN"), false);
                     } else if (Material.getMaterial("SIGN_POST") != null) {
                         block.setType(Material.getMaterial("SIGN_POST"), false);
+                    } else if (Material.getMaterial("SIGN") != null) {
+                        block.setType(Material.getMaterial("SIGN"), false);
+                    } else {
+                        Bukkit.getLogger().warning(Msg.PREFIX + "No valid sign found for this minecraft version!!!"
+                            +"\nplease disable CreateSignWhenClockIsBreak in config file");
                     }
                     BlockState blockState = block.getState();
-                    sign = (Sign) blockState;
-                    sign.setLine(0, Main.getInstance().getConfig().getString("Sign.Line1")
-                            .replace("&", "§"));
-                    sign.setLine(1, Main.getInstance().getConfig().getString("Sign.Line2")
-                            .replace("&", "§"));
-                    sign.setLine(2, Main.getInstance().getConfig().getString("Sign.Line3")
-                            .replace("&", "§"));
-                    sign.setLine(3, Main.getInstance().getConfig().getString("Sign.Line4")
-                            .replace("&", "§"));
-                    sign.update(false, false);
+                    try {
+                        sign = (Sign) blockState;
+                        sign.setLine(0, Main.getInstance().getConfig().getString("Sign.Line1")
+                                .replace("&", "§"));
+                        sign.setLine(1, Main.getInstance().getConfig().getString("Sign.Line2")
+                                .replace("&", "§"));
+                        sign.setLine(2, Main.getInstance().getConfig().getString("Sign.Line3")
+                                .replace("&", "§"));
+                        sign.setLine(3, Main.getInstance().getConfig().getString("Sign.Line4")
+                                .replace("&", "§"));
+                        sign.update(false, false);
+                    } catch (ClassCastException error) {
+                        Bukkit.getLogger().warning(Msg.PREFIX + "No valid sign found for this minecraft version!!!"
+                            +"\nplease disable CreateSignWhenClockIsBreak in config file" 
+                            +"\nMore infos: " + block.getType());
+                    }
                 } else {
                     block.setType(Material.AIR);
                 }

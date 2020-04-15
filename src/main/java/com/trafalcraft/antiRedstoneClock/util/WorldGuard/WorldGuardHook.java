@@ -48,5 +48,12 @@ public class WorldGuardHook {
         return false;
     }
 
-
+    public static String getVersion() {
+        WorldGuardPlugin worldGuard = getWorldGuard();
+        if (worldGuard == null || worldGuard.getDescription().getVersion().length() == 0) {
+            return "undefined";
+        } else {
+            return worldGuard.getDescription().getVersion().substring(0,1);
+        }
+    }
 }

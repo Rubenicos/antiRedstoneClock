@@ -7,6 +7,8 @@ import com.trafalcraft.antiRedstoneClock.listener.PistonListener;
 import com.trafalcraft.antiRedstoneClock.listener.RedstoneListener;
 import org.bstats.bukkit.Metrics;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
+import com.trafalcraft.antiRedstoneClock.util.WorldGuard.WorldGuardHook;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -16,6 +18,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.Callable;
 
 public class Main extends JavaPlugin {
 
@@ -38,7 +41,8 @@ public class Main extends JavaPlugin {
             this.getLogger().info("Enabling Metrics");
             try {
                 Class.forName("org.bstats.bukkit.Metrics");
-                new Metrics(this);
+                Metrics metrics = new Metrics(this, 3091);
+                initMetricsChart(metrics);
                 this.getLogger().info("Metrics loaded");
             } catch (Exception e) {
                 this.getLogger().info("An error occured while trying to enable metrics. Skipping...");
@@ -121,5 +125,15 @@ public class Main extends JavaPlugin {
     public static Collection<String> getIgnoredRegions() {
         return ignoredRegions;
     }
+
+    public void initMetricsChart(Metrics metrics) {
+        metrics.addCustomChart(new Metrics.SimplePie("worldguard_version", new Callable<String>(){
+        
+            @Override
+            public String call() throws Exception {
+                return WorldGuardHook.getVersion();
+            }
+        }));
+    } 
 
 }

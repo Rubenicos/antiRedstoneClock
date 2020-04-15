@@ -4,4 +4,4 @@ build:
   artifacts:
     name: "antiRedstoneClock"
     paths:
-      - "target/*.jar"
+      - "target/antiRedstoneClock*.jar"

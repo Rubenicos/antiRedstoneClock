@@ -27,8 +27,7 @@ public class Reload {
             if (sender instanceof Player) {
                 sender.sendMessage(Msg.ERROR + "An error as occurred in the config.yml please check the log!");
             }
-            Main.getInstance().getLogger().severe("An error as occurred in the config.yml please fix it!");
-            e.printStackTrace();
+            Main.getInstance().getLogger().severe("An error as occurred in the config.yml please fix it!\n" + e);
         }
     }
 }

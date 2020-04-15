@@ -13,11 +13,10 @@ public class RedstoneListener implements Listener {
     public void onRedstoneClock(BlockRedstoneEvent e) {
         if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
             return;
-        if (e.getBlock().getType() == Material.REDSTONE_WIRE
-                || checkRepeaterType(e.getBlock())) {
-            if (e.getOldCurrent() == 0) {
-                Util.checkAndUpdateRedstoneClockState(e.getBlock());
-            }
+        if ((e.getBlock().getType() == Material.REDSTONE_WIRE
+                || checkRepeaterType(e.getBlock()))
+                && e.getOldCurrent() == 0 ) {
+            Util.checkAndUpdateRedstoneClockState(e.getBlock());
         }
     }
 

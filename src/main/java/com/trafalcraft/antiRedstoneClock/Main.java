@@ -60,10 +60,8 @@ public class Main extends JavaPlugin {
         if (instance.getConfig().getBoolean("checkedClock.comparator")) {
             Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(), this);
         }
-        if (Material.getMaterial("OBSERVER") != null) {
-            if (instance.getConfig().getBoolean("checkedClock.observer")) {
-                Bukkit.getServer().getPluginManager().registerEvents(new ObserverListener(), this);
-            }
+        if (Material.getMaterial("OBSERVER") != null && instance.getConfig().getBoolean("checkedClock.observer")) {
+            Bukkit.getServer().getPluginManager().registerEvents(new ObserverListener(), this);
         }
         if (instance.getConfig().getBoolean("checkedClock.piston")) {
             Bukkit.getServer().getPluginManager().registerEvents(new PistonListener(), this);
@@ -74,7 +72,7 @@ public class Main extends JavaPlugin {
         long endTime = System.currentTimeMillis();
 
         long duration = (endTime - startTime);
-        this.getLogger().info("Plugin loaded in " + duration + "ms");  //2ms
+        this.getLogger().info(String.format("Plugin loaded in %d ms", duration));  //2ms
     }
 
     public void onDisable() {

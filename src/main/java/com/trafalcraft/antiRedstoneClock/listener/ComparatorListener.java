@@ -13,10 +13,8 @@ public class ComparatorListener implements Listener {
     public void onRedstoneComparatorClock(BlockRedstoneEvent e) {
         if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
             return;
-        if (checkType(e.getBlock())) {
-            if (e.getOldCurrent() == 0) {
-                Util.checkAndUpdateRedstoneClockState(e.getBlock());
-            }
+        if (checkType(e.getBlock()) && e.getOldCurrent() == 0) {
+            Util.checkAndUpdateRedstoneClockState(e.getBlock());
         }
     }
 

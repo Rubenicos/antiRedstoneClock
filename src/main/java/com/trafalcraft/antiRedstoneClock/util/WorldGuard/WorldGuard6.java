@@ -6,10 +6,10 @@ import org.bukkit.World;
 
 import java.lang.reflect.Method;
 
-class WorldGuard_6 {
+class WorldGuard6 implements WorldGuardAdaptor{
 
-    //TODO need to make it cleaner with maven
-    static RegionManager getRegionManager(WorldGuardPlugin worldGuard, World world) {
+    @Override
+    public RegionManager getRegionManager(WorldGuardPlugin worldGuard, World world) {
         try {
             Method method = worldGuard.getClass().getMethod("getRegionContainer");
             Object regionContainer = method.invoke(worldGuard);

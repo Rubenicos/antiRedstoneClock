@@ -11,6 +11,8 @@ import org.bukkit.plugin.Plugin;
 
 
 public class WorldGuardHook {
+    private WorldGuardHook() {}
+
     private static WorldGuardPlugin getWorldGuard() {
         Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 
@@ -29,10 +31,10 @@ public class WorldGuardHook {
             return false;
         }
         RegionManager regionManager;
-        if (worldGuard.getDescription().getVersion().startsWith("7")) {
-            regionManager = WorldGuard_7.getRegionManager(worldGuard, loc.getWorld());
+        if (getVersionAsInteger() < 7) {
+            regionManager = new WorldGuard6().getRegionManager(worldGuard, loc.getWorld());
         } else {
-            regionManager = WorldGuard_6.getRegionManager(worldGuard, loc.getWorld());
+            regionManager = new WorldGuard7().getRegionManager(worldGuard, loc.getWorld());
         }
 
         if (regionManager != null) {
@@ -46,6 +48,14 @@ public class WorldGuardHook {
             }
         }
         return false;
+    }
+
+    private static int getVersionAsInteger() {
+        try {
+            return Integer.parseInt(getVersion());
+        } catch(NumberFormatException e) {
+            return -1;
+        }
     }
 
     public static String getVersion() {

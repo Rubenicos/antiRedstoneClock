@@ -3,13 +3,18 @@ package com.trafalcraft.antiRedstoneClock.util.WorldGuard;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.trafalcraft.antiRedstoneClock.Main;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
 
 class VectorAdaptor {
+    private VectorAdaptor() {}
+
     static ApplicableRegionSet getRegion(RegionManager regionManager, Location loc) {
         ApplicableRegionSet region = null;
         try {
@@ -26,7 +31,7 @@ class VectorAdaptor {
             } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
                     | IllegalAccessException | InvocationTargetException e1) {
                 Bukkit.getLogger().severe("error with worldEdit vector, please report this issue");
-                e1.printStackTrace();
+                Main.getInstance().getLogger().log(Level.SEVERE, "[antiRedstoneClock]", e1);
             }
         }
         return region;

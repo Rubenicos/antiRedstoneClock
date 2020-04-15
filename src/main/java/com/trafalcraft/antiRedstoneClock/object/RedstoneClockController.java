@@ -1,6 +1,7 @@
 package com.trafalcraft.antiRedstoneClock.object;
 
 import com.google.common.collect.Maps;
+import com.trafalcraft.antiRedstoneClock.exception.DuplicateRedstoneClockObjectException;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
 import org.bukkit.Location;
 
@@ -9,11 +10,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 public class RedstoneClockController {
+    private RedstoneClockController() {}
+
     private static final ConcurrentMap<Location, RedstoneClock> activeMap = Maps.newConcurrentMap();
 
-    public static void addRedstone(Location location) throws Exception {
+    public static void addRedstone(Location location) throws DuplicateRedstoneClockObjectException {
         if (contains(location)) {
-            throw new Exception(Msg.ERROR + Msg.DUPLICATE_OBJECT.toString());
+            throw new DuplicateRedstoneClockObjectException(Msg.ERROR + Msg.DUPLICATE_OBJECT.toString() + " " + location);
         } else {
             activeMap.put(location, new RedstoneClock(location));
         }

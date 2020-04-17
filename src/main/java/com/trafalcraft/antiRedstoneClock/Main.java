@@ -18,6 +18,8 @@ import org.yaml.snakeyaml.error.YAMLException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class Main extends JavaPlugin {
@@ -132,6 +134,48 @@ public class Main extends JavaPlugin {
                 return WorldGuardHook.getVersion();
             }
         }));
+
+        metrics.addCustomChart(new Metrics.DrilldownPie("config_maxpulses", () -> {
+            Map<String, Map<String, Integer>> map = new HashMap<>();
+            Map<String, Integer> entry = new HashMap<>();
+            int maxPulses = Main.getInstance().getConfig().getInt("MaxPulses");
+            if (maxPulses < 100) {
+                entry.put(""+maxPulses, 1);
+                map.put("<100", entry);
+            } else if (maxPulses < 500) {
+                entry.put(""+maxPulses, 1);
+                map.put("<500", entry);
+            } else if (maxPulses < 1000) {
+                entry.put(""+maxPulses, 1);
+                map.put("<1000", entry);
+            } else if (maxPulses < 10000) {
+                entry.put(""+maxPulses, 1);
+                map.put("<10000", entry);
+            }
+            return map;
+        }));
+
+        metrics.addCustomChart(new Metrics.DrilldownPie("config_delay", () -> {
+            Map<String, Map<String, Integer>> map = new HashMap<>();
+            Map<String, Integer> entry = new HashMap<>();
+            int delay = Main.getInstance().getConfig().getInt("Delay");
+            if (delay < 100) {
+                entry.put(""+delay, 1);
+                map.put("<100", entry);
+            } else if (delay < 500) {
+                entry.put(""+delay, 1);
+                map.put("<500", entry);
+            } else if (delay < 1000) {
+                entry.put(""+delay, 1);
+                map.put("<1000", entry);
+            } else if (delay < 10000) {
+                entry.put(""+delay, 1);
+                map.put("<10000", entry);
+            }
+            return map;
+        }));
+
+
     } 
 
 }

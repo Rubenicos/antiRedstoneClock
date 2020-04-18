@@ -59,7 +59,12 @@ public class CheckList {
                                                 + loc.getZ()));
                     textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             new ComponentBuilder("Click to teleport you to the redstoneclock").create()));
-                    sender.spigot().sendMessage(textComponent);
+                    try {
+                        sender.getClass().getDeclaredMethod("spigot", (Class<?>) null);
+                        sender.spigot().sendMessage(textComponent);
+                    } catch (NoSuchMethodException e) {
+                        sender.sendMessage(textComponent.getText());
+                    }
                 }
                 i++;
             }

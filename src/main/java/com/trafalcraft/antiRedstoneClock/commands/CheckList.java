@@ -59,18 +59,22 @@ public class CheckList {
                                                 + loc.getZ()));
                     textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             new ComponentBuilder("Click to teleport you to the redstoneclock").create()));
-                    try {
-                        sender.getClass().getDeclaredMethod("spigot", (Class<?>) null);
-                        sender.spigot().sendMessage(textComponent);
-                    } catch (NoSuchMethodException e) {
-                        sender.sendMessage(textComponent.getText());
-                    }
+                    sendFormatedMessageToPlayer(sender, textComponent);
                 }
                 i++;
             }
             sender.sendMessage(Msg.RED_STONE_CLOCK_LIST_FOOTER.toString());
         } catch (NumberFormatException e) {
             sender.sendMessage(Msg.COMMAND_USE.toString().replace("$command", "checkList <number>"));
+        }
+    }
+
+    private void sendFormatedMessageToPlayer(CommandSender sender, TextComponent textComponent) {
+        try {
+            sender.getClass().getDeclaredMethod("spigot", null);
+            sender.spigot().sendMessage(textComponent);
+        } catch (NoSuchMethodException e) {
+            sender.sendMessage(textComponent.getText());
         }
     }
 }

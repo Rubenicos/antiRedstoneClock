@@ -65,8 +65,9 @@ public class PlayerListener implements Listener {
     //WorkAround for sign duplication glitch
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemDrop(BlockPhysicsEvent e) {
-        if (e.getBlock().getType() == Material.getMaterial("SIGN")
-                || e.getBlock().getType() == Material.getMaterial("SIGN_POST")) {
+        if (e.getBlock().getType() == Material.getMaterial("OAK_SIGN")
+                || e.getBlock().getType() == Material.getMaterial("SIGN_POST")
+                || e.getBlock().getType() == Material.getMaterial("SIGN")) {
             BlockState block = e.getBlock().getState();
             Sign sign = (Sign) block;
             if (checkSign(sign)) {

@@ -1,0 +1,14 @@
+name: antiRedstoneClock
+version: 1.0.6-1.5.2
+description: Limit the redstoneClock
+author: Amosar
+website: https://www.spigotmc.org/resources/antiredstoneclock.18557
+api-version: 1.13
+softdepend: [WorldGuard, bstats]
+
+main: com.trafalcraft.antiRedstoneClock.Main
+
+commands:
+   antiRedstoneClock:
+     description: Base command for the antiRedstoneClock plugin.
+     aliases: [arc]

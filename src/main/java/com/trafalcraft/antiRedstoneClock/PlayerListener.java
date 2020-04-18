@@ -20,8 +20,9 @@ public class PlayerListener implements Listener {
         if (checkRedStoneItems_1_13(block.getType())
                 || checkRedStoneItemsOlderThan_1_13(block.getType())) {
             cleanRedstone(block);
-        } else if (block.getType() == Material.getMaterial("SIGN")
-                || block.getType() == Material.getMaterial("SIGN_POST")) {
+        } else if (e.getBlock().getType() == Material.getMaterial("OAK_SIGN")
+        || e.getBlock().getType() == Material.getMaterial("SIGN_POST")
+        || e.getBlock().getType() == Material.getMaterial("SIGN")) {
             BlockState blockState = block.getState();
             Sign sign = (Sign) blockState;
             if (checkSign(sign)) {

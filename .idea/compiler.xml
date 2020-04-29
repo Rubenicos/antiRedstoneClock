@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="WORLDGUARD_6" />
+        <module name="PLOTSQUARED_5" />
+        <module name="WORLDGUARD_7" />
+        <module name="MAIN" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="antiRedstoneClock" target="8" />
+      <module name="DIST" target="1.8" />
+      <module name="MAIN" target="8" />
+      <module name="PLOTSQUARED_5" target="8" />
+      <module name="PLOTSQUARED_6" target="8" />
+      <module name="WORLDGUARD_6" target="8" />
+      <module name="WORLDGUARD_7" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

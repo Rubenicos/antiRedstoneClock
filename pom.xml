@@ -6,8 +6,8 @@
 
   <groupId>com.trafalcraft.antiRedstoneClock</groupId>
   <artifactId>antiRedstoneClock</artifactId>
-  <version>1.0.6-1</version>
-
+  <version>1.1.0-dev</version>
+  <packaging>pom</packaging>
   <name>antiRedstoneClock</name>
   <url>https://www.spigotmc.org/resources/antiredstoneclock.18557</url>
 
@@ -15,8 +15,17 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <module.info>-parent</module.info>
     <spigot.version>1.15.2-R0.1-SNAPSHOT</spigot.version>
   </properties>
+  
+  <modules>
+    <module>MAIN</module>
+    <module>DEPENDENCIES/WorldGuard/WORLDGUARD_6</module>
+    <module>DEPENDENCIES/WorldGuard/WORLDGUARD_7</module>
+    <module>DEPENDENCIES/PlotSquared/PLOTSQUARED_5</module>
+    <module>DIST</module>
+  </modules>
 
   <repositories>
       <repository>
@@ -31,6 +40,10 @@
           <id>sk89q-repo</id>
           <url>https://maven.sk89q.com/repo/</url>
       </repository>
+      <repository>
+        <id>plotsquared</id>
+        <url>https://plotsquared.com/mvn/</url>
+      </repository>
   </repositories>
 
   <dependencies>
@@ -40,53 +53,21 @@
             <version>${spigot.version}</version>
             <scope>provided</scope>
       </dependency>
-      <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>1.7</version>
-            <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.sk89q.worldguard</groupId>
-        <artifactId>worldguard-bukkit</artifactId>
-        <version>7.0.0</version>
-        <scope>provided</scope>
-    </dependency>
   </dependencies>
 
   <build>
-    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>${project.basedir}/src/main/resources</directory>
-        <includes>
-          <include>plugin.yml</include>
-          <include>config.yml</include>
-        </includes>
-      </resource>
-    </resources>
+    <defaultGoal>clean install</defaultGoal>
+    <finalName>${project.parent.artifactId}${module.info}</finalName>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <relocations>
-            <relocation>
-              <pattern>org.bstats</pattern>
-              <shadedPattern>com.trafalcraft.antiRedstoneClock.util</shadedPattern>
-            </relocation>
-          </relocations>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>8</source>
+                <target>8</target>
+            </configuration>
+            <version>3.8.1</version>
+        </plugin>
     </plugins>
-  </build>
+</build>
 </project>

@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "DIST"
+		},
+		{
+			"path": "MAIN"
+		},
+		{
+			"path": "DEPENDENCIES/PlotSquared"
+		},
+		{
+			"path": "DEPENDENCIES/WorldGuard"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}

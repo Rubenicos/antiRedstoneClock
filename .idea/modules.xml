@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DIST/DIST.iml" filepath="$PROJECT_DIR$/DIST/DIST.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MAIN/MAIN.iml" filepath="$PROJECT_DIR$/MAIN/MAIN.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DEPENDENCIES/PlotSquared/PLOTSQUARED_5/PLOTSQUARED_5.iml" filepath="$PROJECT_DIR$/DEPENDENCIES/PlotSquared/PLOTSQUARED_5/PLOTSQUARED_5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DEPENDENCIES/WorldGuard/WORLDGUARD_6/WORLDGUARD_6.iml" filepath="$PROJECT_DIR$/DEPENDENCIES/WorldGuard/WORLDGUARD_6/WORLDGUARD_6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DEPENDENCIES/WorldGuard/WORLDGUARD_7/WORLDGUARD_7.iml" filepath="$PROJECT_DIR$/DEPENDENCIES/WorldGuard/WORLDGUARD_7/WORLDGUARD_7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/antiRedstoneClock.iml" filepath="$PROJECT_DIR$/antiRedstoneClock.iml" />
+    </modules>
+  </component>
+</project>

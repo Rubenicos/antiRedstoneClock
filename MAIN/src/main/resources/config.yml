@@ -1,0 +1,61 @@
+#En:Don't touch this value
+#Fr: Ne pas modifier cette valeur 
+version: 0.7
+#En:Enable metrics
+#Fr: Activer metrics
+metrics: true
+#En:Maximal number of redstone blinks authorized during the "Delay" period
+#Fr:Nombre maximal de clignotement de redstone autorise pendant la periode "Delay"
+MaxPulses: 150
+#En: Time (in seconds) before the reset of the "MaxImpulsion" variable
+#Fr:Temp (en secondes) avant de reset la premiere variable
+Delay: 300
+#En:You need it prevent an admin?
+#Fr:Faut-il prevenir un admin?
+NotifyAdmins: true
+#En:Is it necessary to drop items (Redstone / repeater) when a loop is destroyed?
+#Fr:Faut-il dropper les items (Redstone/repeater) quand une boucle est détruite?
+DropItems: true
+
+CreateSignWhenClockIsBreak: true
+#En:Write the text you want on the sign
+#Fr:Ecrire le texte a mettre sur les panneaux
+Sign:
+  Line1: 'RedstoneClocks'
+  Line2: 'Are'
+  Line3: '&4prohibited'
+  Line4: ''
+
+#En:The list of worlds on which the plugin is disabled separate by "/", put a fake name if none
+#Fr: La list des mondes sur lequel le plugin est desactive separe par des "/", mettre un faut non si aucun 
+IgnoreWorlds: redstoneWorld/survival
+
+#En:The list of Region on which the plugin is disabled separate by "/", put a fake name if none
+#Fr: La list des Regions sur lequel le plugin est desactive separe par des "/", mettre un faut non si aucun 
+IgnoreRegions: redstone/admins
+
+plotSquaredSupport: true
+
+checkedClock:
+  comparator: true
+  observer: true
+  piston: true
+  redstoneAndRepeater: true
+
+AutomaticallyBreakDetectedClock: true
+
+Msg:
+  default:
+    prefix: '&bAntiRedstoneClock &9&l> &r&b '
+    error: '&4AntiRedstoneClock &l> &r&c '
+    no_permission: '&4Error &9&l> &r&bYou don''t have permission to do that!'
+    command_use: '&4AntiRedstoneClock &l> &r&cCommand usage: &6/arc $command'
+  message:
+    MsgToAdmin: 'Redstone clock disable in x:$X y:$Y Z:$Z. In the world $World'
+    unknownCmd: 'Unknown command. Type "/help" for help.'
+    reloadSuccess: 'Reload Success!'
+    newValueInConfig: 'The new value of $setting is $value'
+    RedStoneClockListHeader: 'RedstoneClockList: $page'
+    RedStoneClockListFooter: ''
+  Exception:
+    duplicate_object: 'This list already contains this redstone'

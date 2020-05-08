@@ -18,7 +18,7 @@ import org.bukkit.plugin.Plugin;
 
 class WorldGuard_6 implements IWorldGuard {
 
-    private static final StateFlag ANTIREDSTONECLOCK_FLAG = new StateFlag("antiredstoneclock", true);
+    private static final StateFlag ANTIREDSTONECLOCK_FLAG = new StateFlag("anti-redstone-clock", true);
     private static final WorldGuardPlugin worldGuard = getWorldGuard();
 
     @Override

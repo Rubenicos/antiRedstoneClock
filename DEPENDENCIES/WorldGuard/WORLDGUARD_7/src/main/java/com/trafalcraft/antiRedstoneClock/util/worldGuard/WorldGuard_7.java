@@ -72,18 +72,18 @@ class WorldGuard_7 implements IWorldGuard {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             // create a flag with the name "my-custom-flag", defaulting to true
-            StateFlag flag = new StateFlag("antiredstoneclock", true);
+            StateFlag flag = new StateFlag("anti-redstone-clock", true);
             registry.register(flag);
             ANTIREDSTONECLOCK_FLAG = flag; // only set our field if there was no error
             flagLoaded = true;
         } catch (FlagConflictException e) {
             // some other plugin registered a flag by the same name already.
             // you can use the existing flag, but this may cause conflicts - be sure to check type
-            Flag<?> existing = registry.get("antiredstoneclock");
+            Flag<?> existing = registry.get("anti-redstone-clock");
             if (existing instanceof StateFlag) {
                 ANTIREDSTONECLOCK_FLAG = (StateFlag) existing;
             } else {
-                Bukkit.getLogger().severe("A plugin already use the flag antiredstoneclock. WorldGuard flag support will not work");
+                Bukkit.getLogger().severe("A plugin already use the flag anti-redstone-clock. WorldGuard flag support will not work");
             }
         }
         return flagLoaded;

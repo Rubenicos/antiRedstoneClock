@@ -1,6 +1,6 @@
-package com.trafalcraft.antiRedstoneClock.util.plotSquared;
+package com.trafalcraft.antiRedstoneClock.util.plotSquared.flag5;
 
-import com.plotsquared.core.configuration.Captions;
+import com.plotsquared.core.configuration.Caption;
 import com.plotsquared.core.plot.flag.types.BooleanFlag;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +10,17 @@ public class AntiRedstoneClockFlag extends BooleanFlag<AntiRedstoneClockFlag> {
     public static final AntiRedstoneClockFlag REDSTONE_FALSE = new AntiRedstoneClockFlag(false);
 
     public AntiRedstoneClockFlag(boolean defaultValue) {
-        super(defaultValue, Captions.FLAG_DESCRIPTION_REDSTONE);
+        super(defaultValue, new Caption() {
+            @Override
+            public String getTranslated() {
+                return "Set to `false` to disable antiRedstoneClock in the plot.";
+            }
+
+            @Override
+            public boolean usePrefix() {
+                return true;
+            }
+        });
     }
 
     @Override

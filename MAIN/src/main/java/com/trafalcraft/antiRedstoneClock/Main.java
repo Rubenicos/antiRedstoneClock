@@ -3,13 +3,12 @@ package com.trafalcraft.antiRedstoneClock;
 import com.trafalcraft.antiRedstoneClock.commands.*;
 import com.trafalcraft.antiRedstoneClock.listener.ComparatorListener;
 import com.trafalcraft.antiRedstoneClock.listener.ObserverListener;
-import com.trafalcraft.antiRedstoneClock.listener.PistonListener;
 import com.trafalcraft.antiRedstoneClock.listener.RedstoneListener;
 import com.trafalcraft.antiRedstoneClock.util.plotSquared.VersionPlotSquared;
+import com.trafalcraft.antiRedstoneClock.listener.PistonListener;
+import com.trafalcraft.antiRedstoneClock.util.Msg;
 import com.trafalcraft.antiRedstoneClock.util.worldGuard.VersionWG;
 import org.bstats.bukkit.Metrics;
-import com.trafalcraft.antiRedstoneClock.util.Msg;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -29,6 +28,19 @@ public class Main extends JavaPlugin {
     //Store region and world ignored by the plugin
     private static final ArrayList<String> ignoredWorlds = new ArrayList<>();
     private static final ArrayList<String> ignoredRegions = new ArrayList<>();
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (VersionWG.getInstance().getWG() != null) {
+            this.getLogger().info(String.format("WorldGuard %s found", VersionWG.getInstance().getWG().getVersion()));
+            if (VersionWG.getInstance().getWG().registerFlag()) {
+                this.getLogger().info("Flag antiredstoneclock registered");
+            } else {
+                this.getLogger().severe("An error occurred while registering antiredstoneclock flag");
+            }
+        }
+    }
 
     public void onEnable() {
         long startTime = System.currentTimeMillis();
@@ -71,9 +83,6 @@ public class Main extends JavaPlugin {
         }
         if (instance.getConfig().getBoolean("checkedClock.redstoneAndRepeater")) {
             Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(), this);
-        }
-        if (VersionWG.getInstance().getWG() != null) {
-            this.getLogger().info(String.format("WorldGuard %s found", VersionWG.getInstance().getWG().getVersion()));
         }
 
         if (VersionPlotSquared.getInstance().getPlotSquared() != null) {
@@ -142,6 +151,14 @@ public class Main extends JavaPlugin {
             @Override
             public String call() throws Exception {
                 return VersionWG.getInstance().getWG().getVersion();
+            }
+        }));
+
+        metrics.addCustomChart(new Metrics.SimplePie("plotsquared_version", new Callable<String>(){
+
+            @Override
+            public String call() throws Exception {
+                return VersionPlotSquared.getInstance().getPlotSquared().getVersion();
             }
         }));
 

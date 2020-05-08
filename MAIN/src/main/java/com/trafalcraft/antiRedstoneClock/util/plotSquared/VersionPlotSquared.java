@@ -35,7 +35,7 @@ public class VersionPlotSquared {
             Class<?> aClass = Class.forName("com.trafalcraft.antiRedstoneClock.util.plotSquared.PlotSquared_" + plotSquaredVersion);
             plotSquared = (IPlotSquared) aClass.getDeclaredConstructors()[0].newInstance();
         } catch (Exception e) {
-            Main.getInstance().getLogger().warning("PlotSquared " + plotSquaredVersion + "is not supported");
+            Main.getInstance().getLogger().warning("PlotSquared " + plotSquaredVersion + " is not supported");
         }
     }
 

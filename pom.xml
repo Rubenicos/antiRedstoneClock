@@ -23,6 +23,7 @@
     <module>MAIN</module>
     <module>DEPENDENCIES/WorldGuard/WORLDGUARD_6</module>
     <module>DEPENDENCIES/WorldGuard/WORLDGUARD_7</module>
+    <module>DEPENDENCIES/PlotSquared/PLOTSQUARED_4</module>
     <module>DEPENDENCIES/PlotSquared/PLOTSQUARED_5</module>
     <module>DIST</module>
   </modules>

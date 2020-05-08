@@ -6,4 +6,6 @@ public interface IWorldGuard {
     boolean isAllowedRegion(Location loc);
 
     String getVersion();
+
+    boolean registerFlag ();
 }

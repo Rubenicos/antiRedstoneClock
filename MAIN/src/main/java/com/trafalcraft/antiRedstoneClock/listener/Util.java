@@ -4,10 +4,10 @@ import java.util.logging.Level;
 
 import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.exception.DuplicateRedstoneClockObjectException;
+import com.trafalcraft.antiRedstoneClock.util.plotSquared.VersionPlotSquared;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
-import com.trafalcraft.antiRedstoneClock.util.plotSquared.VersionPlotSquared;
 import com.trafalcraft.antiRedstoneClock.util.worldGuard.VersionWG;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

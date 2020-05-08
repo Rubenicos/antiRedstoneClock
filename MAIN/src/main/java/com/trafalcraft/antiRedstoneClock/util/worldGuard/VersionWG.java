@@ -35,7 +35,7 @@ public class VersionWG {
             Class<?> aClass = Class.forName("com.trafalcraft.antiRedstoneClock.util.worldGuard.WorldGuard_" + wgVersion);
             worldGuard = (IWorldGuard) aClass.getDeclaredConstructors()[0].newInstance();
         } catch (Exception e) {
-            Main.getInstance().getLogger().warning("WorldGuard " + wgVersion + "is not supported");
+            Main.getInstance().getLogger().warning("WorldGuard " + wgVersion + " is not supported");
         }
     }
 

@@ -12,6 +12,7 @@
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.7" level="project" />
     <orderEntry type="module" module-name="WORLDGUARD_6" />
     <orderEntry type="module" module-name="WORLDGUARD_7" />
+    <orderEntry type="module" module-name="PLOTSQUARED_4" />
     <orderEntry type="module" module-name="PLOTSQUARED_5" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.6" level="project" />

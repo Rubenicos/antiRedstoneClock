@@ -73,7 +73,15 @@ public class Main extends JavaPlugin {
         //Register events depend on user preferences in config.yml file
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         if (instance.getConfig().getBoolean("checkedClock.comparator")) {
-            Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(), this);
+            Material comparator = Material.getMaterial("COMPARATOR");
+            if (comparator != null) {
+                Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(comparator), this);
+            } else {
+                comparator = Material.getMaterial("REDSTONE_COMPARATOR_OFF");
+                Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(comparator), this);
+                Material comparator2 = Material.getMaterial("REDSTONE_COMPARATOR_ON");
+                Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(comparator2), this);
+            }
         }
         if (Material.getMaterial("OBSERVER") != null && instance.getConfig().getBoolean("checkedClock.observer")) {
             Bukkit.getServer().getPluginManager().registerEvents(new ObserverListener(), this);
@@ -82,7 +90,16 @@ public class Main extends JavaPlugin {
             Bukkit.getServer().getPluginManager().registerEvents(new PistonListener(), this);
         }
         if (instance.getConfig().getBoolean("checkedClock.redstoneAndRepeater")) {
-            Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(), this);
+            Material repeater = Material.getMaterial("REPEATER");
+            if (repeater != null) {
+                Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(repeater), this);
+            } else {
+                repeater = Material.getMaterial("DIODE_BLOCK_ON");
+                Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(repeater), this);
+                Material repeater2 = Material.getMaterial("DIODE_BLOCK_OFF");
+                Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(repeater2), this);
+
+            }
         }
 
         if (VersionPlotSquared.getInstance().getPlotSquared() != null) {

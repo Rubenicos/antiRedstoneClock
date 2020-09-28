@@ -82,7 +82,7 @@ class Util {
             } else {
                 block.setType(Material.AIR);
             }
-            RedstoneClockController.removeRedstoneByLocation(block.getLocation());;
+            RedstoneClockController.removeRedstoneByLocation(block.getLocation());
         }, 1L);
     }
 

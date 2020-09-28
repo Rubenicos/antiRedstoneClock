@@ -42,6 +42,7 @@ public class Main extends JavaPlugin {
         }
     }
 
+    @Override
     public void onEnable() {
         long startTime = System.currentTimeMillis();
 
@@ -70,7 +71,21 @@ public class Main extends JavaPlugin {
             e.printStackTrace();
         }
 
-        //Register events depend on user preferences in config.yml file
+        registerPluginEvents();
+
+        if (VersionPlotSquared.getInstance().getPlotSquared() != null) {
+            VersionPlotSquared.getInstance().getPlotSquared().init();
+            this.getLogger().info(String.format("PlotSquared %s found and flag loaded", VersionPlotSquared.getInstance().getPlotSquared().getVersion()));
+        }
+
+        long endTime = System.currentTimeMillis();
+
+        long duration = (endTime - startTime);
+        this.getLogger().info(String.format("Plugin loaded in %d ms", duration));  //2ms
+    }
+
+    //Register events depend on user preferences in config.yml file
+    private void registerPluginEvents() {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         if (instance.getConfig().getBoolean("checkedClock.comparator")) {
             Material comparator = Material.getMaterial("COMPARATOR");
@@ -101,52 +116,58 @@ public class Main extends JavaPlugin {
 
             }
         }
-
-        if (VersionPlotSquared.getInstance().getPlotSquared() != null) {
-            VersionPlotSquared.getInstance().getPlotSquared().init();
-            this.getLogger().info(String.format("PlotSquared %s found and flag loaded", VersionPlotSquared.getInstance().getPlotSquared().getVersion()));
-        }
-
-        long endTime = System.currentTimeMillis();
-
-        long duration = (endTime - startTime);
-        this.getLogger().info(String.format("Plugin loaded in %d ms", duration));  //2ms
     }
 
+    @Override
     public void onDisable() {
+        //Nothing to do
     }
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        boolean validCMD = true;
         if (cmd.getName().equalsIgnoreCase("antiredstoneclock")) {
             if (sender.isOp() || sender.hasPermission("antiRedstoneClock.Admin")) {
                 if (args.length == 0) {
                     Msg.getHelp(sender);
-                    return false;
-                }
-                if (args[0].equalsIgnoreCase("Reload")) {
-                    Reload.getInstance().performCMD(sender);
-                } else if (args[0].equalsIgnoreCase("checkList")) {
-                    CheckList.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("setMaxPulses")) {
-                    SetMaxPulses.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("SetDelay")) {
-                    SetDelay.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("NotifyAdmin")) {
-                    NotifyAdmin.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("AutoRemoveDetectedClock")) {
-                    AutoRemoveDetectedClock.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("CreateSignWhenClockIsBreak")) {
-                    CreateSignWhenClockIsBreak.getInstance().performCMD(sender, args);
+                    validCMD = false;
                 } else {
-                    Msg.getHelp(sender);
+                    switch (args[0].toUpperCase()) {
+                        case "RELOAD":
+                            Reload.getInstance().performCMD(sender);
+                            break;
+                        case "CHECKLIST":
+                            CheckList.getInstance().performCMD(sender, args);
+                            break;
+                        case "SETMAXPULSES":
+                            SetMaxPulses.getInstance().performCMD(sender, args);
+                            break;
+                        case "SETDELAY":
+                            SetDelay.getInstance().performCMD(sender, args);
+                            break;
+                        case "NOTIFYADMIN":
+                            NotifyAdmin.getInstance().performCMD(sender, args);
+                            break;
+                        case "AUTOREMOVEDETECTEDCLOCK":
+                            AutoRemoveDetectedClock.getInstance().performCMD(sender, args);
+                            break;
+                        case "CREATESIGNWHENCLOCKISBREAK":
+                            CreateSignWhenClockIsBreak.getInstance().performCMD(sender, args);
+                            break;
+                        default:
+                            Msg.getHelp(sender);
+                            validCMD = false;
+                    }
                 }
             } else {
                 sender.sendMessage(Msg.UNKNOWN_CMD.toString());
+                validCMD = false;
             }
         } else {
             sender.sendMessage(Msg.UNKNOWN_CMD.toString());
+            validCMD = false;
         }
-        return false;
+        return validCMD;
     }
 
 

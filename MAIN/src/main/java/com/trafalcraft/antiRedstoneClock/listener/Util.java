@@ -111,6 +111,7 @@ class Util {
                 +"\nplease disable CreateSignWhenClockIsBreak in config file" 
                 +"\nMore infos: " + block.getType());
         }
+        block.getDrops().clear();
     }
 
     private static String getFormatedStringForMsgToAdmin(Block block) {

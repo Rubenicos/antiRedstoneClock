@@ -23,19 +23,21 @@ public class VersionPlotSquared {
     }
 
     private void init() {
-        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("PlotSquared");
-        if (plugin == null) {
-            Bukkit.getLogger().warning("PlotSquared hasn't been found!");
-            return;
-        }
-        String plotSquaredVersion = plugin.getDescription().getVersion().split("\\.")[0];
-        try {
-            ClassLoader classLoader = Main.class.getClassLoader();
-            classLoader.loadClass("com.trafalcraft.antiRedstoneClock.util.plotSquared.PlotSquared_" + plotSquaredVersion);
-            Class<?> aClass = Class.forName("com.trafalcraft.antiRedstoneClock.util.plotSquared.PlotSquared_" + plotSquaredVersion);
-            plotSquared = (IPlotSquared) aClass.getDeclaredConstructors()[0].newInstance();
-        } catch (Exception e) {
-            Main.getInstance().getLogger().warning("PlotSquared " + plotSquaredVersion + " is not supported");
+        if (Main.getInstance().getConfig().getBoolean("plotSquaredSupport")) {
+            Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("PlotSquared");
+            if (plugin == null) {
+                Main.getInstance().getLogger().warning("PlotSquared hasn't been found!");
+                return;
+            }
+            String plotSquaredVersion = plugin.getDescription().getVersion().split("\\.")[0];
+            try {
+                ClassLoader classLoader = Main.class.getClassLoader();
+                classLoader.loadClass("com.trafalcraft.antiRedstoneClock.util.plotSquared.PlotSquared_" + plotSquaredVersion);
+                Class<?> aClass = Class.forName("com.trafalcraft.antiRedstoneClock.util.plotSquared.PlotSquared_" + plotSquaredVersion);
+                plotSquared = (IPlotSquared) aClass.getDeclaredConstructors()[0].newInstance();
+            } catch (Exception e) {
+                Main.getInstance().getLogger().warning("PlotSquared " + plotSquaredVersion + " is not supported");
+            }
         }
     }
 

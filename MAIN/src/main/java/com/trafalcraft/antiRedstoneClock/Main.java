@@ -42,6 +42,7 @@ public class Main extends JavaPlugin {
         }
     }
 
+    @Override
     public void onEnable() {
         long startTime = System.currentTimeMillis();
 
@@ -70,20 +71,7 @@ public class Main extends JavaPlugin {
             e.printStackTrace();
         }
 
-        //Register events depend on user preferences in config.yml file
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
-        if (instance.getConfig().getBoolean("checkedClock.comparator")) {
-            Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(), this);
-        }
-        if (Material.getMaterial("OBSERVER") != null && instance.getConfig().getBoolean("checkedClock.observer")) {
-            Bukkit.getServer().getPluginManager().registerEvents(new ObserverListener(), this);
-        }
-        if (instance.getConfig().getBoolean("checkedClock.piston")) {
-            Bukkit.getServer().getPluginManager().registerEvents(new PistonListener(), this);
-        }
-        if (instance.getConfig().getBoolean("checkedClock.redstoneAndRepeater")) {
-            Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(), this);
-        }
+        registerPluginEvents();
 
         if (VersionPlotSquared.getInstance().getPlotSquared() != null) {
             VersionPlotSquared.getInstance().getPlotSquared().init();
@@ -96,40 +84,90 @@ public class Main extends JavaPlugin {
         this.getLogger().info(String.format("Plugin loaded in %d ms", duration));  //2ms
     }
 
-    public void onDisable() {
+    //Register events depend on user preferences in config.yml file
+    private void registerPluginEvents() {
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        if (instance.getConfig().getBoolean("checkedClock.comparator")) {
+            Material comparator = Material.getMaterial("COMPARATOR");
+            if (comparator != null) {
+                Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(comparator), this);
+            } else {
+                comparator = Material.getMaterial("REDSTONE_COMPARATOR_OFF");
+                Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(comparator), this);
+                Material comparator2 = Material.getMaterial("REDSTONE_COMPARATOR_ON");
+                Bukkit.getServer().getPluginManager().registerEvents(new ComparatorListener(comparator2), this);
+            }
+        }
+        if (Material.getMaterial("OBSERVER") != null && instance.getConfig().getBoolean("checkedClock.observer")) {
+            Bukkit.getServer().getPluginManager().registerEvents(new ObserverListener(), this);
+        }
+        if (instance.getConfig().getBoolean("checkedClock.piston")) {
+            Bukkit.getServer().getPluginManager().registerEvents(new PistonListener(), this);
+        }
+        if (instance.getConfig().getBoolean("checkedClock.redstoneAndRepeater")) {
+            Material repeater = Material.getMaterial("REPEATER");
+            if (repeater != null) {
+                Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(repeater), this);
+            } else {
+                repeater = Material.getMaterial("DIODE_BLOCK_ON");
+                Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(repeater), this);
+                Material repeater2 = Material.getMaterial("DIODE_BLOCK_OFF");
+                Bukkit.getServer().getPluginManager().registerEvents(new RedstoneListener(repeater2), this);
+
+            }
+        }
     }
 
+    @Override
+    public void onDisable() {
+        //Nothing to do
+    }
+
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        boolean validCMD = true;
         if (cmd.getName().equalsIgnoreCase("antiredstoneclock")) {
             if (sender.isOp() || sender.hasPermission("antiRedstoneClock.Admin")) {
                 if (args.length == 0) {
                     Msg.getHelp(sender);
-                    return false;
-                }
-                if (args[0].equalsIgnoreCase("Reload")) {
-                    Reload.getInstance().performCMD(sender);
-                } else if (args[0].equalsIgnoreCase("checkList")) {
-                    CheckList.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("setMaxPulses")) {
-                    SetMaxPulses.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("SetDelay")) {
-                    SetDelay.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("NotifyAdmin")) {
-                    NotifyAdmin.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("AutoRemoveDetectedClock")) {
-                    AutoRemoveDetectedClock.getInstance().performCMD(sender, args);
-                } else if (args[0].equalsIgnoreCase("CreateSignWhenClockIsBreak")) {
-                    CreateSignWhenClockIsBreak.getInstance().performCMD(sender, args);
+                    validCMD = false;
                 } else {
-                    Msg.getHelp(sender);
+                    switch (args[0].toUpperCase()) {
+                        case "RELOAD":
+                            Reload.getInstance().performCMD(sender);
+                            break;
+                        case "CHECKLIST":
+                            CheckList.getInstance().performCMD(sender, args);
+                            break;
+                        case "SETMAXPULSES":
+                            SetMaxPulses.getInstance().performCMD(sender, args);
+                            break;
+                        case "SETDELAY":
+                            SetDelay.getInstance().performCMD(sender, args);
+                            break;
+                        case "NOTIFYADMIN":
+                            NotifyAdmin.getInstance().performCMD(sender, args);
+                            break;
+                        case "AUTOREMOVEDETECTEDCLOCK":
+                            AutoRemoveDetectedClock.getInstance().performCMD(sender, args);
+                            break;
+                        case "CREATESIGNWHENCLOCKISBREAK":
+                            CreateSignWhenClockIsBreak.getInstance().performCMD(sender, args);
+                            break;
+                        default:
+                            Msg.getHelp(sender);
+                            validCMD = false;
+                    }
                 }
             } else {
                 sender.sendMessage(Msg.UNKNOWN_CMD.toString());
+                validCMD = false;
             }
         } else {
             sender.sendMessage(Msg.UNKNOWN_CMD.toString());
+            validCMD = false;
         }
-        return false;
+        return validCMD;
     }
 
 
@@ -167,16 +205,16 @@ public class Main extends JavaPlugin {
             Map<String, Integer> entry = new HashMap<>();
             int maxPulses = Main.getInstance().getConfig().getInt("MaxPulses");
             if (maxPulses < 100) {
-                entry.put(""+maxPulses, 1);
+                entry.put(Integer.toString(maxPulses), 1);
                 map.put("<100", entry);
             } else if (maxPulses < 500) {
-                entry.put(""+maxPulses, 1);
+                entry.put(Integer.toString(maxPulses), 1);
                 map.put("<500", entry);
             } else if (maxPulses < 1000) {
-                entry.put(""+maxPulses, 1);
+                entry.put(Integer.toString(maxPulses), 1);
                 map.put("<1000", entry);
             } else if (maxPulses < 10000) {
-                entry.put(""+maxPulses, 1);
+                entry.put(Integer.toString(maxPulses), 1);
                 map.put("<10000", entry);
             }
             return map;
@@ -187,16 +225,16 @@ public class Main extends JavaPlugin {
             Map<String, Integer> entry = new HashMap<>();
             int delay = Main.getInstance().getConfig().getInt("Delay");
             if (delay < 100) {
-                entry.put(""+delay, 1);
+                entry.put(Integer.toString(delay), 1);
                 map.put("<100", entry);
             } else if (delay < 500) {
-                entry.put(""+delay, 1);
+                entry.put(Integer.toString(delay), 1);
                 map.put("<500", entry);
             } else if (delay < 1000) {
-                entry.put(""+delay, 1);
+                entry.put(Integer.toString(delay), 1);
                 map.put("<1000", entry);
             } else if (delay < 10000) {
-                entry.put(""+delay, 1);
+                entry.put(Integer.toString(delay), 1);
                 map.put("<10000", entry);
             }
             return map;

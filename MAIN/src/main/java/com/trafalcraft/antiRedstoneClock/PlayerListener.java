@@ -10,30 +10,44 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerBreakRedstone(BlockBreakEvent e) {
+    public void onBlockBreak(BlockBreakEvent e) {
         Block block = e.getBlock();
         if (checkRedStoneItems_1_13(block.getType())
                 || checkRedStoneItemsOlderThan_1_13(block.getType())) {
             cleanRedstone(block);
-        } else if (e.getBlock().getType() == Material.getMaterial("OAK_SIGN")
-        || e.getBlock().getType() == Material.getMaterial("SIGN_POST")
-        || e.getBlock().getType() == Material.getMaterial("SIGN")) {
-            BlockState blockState = block.getState();
-            Sign sign = (Sign) blockState;
-            if (checkSign(sign)) {
-                e.setCancelled(true);
-                block.setType(Material.AIR);
-            }
+        } else if (checkSign(block)) {
+            block.setType(Material.AIR);
         } else {
             block = block.getRelative(BlockFace.UP);
             if (checkRedStoneItems_1_13(block.getType())
                     || checkRedStoneItemsOlderThan_1_13(block.getType())) {
                 cleanRedstone(block);
+            } else if (checkSign(block)) {
+                block.setType(Material.AIR);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onExplosion(BlockExplodeEvent e) {
+        for(Block block : e.blockList()) {
+            if (checkSign(block)) {
+                block.setType(Material.AIR);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onExplosion(EntityExplodeEvent e) {
+        for(Block block : e.blockList()) {
+            if (checkSign(block)) {
+                block.setType(Material.AIR);
             }
         }
     }
@@ -63,22 +77,20 @@ public class PlayerListener implements Listener {
         }
     }
 
-    //WorkAround for sign duplication glitch
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onItemDrop(BlockPhysicsEvent e) {
-        if (e.getBlock().getType() == Material.getMaterial("OAK_SIGN")
-                || e.getBlock().getType() == Material.getMaterial("SIGN_POST")
-                || e.getBlock().getType() == Material.getMaterial("SIGN")) {
-            BlockState block = e.getBlock().getState();
-            Sign sign = (Sign) block;
-            if (checkSign(sign)) {
-                e.setCancelled(true);
-                e.getBlock().setType(Material.AIR);
+    private boolean checkSign(Block block) {
+        if(block.getType() == Material.getMaterial("OAK_SIGN")
+            || block.getType() == Material.getMaterial("SIGN_POST")
+            || block.getType() == Material.getMaterial("SIGN")) {
+            BlockState blockState = block.getState();
+            Sign sign = (Sign) blockState;
+            if (checkSignLines(sign)) {
+                return true;
             }
         }
+        return false;
     }
 
-    private boolean checkSign(Sign sign) {
+    private boolean checkSignLines(Sign sign) {
         return (sign.getLine(0).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line1")
                 .replace("&", "§"))
                 && sign.getLine(1).equalsIgnoreCase(Main.getInstance().getConfig().getString("Sign.Line2")

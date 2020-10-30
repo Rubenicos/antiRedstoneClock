@@ -47,7 +47,6 @@ public class RedstoneClock {
     }
 
     public boolean getDetected() {
-        addOneToClock();
         return detected;
     }
 }

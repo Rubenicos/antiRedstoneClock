@@ -71,7 +71,7 @@ public class CheckList {
 
     private void sendFormatedMessageToPlayer(CommandSender sender, TextComponent textComponent) {
         try {
-            sender.getClass().getDeclaredMethod("spigot", null);
+            sender.getClass().getDeclaredMethod("spigot");
             sender.spigot().sendMessage(textComponent);
         } catch (NoSuchMethodException e) {
             sender.sendMessage(textComponent.getText());

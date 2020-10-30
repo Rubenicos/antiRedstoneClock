@@ -20,18 +20,18 @@ class Util {
     private Util() {}
 
     static void checkAndUpdateRedstoneClockState(Block block) {
-        if (!RedstoneClockController.contains(block.getLocation())) {
+        RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(block.getLocation());
+        if (redstoneClock == null) {
             try {
                 RedstoneClockController.addRedstone(block.getLocation());
             } catch (DuplicateRedstoneClockObjectException e1) {
                 Main.getInstance().getLogger().log(Level.SEVERE, "[antiRedstoneClock]", e1);
             }
         } else {
-            RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(block.getLocation());
             if (!redstoneClock.isTimedOut()) {
                 if (redstoneClock.getNumberOfClock()
                         >= Main.getInstance().getConfig().getInt("MaxPulses")) {
-                    removeRedstoneClock(block);
+                    removeRedstoneClock(redstoneClock, block);
                 } else {
                     redstoneClock.addOneToClock();
                 }
@@ -42,10 +42,8 @@ class Util {
     }
 
     static boolean checkIgnoreWorldsAndRegions(Block block) {
-        for (String ignoreWorld : Main.getIgnoredWorlds()) {
-            if (block.getWorld().getName().equals(ignoreWorld)) {
-                return true;
-            }
+        if (Main.getIgnoredWorlds().contains(block.getWorld().getName())) {
+            return true;
         }
         if (VersionWG.getInstance().getWG() != null && VersionWG.getInstance().getWG()
                 .isAllowedRegion(block.getLocation())) {
@@ -54,8 +52,7 @@ class Util {
                 && VersionPlotSquared.getInstance().getPlotSquared().isAllowedPlot(block.getLocation());
     }
 
-    static void removeRedstoneClock(Block block) {
-        RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(block.getLocation());
+    static void removeRedstoneClock(RedstoneClock redstoneClock, Block block) {
         if (Main.getInstance().getConfig().getBoolean("AutomaticallyBreakDetectedClock")) {
             removeRedstoneBlock(block);
         }
@@ -114,6 +111,7 @@ class Util {
                 +"\nplease disable CreateSignWhenClockIsBreak in config file" 
                 +"\nMore infos: " + block.getType());
         }
+        block.getDrops().clear();
     }
 
     private static String getFormatedStringForMsgToAdmin(Block block) {

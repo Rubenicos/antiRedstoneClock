@@ -26,7 +26,7 @@ public class VersionPlotSquared {
         if (Main.getInstance().getConfig().getBoolean("plotSquaredSupport")) {
             Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("PlotSquared");
             if (plugin == null) {
-                Bukkit.getLogger().warning("PlotSquared hasn't been found!");
+                Main.getInstance().getLogger().warning("PlotSquared hasn't been found!");
                 return;
             }
             String plotSquaredVersion = plugin.getDescription().getVersion().split("\\.")[0];

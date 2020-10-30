@@ -5,7 +5,7 @@
     <parent>
         <artifactId>antiRedstoneClock</artifactId>
         <groupId>com.trafalcraft.antiRedstoneClock</groupId>
-        <version>1.1.1-IMPROVEPERFTEST1</version>
+        <version>1.1.1-IMPROVEPERFTEST2</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>

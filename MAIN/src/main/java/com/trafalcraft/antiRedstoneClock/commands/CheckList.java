@@ -36,9 +36,10 @@ public class CheckList {
             int i = 1;
             int minElements = 5 * (page - 1);
             int maxElements = 5 * page;
+            String teleportCMD = Main.getInstance().getConfig().getString("teleportCMD", "tp $x $y $z");
+            int maxPulses = Main.getInstance().getConfig().getInt("MaxPulses");
             for (Location loc : allLocation) {
                 if (i > minElements && i <= maxElements) {
-                    int maxPulses = Main.getInstance().getConfig().getInt("MaxPulses");
                     int clock = RedstoneClockController.getRedstoneClock(loc).getNumberOfClock();
                     String color = "§2";    //Dark_Green
                     if (clock > maxPulses * 0.75) {
@@ -53,15 +54,16 @@ public class CheckList {
                             + ",Y:" + loc.getY()
                             + ",Z:" + loc.getZ()
                             + " b:" + clock + "/" + maxPulses);
-                    textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp "
-                                                + loc.getX()+ " "
-                                                + loc.getY()+ " "
-                                                + loc.getZ()));
+                    textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + teleportCMD
+                        .replace("$x", Double.toString(loc.getX()))
+                        .replace("$y", Double.toString(loc.getY()))
+                        .replace("$z", Double.toString(loc.getZ()))
+                        .replace("$world", loc.getWorld().getName())));
                     textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             new ComponentBuilder("Click to teleport you to the redstoneclock").create()));
                     sendFormatedMessageToPlayer(sender, textComponent);
                 }
-                i++;
+                i++; 
             }
             sender.sendMessage(Msg.RED_STONE_CLOCK_LIST_FOOTER.toString());
         } catch (NumberFormatException e) {

@@ -55,10 +55,11 @@ public class CheckList {
                             + ",Z:" + loc.getZ()
                             + " b:" + clock + "/" + maxPulses);
                     textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + teleportCMD
-                        .replace("$x", Double.toString(loc.getX()))
-                        .replace("$y", Double.toString(loc.getY()))
-                        .replace("$z", Double.toString(loc.getZ()))
-                        .replace("$world", loc.getWorld().getName())));
+                        .replace("$x", String.format("%.0f", loc.getX()))
+                        .replace("$y", String.format("%.0f",  loc.getY()))
+                        .replace("$z", String.format("%.0f",  loc.getZ()))
+                        .replace("$world", loc.getWorld().getName())
+                        .replace("$player", sender.getName())));
                     textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             new ComponentBuilder("Click to teleport you to the redstoneclock").create()));
                     sendFormatedMessageToPlayer(sender, textComponent);

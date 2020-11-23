@@ -48,8 +48,8 @@ checkedClock:
 
 AutomaticallyBreakDetectedClock: true
 
-#En: Customize the teleport command (variable : $x, $y, $z, $world)
-#Fr: Customise la commande de teleportation (variable : $x, $y, $z, $world)
+#En: Customize the teleport command (variable : $x, $y, $z, $world, $player)
+#Fr: Customise la commande de teleportation (variable : $x, $y, $z, $world, $player)
 teleportCMD: 'tp $x $y $z $world'
 
 Msg:

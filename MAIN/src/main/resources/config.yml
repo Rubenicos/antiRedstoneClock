@@ -37,6 +37,7 @@ IgnoreRegions: redstone/admins
 #En: Enable or not plotSquaredSupport. (true/false)
 #Fr: Active ou pas me support de plotSquared.  (true/false)
 plotSquaredSupport: true
+worldGuardSupport: true
 
 #En: Enable or disable clock detection for differents redstone elements. (true/false)
 #Fr: Active ou pas la detection de certaines boucles de redstone.  (true/false)

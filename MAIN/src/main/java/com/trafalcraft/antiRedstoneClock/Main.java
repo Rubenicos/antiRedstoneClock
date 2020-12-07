@@ -32,6 +32,14 @@ public class Main extends JavaPlugin {
     @Override
     public void onLoad() {
         super.onLoad();
+        
+        instance = this;
+
+        instance.saveDefaultConfig();
+        instance.getConfig().options().copyDefaults(true);
+        instance.saveConfig();
+        instance.reloadConfig();
+
         if (VersionWG.getInstance().getWG() != null) {
             this.getLogger().info(String.format("WorldGuard %s found", VersionWG.getInstance().getWG().getVersion()));
             if (VersionWG.getInstance().getWG().registerFlag()) {
@@ -45,13 +53,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         long startTime = System.currentTimeMillis();
-
-        instance = this;
-
-        instance.saveDefaultConfig();
-        instance.getConfig().options().copyDefaults(true);
-        instance.saveConfig();
-        instance.reloadConfig();
 
         if (instance.getConfig().getBoolean("metrics")) {
             this.getLogger().info("Enabling Metrics");

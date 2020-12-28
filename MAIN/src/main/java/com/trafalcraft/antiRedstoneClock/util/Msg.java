@@ -16,7 +16,7 @@ public enum Msg {
 
     //Msg
     MSG_TO_ADMIN("Redstone clock disable in x:$X y:$Y Z:$Z. In the world $World"),
-    RELOAD_SUCCESS("Reload Success!"),
+    RELOAD_SUCCESS("Reload Success! Redstone listener and third party plugin are not affected!!!"),
     UNKNOWN_CMD("Unknown command. Type \"/help\" for help."),
     NEW_VALUE_IN_CONFIG("The new value of $setting is $value"),
     RED_STONE_CLOCK_LIST_HEADER("RedstoneClockList: $page"),
@@ -37,7 +37,7 @@ public enum Msg {
                 "§3/arc autoRemoveDetectedClock <true/false> §b- change the \"AutoRemoveDetectedClock\" setting.");
         sender.sendMessage(
                 "§3/arc createSignWhenClockIsBreak <true/false> §b- change the \"CreateSignWhenClockIsBreak\" setting.");
-        sender.sendMessage("§3/arc reload §b- To Reload the config file.");
+        sender.sendMessage("§3/arc reload §b- To Reload the config file. (doesn't work redstone listener and third party support)");
         sender.sendMessage("                       §3Version: §6" + plugin.getDescription().getVersion());
         sender.sendMessage("§3------------------------------------------------");
         sender.sendMessage("");

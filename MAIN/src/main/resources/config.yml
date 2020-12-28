@@ -53,6 +53,13 @@ AutomaticallyBreakDetectedClock: true
 #Fr: Customise la commande de teleportation (variable : $x, $y, $z, $world, $player)
 teleportCMD: 'tp $x $y $z $world'
 
+#En: Put the plugin in "standby" if the TPS of the server are between min and max TPS value
+#Fr: "Désactive" le plugin si les tps du serveurs sont entre les TPS du serveur sont entre la valeur min et max
+checkTPS:
+  minimumTPS: -1
+  maximumTPS: -1
+  intervalInSecond: 15
+
 Msg:
   default:
     prefix: '&bAntiRedstoneClock &9&l> &r&b '
@@ -62,7 +69,7 @@ Msg:
   message:
     MsgToAdmin: 'Redstone clock disable in x:$X y:$Y Z:$Z. In the world $World'
     unknownCmd: 'Unknown command. Type "/help" for help.'
-    reloadSuccess: 'Reload Success!'
+    reloadSuccess: 'Reload Success! Redstone listener and third party plugin are not affected!!!'
     newValueInConfig: 'The new value of $setting is $value'
     RedStoneClockListHeader: 'RedstoneClockList: $page'
     RedStoneClockListFooter: ''

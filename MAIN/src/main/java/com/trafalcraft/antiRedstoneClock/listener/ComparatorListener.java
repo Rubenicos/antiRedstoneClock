@@ -1,5 +1,7 @@
 package com.trafalcraft.antiRedstoneClock.listener;
 
+import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
+
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,7 +18,7 @@ public class ComparatorListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onRedstoneComparatorClock(BlockRedstoneEvent e) {
-        if (comparatorMaterial == e.getBlock().getType() && e.getOldCurrent() == 0 && !Util.checkIgnoreWorldsAndRegions(e.getBlock())) {
+        if (CheckTPS.isTpsOK() && comparatorMaterial == e.getBlock().getType() && e.getOldCurrent() == 0 && !Util.checkIgnoreWorldsAndRegions(e.getBlock())) {
             Util.checkAndUpdateRedstoneClockState(e.getBlock());
         }
     }

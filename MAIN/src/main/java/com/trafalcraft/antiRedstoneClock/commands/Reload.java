@@ -1,6 +1,7 @@
 package com.trafalcraft.antiRedstoneClock.commands;
 
 import com.trafalcraft.antiRedstoneClock.Main;
+import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,6 +22,9 @@ public class Reload {
             Main.getInstance().reloadConfig();
             Main.getIgnoredWorlds().clear();
             Main.getIgnoredRegions().clear();
+            CheckTPS.initCheckTPS(Main.getInstance().getConfig().getInt("checkTPS.minimumTPS")
+                ,Main.getInstance().getConfig().getInt("checkTPS.maximumTPS")
+                ,Main.getInstance().getConfig().getInt("checkTPS.intervalInSecond"));
             Msg.load();
             sender.sendMessage(Msg.PREFIX + Msg.RELOAD_SUCCESS.toString());
         } catch (YAMLException e) {

@@ -2,6 +2,7 @@ package com.trafalcraft.antiRedstoneClock.commands;
 
 import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
+import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -27,12 +28,17 @@ public class CheckList {
             int page = 1;
             if (args.length > 1) {
                 page = Integer.parseInt(args[1]);
+                if (page == -1) {
+                    sender.sendMessage("§2TPS is " + CheckTPS.isTpsOK() + " §4TPS:" + CheckTPS.getTPS() 
+                        + " §emin" + Main.getInstance().getConfig().getInt("checkTPS.minimumTPS")
+                        + " §amax" + Main.getInstance().getConfig().getInt("checkTPS.maximumTPS"));
+                    return;
+                }
             }
             Collection<Location> allLocation = RedstoneClockController.getAllLoc();
             int totalPage = (int) Math.ceil(allLocation.size() / 5.0);
             sender.sendMessage(Msg.RED_STONE_CLOCK_LIST_HEADER.toString().replace("$page",
                     "(" + page + "/" + totalPage + ")"));
-
             int i = 1;
             int minElements = 5 * (page - 1);
             int maxElements = 5 * page;

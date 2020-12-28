@@ -7,12 +7,16 @@ import org.bukkit.Bukkit;
 public class CheckTPS {
 
     private static long lastPoll = System.currentTimeMillis();
-    private static boolean tpsIsOK = false;
+    private static boolean tpsIsOK = true;
     private static int repeatingTaskID = -1;
-
+    private static long tps = 20;
 
     public static boolean isTpsOK() {
         return tpsIsOK;
+    }
+
+    public static long getTPS() {
+        return tps;
     }
 
     public static void initCheckTPS(int minimumTPS, int maximumTPS, int interval) {
@@ -30,7 +34,7 @@ public class CheckTPS {
                     if (timeSpent == 0){
                         timeSpent = 1;
                     }
-                    long tps = (20*interval / timeSpent);
+                    tps = (20*interval / timeSpent);
                     if (minimumTPS < 0) {
                         tpsIsOK = tps <= maximumTPS;
                     } else if (maximumTPS < 0) {

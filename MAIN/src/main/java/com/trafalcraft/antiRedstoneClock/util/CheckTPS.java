@@ -22,8 +22,9 @@ public class CheckTPS {
     public static void initCheckTPS(int minimumTPS, int maximumTPS, int interval) {
         if (repeatingTaskID != -1) {
             Bukkit.getScheduler().cancelTask(repeatingTaskID);
+            tpsIsOK = true;
         }
-        if (minimumTPS <= 0 && maximumTPS <= 0) {
+        if (minimumTPS > 0 || maximumTPS > 0) {
             repeatingTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
                 long now = System.currentTimeMillis();
                 long timeSpent = (now - lastPoll) / 1000;
@@ -40,6 +41,8 @@ public class CheckTPS {
                 }
                 lastPoll = now;
             }, 0, 20*interval);
+        } else {
+            tpsIsOK = true;
         }
     }
 }

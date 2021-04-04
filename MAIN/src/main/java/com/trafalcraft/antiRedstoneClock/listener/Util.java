@@ -16,6 +16,11 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+
 class Util {
     private Util() {}
 
@@ -58,11 +63,19 @@ class Util {
         }
         if (!redstoneClock.getDetected()) {
             redstoneClock.setDetected(true);
-            Bukkit.getLogger().info(getFormatedStringForMsgToAdmin(block));
+            Bukkit.getLogger().info(getFormatedStringForMsgToAdmin(block).getText());
             if (Main.getInstance().getConfig().getBoolean("NotifyAdmins")) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (p.isOp() || p.hasPermission("antiRedstoneClock.NotifyAdmin")) {
-                        p.sendMessage(getFormatedStringForMsgToAdmin(block));
+                        TextComponent textComponent = getFormatedStringForMsgToAdmin(block);
+                        String teleportCMD = Main.getInstance().getConfig().getString("teleportCMD", "tp $x $y $z");
+                        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + teleportCMD
+                            .replace("$x", Integer.toString(block.getX()))
+                            .replace("$y", Integer.toString(block.getY()))
+                            .replace("$z", Integer.toString(block.getZ()))
+                            .replace("$world", block.getWorld().getName())
+                            .replace("$player", p.getName())));
+                        sendFormatedMessageToPlayer(p, textComponent);
                     }
                 }
             }
@@ -117,11 +130,23 @@ class Util {
         block.getDrops().clear();
     }
 
-    private static String getFormatedStringForMsgToAdmin(Block block) {
-        return Msg.PREFIX + Msg.MSG_TO_ADMIN.toString()
-                .replace("$X", block.getX() + "")
-                .replace("$Y", block.getY() + "")
-                .replace("$Z", block.getZ() + "")
-                .replace("$World", block.getWorld().getName());
+    private static TextComponent getFormatedStringForMsgToAdmin(Block block) {
+        TextComponent textComponent = new TextComponent(Msg.PREFIX + Msg.MSG_TO_ADMIN.toString()
+            .replace("$X", block.getX() + "")
+            .replace("$Y", block.getY() + "")
+            .replace("$Z", block.getZ() + "")
+            .replace("$World", block.getWorld().getName()));
+        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+            new ComponentBuilder("Click to teleport you to the redstoneclock").create()));
+        return textComponent;
+    }
+
+    private static void sendFormatedMessageToPlayer(Player player, TextComponent textComponent) {
+        try {
+            player.getClass().getDeclaredMethod("spigot");
+            player.spigot().sendMessage(textComponent);
+        } catch (NoSuchMethodException e) {
+            player.sendMessage(textComponent.getText());
+        }
     }
 }

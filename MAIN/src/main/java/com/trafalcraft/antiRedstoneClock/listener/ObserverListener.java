@@ -6,6 +6,7 @@ import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.exception.DuplicateRedstoneClockObjectException;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
+import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,7 +20,7 @@ public class ObserverListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onRedstoneComparatorClock(BlockRedstoneEvent e) {
         // Observer move from 0 to 15 when it detect something then move back to 0
-        if (e.getOldCurrent() == 0 && e.getBlock().getType() == Material.OBSERVER) {
+        if (CheckTPS.isTpsOK() && e.getOldCurrent() == 0 && e.getBlock().getType() == Material.OBSERVER) {
             if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
                 return;
             RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());

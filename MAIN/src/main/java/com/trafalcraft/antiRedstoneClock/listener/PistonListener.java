@@ -6,6 +6,7 @@ import com.trafalcraft.antiRedstoneClock.Main;
 import com.trafalcraft.antiRedstoneClock.exception.DuplicateRedstoneClockObjectException;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
 import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
+import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
 
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ public class PistonListener implements Listener {
 
     @EventHandler
     public void onPistonExtendEvent(BlockPistonExtendEvent e) {
-        if (Util.checkIgnoreWorldsAndRegions(e.getBlock()))
+        if (!CheckTPS.isTpsOK() && Util.checkIgnoreWorldsAndRegions(e.getBlock()))
             return;
         RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
         if (redstoneClock == null) {
@@ -48,9 +49,11 @@ public class PistonListener implements Listener {
 
     @EventHandler
     public void onPistonRetractEvent(BlockPistonRetractEvent e) {
-        RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
-        if (redstoneClock != null) {
-            redstoneClock.updateStatus(1);
+        if (CheckTPS.isTpsOK()) {
+            RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
+            if (redstoneClock != null) {
+                redstoneClock.updateStatus(1);
+            }
         }
     }
 }

@@ -82,6 +82,9 @@ class Util {
             } else {
                 block.setType(Material.AIR);
             }
+            if (Main.getInstance().getConfig().getBoolean("SummonLigthningAtRedstoneLocation")) {
+                block.getWorld().strikeLightningEffect(block.getLocation());
+            }
             RedstoneClockController.removeRedstoneByLocation(block.getLocation());
         }, 1L);
     }

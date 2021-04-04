@@ -6,6 +6,7 @@ import com.trafalcraft.antiRedstoneClock.listener.ObserverListener;
 import com.trafalcraft.antiRedstoneClock.listener.RedstoneListener;
 import com.trafalcraft.antiRedstoneClock.util.plotSquared.VersionPlotSquared;
 import com.trafalcraft.antiRedstoneClock.listener.PistonListener;
+import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
 import com.trafalcraft.antiRedstoneClock.util.Msg;
 import com.trafalcraft.antiRedstoneClock.util.worldGuard.VersionWG;
 import org.bstats.bukkit.Metrics;
@@ -32,6 +33,14 @@ public class Main extends JavaPlugin {
     @Override
     public void onLoad() {
         super.onLoad();
+        
+        instance = this;
+
+        instance.saveDefaultConfig();
+        instance.getConfig().options().copyDefaults(true);
+        instance.saveConfig();
+        instance.reloadConfig();
+
         if (VersionWG.getInstance().getWG() != null) {
             this.getLogger().info(String.format("WorldGuard %s found", VersionWG.getInstance().getWG().getVersion()));
             if (VersionWG.getInstance().getWG().registerFlag()) {
@@ -45,13 +54,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         long startTime = System.currentTimeMillis();
-
-        instance = this;
-
-        instance.saveDefaultConfig();
-        instance.getConfig().options().copyDefaults(true);
-        instance.saveConfig();
-        instance.reloadConfig();
 
         if (instance.getConfig().getBoolean("metrics")) {
             this.getLogger().info("Enabling Metrics");
@@ -72,6 +74,8 @@ public class Main extends JavaPlugin {
         }
 
         registerPluginEvents();
+
+        CheckTPS.initCheckTPS(instance.getConfig().getInt("checkTPS.minimumTPS"), instance.getConfig().getInt("checkTPS.maximumTPS"), instance.getConfig().getInt("checkTPS.intervalInSecond"));
 
         if (VersionPlotSquared.getInstance().getPlotSquared() != null) {
             VersionPlotSquared.getInstance().getPlotSquared().init();

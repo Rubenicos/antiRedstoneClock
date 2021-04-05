@@ -18,7 +18,7 @@ public class PistonListener implements Listener {
 
     @EventHandler
     public void onPistonExtendEvent(BlockPistonExtendEvent e) {
-        if (!CheckTPS.isTpsOK() && Util.checkIgnoreWorldsAndRegions(e.getBlock()))
+        if (!CheckTPS.isTpsOK() || Util.checkIgnoreWorldsAndRegions(e.getBlock()))
             return;
         RedstoneClock redstoneClock = RedstoneClockController.getRedstoneClock(e.getBlock().getLocation());
         if (redstoneClock == null) {

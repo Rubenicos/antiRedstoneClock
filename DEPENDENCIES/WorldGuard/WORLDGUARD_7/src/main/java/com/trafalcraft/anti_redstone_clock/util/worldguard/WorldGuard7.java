@@ -1,4 +1,9 @@
-package com.trafalcraft.antiRedstoneClock.util.worldGuard;
+package com.trafalcraft.anti_redstone_clock.util.worldguard;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.plugin.Plugin;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -6,7 +11,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.BukkitWorldGuardPlatform;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.DelayedRegionOverlapAssociation;
+import com.sk89q.worldguard.protection.association.DelayedRegionOverlapAssociation;
 import com.sk89q.worldguard.protection.association.RegionAssociable;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
@@ -15,13 +20,10 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
-import com.trafalcraft.antiRedstoneClock.Main;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.plugin.Plugin;
+import com.trafalcraft.anti_redstone_clock.Main;
+import com.trafalcraft.anti_redstone_clock.util.worldGuard.IWorldGuard;
 
-class WorldGuard_7 implements IWorldGuard {
+class WorldGuard7 implements IWorldGuard {
 
     private static StateFlag ANTIREDSTONECLOCK_FLAG;
     private static final WorldGuardPlugin worldGuard = getWorldGuard();
@@ -37,7 +39,7 @@ class WorldGuard_7 implements IWorldGuard {
                 return true;
             } else {
                 RegionManager regionManager = getRegionManager(loc.getWorld());
-                result = checkRegionFromConfigFile(loc, regionManager);
+				result = checkRegionFromConfigFile(loc, regionManager);
             }
         }
         return result;
@@ -67,7 +69,7 @@ class WorldGuard_7 implements IWorldGuard {
     }
 
     @Override
-    public boolean registerFlag() {
+	public boolean registerFlag() {
         boolean flagLoaded = false;
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
@@ -80,8 +82,8 @@ class WorldGuard_7 implements IWorldGuard {
             // some other plugin registered a flag by the same name already.
             // you can use the existing flag, but this may cause conflicts - be sure to check type
             Flag<?> existing = registry.get("anti-redstone-clock");
-            if (existing instanceof StateFlag) {
-                ANTIREDSTONECLOCK_FLAG = (StateFlag) existing;
+			if (existing instanceof StateFlag stateflag) {
+				ANTIREDSTONECLOCK_FLAG = stateflag;
             } else {
                 Bukkit.getLogger().severe("A plugin already use the flag anti-redstone-clock. WorldGuard flag support will not work");
             }

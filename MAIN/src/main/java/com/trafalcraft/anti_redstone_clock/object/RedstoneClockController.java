@@ -1,8 +1,9 @@
-package com.trafalcraft.antiRedstoneClock.object;
+package com.trafalcraft.anti_redstone_clock.object;
 
 import com.google.common.collect.Maps;
-import com.trafalcraft.antiRedstoneClock.exception.DuplicateRedstoneClockObjectException;
-import com.trafalcraft.antiRedstoneClock.util.Msg;
+import com.trafalcraft.anti_redstone_clock.exception.DuplicateRedstoneClockObjectException;
+import com.trafalcraft.anti_redstone_clock.util.Msg;
+
 import org.bukkit.Location;
 
 import java.util.Collection;

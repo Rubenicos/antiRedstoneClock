@@ -1,8 +1,8 @@
-package com.trafalcraft.antiRedstoneClock.util;
-
-import com.trafalcraft.antiRedstoneClock.Main;
+package com.trafalcraft.anti_redstone_clock.util;
 
 import org.bukkit.Bukkit;
+
+import com.trafalcraft.anti_redstone_clock.Main;
 
 public class CheckTPS {
 

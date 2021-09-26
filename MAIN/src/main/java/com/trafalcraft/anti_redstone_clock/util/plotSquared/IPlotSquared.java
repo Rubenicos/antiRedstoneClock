@@ -1,4 +1,4 @@
-package com.trafalcraft.antiRedstoneClock.util.plotSquared;
+package com.trafalcraft.anti_redstone_clock.util.plotSquared;
 
 import org.bukkit.Location;
 

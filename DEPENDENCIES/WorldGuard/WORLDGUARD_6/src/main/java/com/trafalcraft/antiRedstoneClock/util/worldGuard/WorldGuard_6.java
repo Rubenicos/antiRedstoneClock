@@ -11,7 +11,9 @@ import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import com.trafalcraft.antiRedstoneClock.Main;
+import com.trafalcraft.anti_redstone_clock.Main;
+import com.trafalcraft.anti_redstone_clock.util.worldGuard.IWorldGuard;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;

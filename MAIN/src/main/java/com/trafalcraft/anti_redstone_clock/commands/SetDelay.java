@@ -1,8 +1,9 @@
-package com.trafalcraft.antiRedstoneClock.commands;
+package com.trafalcraft.anti_redstone_clock.commands;
 
-import com.trafalcraft.antiRedstoneClock.Main;
-import com.trafalcraft.antiRedstoneClock.util.Msg;
 import org.bukkit.command.CommandSender;
+
+import com.trafalcraft.anti_redstone_clock.Main;
+import com.trafalcraft.anti_redstone_clock.util.Msg;
 
 public class SetDelay {
     private static final SetDelay ourInstance = new SetDelay();

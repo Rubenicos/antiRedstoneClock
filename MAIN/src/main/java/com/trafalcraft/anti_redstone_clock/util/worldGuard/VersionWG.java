@@ -1,9 +1,9 @@
-package com.trafalcraft.antiRedstoneClock.util.worldGuard;
-
-import com.trafalcraft.antiRedstoneClock.Main;
+package com.trafalcraft.anti_redstone_clock.util.worldGuard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+
+import com.trafalcraft.anti_redstone_clock.Main;
 
 public class VersionWG {
 

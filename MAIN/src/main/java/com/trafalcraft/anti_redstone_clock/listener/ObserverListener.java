@@ -1,12 +1,6 @@
-package com.trafalcraft.antiRedstoneClock.listener;
+package com.trafalcraft.anti_redstone_clock.listener;
 
 import java.util.logging.Level;
-
-import com.trafalcraft.antiRedstoneClock.Main;
-import com.trafalcraft.antiRedstoneClock.exception.DuplicateRedstoneClockObjectException;
-import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
-import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
-import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -14,6 +8,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
+
+import com.trafalcraft.anti_redstone_clock.Main;
+import com.trafalcraft.anti_redstone_clock.exception.DuplicateRedstoneClockObjectException;
+import com.trafalcraft.anti_redstone_clock.object.RedstoneClock;
+import com.trafalcraft.anti_redstone_clock.object.RedstoneClockController;
+import com.trafalcraft.anti_redstone_clock.util.CheckTPS;
 
 public class ObserverListener implements Listener {
 

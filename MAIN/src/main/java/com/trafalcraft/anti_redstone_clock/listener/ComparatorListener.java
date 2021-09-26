@@ -1,12 +1,12 @@
-package com.trafalcraft.antiRedstoneClock.listener;
-
-import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
+package com.trafalcraft.anti_redstone_clock.listener;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
+
+import com.trafalcraft.anti_redstone_clock.util.CheckTPS;
 
 public class ComparatorListener implements Listener {
 

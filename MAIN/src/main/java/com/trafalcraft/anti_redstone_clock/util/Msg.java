@@ -1,9 +1,10 @@
-package com.trafalcraft.antiRedstoneClock.util;
+package com.trafalcraft.anti_redstone_clock.util;
 
-import com.trafalcraft.antiRedstoneClock.Main;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.trafalcraft.anti_redstone_clock.Main;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package com.trafalcraft.antiRedstoneClock.exception;
+package com.trafalcraft.anti_redstone_clock.exception;
 
 public class DuplicateRedstoneClockObjectException extends Exception {
 

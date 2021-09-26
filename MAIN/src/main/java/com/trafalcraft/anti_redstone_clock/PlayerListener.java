@@ -1,6 +1,5 @@
-package com.trafalcraft.antiRedstoneClock;
+package com.trafalcraft.anti_redstone_clock;
 
-import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -12,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+
+import com.trafalcraft.anti_redstone_clock.object.RedstoneClockController;
 
 public class PlayerListener implements Listener {
 

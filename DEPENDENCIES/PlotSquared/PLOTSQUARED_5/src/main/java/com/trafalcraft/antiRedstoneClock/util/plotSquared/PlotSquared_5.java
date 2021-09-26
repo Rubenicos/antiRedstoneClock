@@ -4,6 +4,8 @@ import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.plot.PlotArea;
 import com.plotsquared.core.plot.flag.GlobalFlagContainer;
 import com.trafalcraft.antiRedstoneClock.util.plotSquared.flag5.AntiRedstoneClockFlag;
+import com.trafalcraft.anti_redstone_clock.util.plotSquared.IPlotSquared;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;

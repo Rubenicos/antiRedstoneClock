@@ -1,17 +1,19 @@
-package com.trafalcraft.antiRedstoneClock.commands;
+package com.trafalcraft.anti_redstone_clock.commands;
 
-import com.trafalcraft.antiRedstoneClock.Main;
-import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
-import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
-import com.trafalcraft.antiRedstoneClock.util.Msg;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import java.util.Collection;
+
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
-import java.util.Collection;
+import com.trafalcraft.anti_redstone_clock.Main;
+import com.trafalcraft.anti_redstone_clock.object.RedstoneClockController;
+import com.trafalcraft.anti_redstone_clock.util.CheckTPS;
+import com.trafalcraft.anti_redstone_clock.util.Msg;
+
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class CheckList {
     private static final CheckList ourInstance = new CheckList();
@@ -67,7 +69,7 @@ public class CheckList {
                         .replace("$world", loc.getWorld().getName())
                         .replace("$player", sender.getName())));
                     textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                            new ComponentBuilder("Click to teleport you to the redstoneclock").create()));
+                            new Text("Click to teleport you to the redstoneclock")));
                     sendFormatedMessageToPlayer(sender, textComponent);
                 }
                 i++; 

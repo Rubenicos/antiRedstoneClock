@@ -1,7 +1,8 @@
-package com.trafalcraft.antiRedstoneClock.object;
+package com.trafalcraft.anti_redstone_clock.object;
 
-import com.trafalcraft.antiRedstoneClock.Main;
 import org.bukkit.Location;
+
+import com.trafalcraft.anti_redstone_clock.Main;
 
 public class RedstoneClock {
 

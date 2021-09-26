@@ -5,7 +5,9 @@ import com.github.intellectualsites.plotsquared.plot.flag.BooleanFlag;
 import com.github.intellectualsites.plotsquared.plot.flag.Flag;
 import com.github.intellectualsites.plotsquared.plot.flag.Flags;
 import com.github.intellectualsites.plotsquared.plot.object.Plot;
-import com.trafalcraft.antiRedstoneClock.Main;
+import com.trafalcraft.anti_redstone_clock.Main;
+import com.trafalcraft.anti_redstone_clock.util.plotSquared.IPlotSquared;
+
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 

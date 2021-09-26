@@ -1,14 +1,5 @@
-package com.trafalcraft.antiRedstoneClock;
+package com.trafalcraft.anti_redstone_clock;
 
-import com.trafalcraft.antiRedstoneClock.commands.*;
-import com.trafalcraft.antiRedstoneClock.listener.ComparatorListener;
-import com.trafalcraft.antiRedstoneClock.listener.ObserverListener;
-import com.trafalcraft.antiRedstoneClock.listener.RedstoneListener;
-import com.trafalcraft.antiRedstoneClock.util.plotSquared.VersionPlotSquared;
-import com.trafalcraft.antiRedstoneClock.listener.PistonListener;
-import com.trafalcraft.antiRedstoneClock.util.CheckTPS;
-import com.trafalcraft.antiRedstoneClock.util.Msg;
-import com.trafalcraft.antiRedstoneClock.util.worldGuard.VersionWG;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +7,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yaml.snakeyaml.error.YAMLException;
+
+import com.trafalcraft.anti_redstone_clock.commands.*;
+import com.trafalcraft.anti_redstone_clock.listener.ComparatorListener;
+import com.trafalcraft.anti_redstone_clock.listener.ObserverListener;
+import com.trafalcraft.anti_redstone_clock.listener.PistonListener;
+import com.trafalcraft.anti_redstone_clock.listener.RedstoneListener;
+import com.trafalcraft.anti_redstone_clock.util.CheckTPS;
+import com.trafalcraft.anti_redstone_clock.util.Msg;
+import com.trafalcraft.anti_redstone_clock.util.plotSquared.VersionPlotSquared;
+import com.trafalcraft.anti_redstone_clock.util.worldGuard.VersionWG;
 
 import java.util.ArrayList;
 import java.util.Collection;

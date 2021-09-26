@@ -1,14 +1,7 @@
-package com.trafalcraft.antiRedstoneClock.listener;
+package com.trafalcraft.anti_redstone_clock.listener;
 
 import java.util.logging.Level;
 
-import com.trafalcraft.antiRedstoneClock.Main;
-import com.trafalcraft.antiRedstoneClock.exception.DuplicateRedstoneClockObjectException;
-import com.trafalcraft.antiRedstoneClock.util.plotSquared.VersionPlotSquared;
-import com.trafalcraft.antiRedstoneClock.object.RedstoneClock;
-import com.trafalcraft.antiRedstoneClock.object.RedstoneClockController;
-import com.trafalcraft.antiRedstoneClock.util.Msg;
-import com.trafalcraft.antiRedstoneClock.util.worldGuard.VersionWG;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,10 +9,18 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
+import com.trafalcraft.anti_redstone_clock.Main;
+import com.trafalcraft.anti_redstone_clock.exception.DuplicateRedstoneClockObjectException;
+import com.trafalcraft.anti_redstone_clock.object.RedstoneClock;
+import com.trafalcraft.anti_redstone_clock.object.RedstoneClockController;
+import com.trafalcraft.anti_redstone_clock.util.Msg;
+import com.trafalcraft.anti_redstone_clock.util.plotSquared.VersionPlotSquared;
+import com.trafalcraft.anti_redstone_clock.util.worldGuard.VersionWG;
+
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 class Util {
     private Util() {}
@@ -137,7 +138,7 @@ class Util {
             .replace("$Z", block.getZ() + "")
             .replace("$World", block.getWorld().getName()));
         textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-            new ComponentBuilder("Click to teleport you to the redstoneclock").create()));
+				new Text("Click to teleport you to the redstoneclock")));
         return textComponent;
     }
 

@@ -5,7 +5,7 @@
 
   <groupId>com.trafalcraft.antiRedstoneClock</groupId>
   <artifactId>antiRedstoneClock</artifactId>
-  <version>1.4.1</version>
+  <version>1.5.0-test</version>
   <packaging>pom</packaging>
   <name>antiRedstoneClock</name>
   <url>https://www.spigotmc.org/resources/antiredstoneclock.18557</url>
@@ -15,7 +15,7 @@
     <maven.compiler.source>16</maven.compiler.source>
     <maven.compiler.target>16</maven.compiler.target>
     <module.info>-parent</module.info>
-    <spigot.version>1.16.5-R0.1-SNAPSHOT</spigot.version>
+    <spigot.version>1.17.1-R0.1-SNAPSHOT</spigot.version>
   </properties>
   
   <modules>
@@ -63,8 +63,8 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-                <source>8</source>
-                <target>8</target>
+                <source>16</source>
+                <target>16</target>
             </configuration>
             <version>3.8.1</version>
         </plugin>

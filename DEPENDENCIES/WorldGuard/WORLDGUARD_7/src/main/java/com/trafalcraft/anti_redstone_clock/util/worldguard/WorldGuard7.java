@@ -39,7 +39,7 @@ class WorldGuard7 implements IWorldGuard {
                 return true;
             } else {
                 RegionManager regionManager = getRegionManager(loc.getWorld());
-				result = checkRegionFromConfigFile(loc, regionManager);
+                result = checkRegionFromConfigFile(loc, regionManager);
             }
         }
         return result;
@@ -47,7 +47,8 @@ class WorldGuard7 implements IWorldGuard {
 
     private boolean checkRegionFromConfigFile(Location loc, RegionManager regionManager) {
         if (regionManager != null) {
-            ApplicableRegionSet regions = regionManager.getApplicableRegions(BlockVector3.at(loc.getX(), loc.getY(), loc.getZ()));
+            ApplicableRegionSet regions = regionManager
+                    .getApplicableRegions(BlockVector3.at(loc.getX(), loc.getY(), loc.getZ()));
             for (String ignoreRegion : Main.getIgnoredRegions()) {
                 for (ProtectedRegion region : regions.getRegions()) {
                     if (region.getId().equals(ignoreRegion)) {
@@ -69,7 +70,7 @@ class WorldGuard7 implements IWorldGuard {
     }
 
     @Override
-	public boolean registerFlag() {
+    public boolean registerFlag() {
         boolean flagLoaded = false;
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
@@ -80,20 +81,21 @@ class WorldGuard7 implements IWorldGuard {
             flagLoaded = true;
         } catch (FlagConflictException e) {
             // some other plugin registered a flag by the same name already.
-            // you can use the existing flag, but this may cause conflicts - be sure to check type
+            // you can use the existing flag, but this may cause conflicts - be sure to
+            // check type
             Flag<?> existing = registry.get("anti-redstone-clock");
-			if (existing instanceof StateFlag stateflag) {
-				ANTIREDSTONECLOCK_FLAG = stateflag;
+            if (existing instanceof StateFlag) {
+                ANTIREDSTONECLOCK_FLAG = (StateFlag) existing;
             } else {
-                Bukkit.getLogger().severe("A plugin already use the flag anti-redstone-clock. WorldGuard flag support will not work");
+                Bukkit.getLogger().severe(
+                        "A plugin already use the flag anti-redstone-clock. WorldGuard flag support will not work");
             }
         }
         return flagLoaded;
     }
 
     private RegionManager getRegionManager(World world) {
-        BukkitWorldGuardPlatform wgPlatform = (BukkitWorldGuardPlatform)
-                WorldGuard.getInstance().getPlatform();
+        BukkitWorldGuardPlatform wgPlatform = (BukkitWorldGuardPlatform) WorldGuard.getInstance().getPlatform();
         com.sk89q.worldedit.world.World worldEditWorld = wgPlatform.getMatcher().getWorldByName(world.getName());
         return wgPlatform.getRegionContainer().get(worldEditWorld);
     }

@@ -1,6 +1,14 @@
 package com.trafalcraft.anti_redstone_clock;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
+
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.DrilldownPie;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -8,7 +16,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yaml.snakeyaml.error.YAMLException;
 
-import com.trafalcraft.anti_redstone_clock.commands.*;
+import com.trafalcraft.anti_redstone_clock.commands.AutoRemoveDetectedClock;
+import com.trafalcraft.anti_redstone_clock.commands.CheckList;
+import com.trafalcraft.anti_redstone_clock.commands.CreateSignWhenClockIsBreak;
+import com.trafalcraft.anti_redstone_clock.commands.NotifyAdmin;
+import com.trafalcraft.anti_redstone_clock.commands.Reload;
+import com.trafalcraft.anti_redstone_clock.commands.SetDelay;
+import com.trafalcraft.anti_redstone_clock.commands.SetMaxPulses;
 import com.trafalcraft.anti_redstone_clock.listener.ComparatorListener;
 import com.trafalcraft.anti_redstone_clock.listener.ObserverListener;
 import com.trafalcraft.anti_redstone_clock.listener.PistonListener;
@@ -17,12 +31,6 @@ import com.trafalcraft.anti_redstone_clock.util.CheckTPS;
 import com.trafalcraft.anti_redstone_clock.util.Msg;
 import com.trafalcraft.anti_redstone_clock.util.plotSquared.VersionPlotSquared;
 import com.trafalcraft.anti_redstone_clock.util.worldGuard.VersionWG;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Callable;
 
 public class Main extends JavaPlugin {
 
@@ -189,7 +197,7 @@ public class Main extends JavaPlugin {
     }
 
     public void initMetricsChart(Metrics metrics) {
-        metrics.addCustomChart(new Metrics.SimplePie("worldguard_version", new Callable<String>(){
+        metrics.addCustomChart(new SimplePie("worldguard_version", new Callable<String>(){
         
             @Override
             public String call() throws Exception {
@@ -197,7 +205,7 @@ public class Main extends JavaPlugin {
             }
         }));
 
-        metrics.addCustomChart(new Metrics.SimplePie("plotsquared_version", new Callable<String>(){
+        metrics.addCustomChart(new SimplePie("plotsquared_version", new Callable<String>(){
 
             @Override
             public String call() throws Exception {
@@ -205,7 +213,7 @@ public class Main extends JavaPlugin {
             }
         }));
 
-        metrics.addCustomChart(new Metrics.DrilldownPie("config_maxpulses", () -> {
+        metrics.addCustomChart(new DrilldownPie("config_maxpulses", () -> {
             Map<String, Map<String, Integer>> map = new HashMap<>();
             Map<String, Integer> entry = new HashMap<>();
             int maxPulses = Main.getInstance().getConfig().getInt("MaxPulses");
@@ -225,7 +233,7 @@ public class Main extends JavaPlugin {
             return map;
         }));
 
-        metrics.addCustomChart(new Metrics.DrilldownPie("config_delay", () -> {
+        metrics.addCustomChart(new DrilldownPie("config_delay", () -> {
             Map<String, Map<String, Integer>> map = new HashMap<>();
             Map<String, Integer> entry = new HashMap<>();
             int delay = Main.getInstance().getConfig().getInt("Delay");

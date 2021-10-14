@@ -19,6 +19,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 import com.trafalcraft.anti_redstone_clock.commands.AutoRemoveDetectedClock;
 import com.trafalcraft.anti_redstone_clock.commands.CheckList;
 import com.trafalcraft.anti_redstone_clock.commands.CreateSignWhenClockIsBreak;
+import com.trafalcraft.anti_redstone_clock.commands.DisableRedstoneClockCheckAbove;
 import com.trafalcraft.anti_redstone_clock.commands.NotifyAdmin;
 import com.trafalcraft.anti_redstone_clock.commands.Reload;
 import com.trafalcraft.anti_redstone_clock.commands.SetDelay;
@@ -157,6 +158,9 @@ public class Main extends JavaPlugin {
                             break;
                         case "SETDELAY":
                             SetDelay.getInstance().performCMD(sender, args);
+                            break;
+                        case "DISABLEREDSTONECLOCKCHECKABOVE":
+                            DisableRedstoneClockCheckAbove.getInstance().performCMD(sender, args);
                             break;
                         case "NOTIFYADMIN":
                             NotifyAdmin.getInstance().performCMD(sender, args);

@@ -48,7 +48,8 @@ class Util {
     }
 
     static boolean checkIgnoreWorldsAndRegions(Block block) {
-        if (Main.getIgnoredWorlds().contains(block.getWorld().getName())) {
+        if (block.getY() > Main.getInstance().getConfig().getInt("disableRedstoneClockCheckAbove")
+            || Main.getIgnoredWorlds().contains(block.getWorld().getName())) {
             return true;
         }
         if (VersionWG.getInstance().getWG() != null && VersionWG.getInstance().getWG()

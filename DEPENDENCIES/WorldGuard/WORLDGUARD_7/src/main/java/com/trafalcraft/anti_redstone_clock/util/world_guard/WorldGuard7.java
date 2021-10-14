@@ -1,4 +1,4 @@
-package com.trafalcraft.anti_redstone_clock.util.worldguard;
+package com.trafalcraft.anti_redstone_clock.util.world_guard;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

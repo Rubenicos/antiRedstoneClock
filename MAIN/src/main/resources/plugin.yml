@@ -6,7 +6,7 @@ website: https://www.spigotmc.org/resources/antiredstoneclock.18557
 api-version: 1.13
 softdepend: [WorldGuard, bstats, PlotSquared]
 
-main: com.trafalcraft.antiRedstoneClock.Main
+main: com.trafalcraft.anti_redstone_clock.Main
 
 commands:
    antiRedstoneClock:

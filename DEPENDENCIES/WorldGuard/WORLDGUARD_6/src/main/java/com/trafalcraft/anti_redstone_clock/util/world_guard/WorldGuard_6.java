@@ -1,4 +1,4 @@
-package com.trafalcraft.antiRedstoneClock.util.worldGuard;
+package com.trafalcraft.anti_redstone_clock.util.world_guard;
 
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldguard.bukkit.RegionQuery;

@@ -1,10 +1,10 @@
-package com.trafalcraft.antiRedstoneClock.util.plotSquared;
+package com.trafalcraft.anti_redstone_clock.util.plot_squared;
 
 import com.plotsquared.core.PlotSquared;
 import com.plotsquared.core.plot.PlotArea;
 import com.plotsquared.core.plot.flag.GlobalFlagContainer;
-import com.trafalcraft.antiRedstoneClock.util.plotSquared.flag5.AntiRedstoneClockFlag;
 import com.trafalcraft.anti_redstone_clock.util.plotSquared.IPlotSquared;
+import com.trafalcraft.anti_redstone_clock.util.plot_squared.flag5.AntiRedstoneClockFlag;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -1,4 +1,4 @@
-package com.trafalcraft.antiRedstoneClock.util.plotSquared.flag5;
+package com.trafalcraft.anti_redstone_clock.util.plot_squared.flag5;
 
 import com.plotsquared.core.configuration.Caption;
 import com.plotsquared.core.plot.flag.types.BooleanFlag;

@@ -1,4 +1,4 @@
-package com.trafalcraft.antiRedstoneClock.util.plotSquared;
+package com.trafalcraft.anti_redstone_clock.util.plot_squared;
 
 import com.github.intellectualsites.plotsquared.api.PlotAPI;
 import com.github.intellectualsites.plotsquared.plot.flag.BooleanFlag;

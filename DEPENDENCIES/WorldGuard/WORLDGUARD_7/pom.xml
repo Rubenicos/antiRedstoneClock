@@ -3,7 +3,7 @@
     <parent>
         <artifactId>antiRedstoneClock</artifactId>
         <groupId>com.trafalcraft.antiRedstoneClock</groupId>
-        <version>1.5.0-test</version>
+        <version>1.5.0</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>

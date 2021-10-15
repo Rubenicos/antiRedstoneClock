@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.trafalcraft.antiRedstoneClock</groupId>
         <artifactId>antiRedstoneClock</artifactId>
-        <version>1.4.1</version>
+        <version>1.5.0</version>
     </parent>
     <packaging>jar</packaging>
 
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.7</version>
+            <version>2.2.1</version>
             <scope>compile</scope>
       </dependency>
     </dependencies>
@@ -62,15 +62,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.1.0</version>
-        <configuration>
-          <relocations>
-            <relocation>
-              <pattern>org.bstats</pattern>
-              <!-- Replace this with your package! -->
-              <shadedPattern>com.trafalcraft.antiRedstoneClock.util</shadedPattern>
-            </relocation>
-          </relocations>
-        </configuration>
         <executions>
           <execution>
             <phase>package</phase>

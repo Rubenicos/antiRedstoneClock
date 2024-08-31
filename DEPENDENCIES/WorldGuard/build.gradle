@@ -1,0 +1,5 @@
+subprojects {
+    repositories {
+        maven { url 'https://maven.sk89q.com/repo/' }
+    }
+}

@@ -1,0 +1,11 @@
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.yml'
+        expand(rootProject.properties)
+    }
+}
+
+dependencies {
+    implementation 'org.bstats:bstats-bukkit:2.2.1'
+}

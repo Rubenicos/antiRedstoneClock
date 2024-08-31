@@ -1,0 +1,21 @@
+plugins {
+    id 'com.gradleup.shadow'
+}
+
+dependencies {
+    implementation project(':MAIN')
+    implementation project(':DEPENDENCIES:WorldGuard:WORLDGUARD_6')
+    implementation project(':DEPENDENCIES:WorldGuard:WORLDGUARD_7')
+    implementation project(':DEPENDENCIES:PlotSquared:PLOTSQUARED_4')
+    implementation project(':DEPENDENCIES:PlotSquared:PLOTSQUARED_5')
+}
+
+jar {
+    enabled = false
+    dependsOn (shadowJar)
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    minimize()
+}

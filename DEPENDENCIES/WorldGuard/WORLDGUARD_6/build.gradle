@@ -1,0 +1,5 @@
+dependencies {
+    compileOnly project(':MAIN')
+    compileOnly 'com.sk89q.worldguard:worldguard-legacy:6.2'
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:6.0'
+}

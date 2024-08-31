@@ -1,0 +1,15 @@
+rootProject.name = 'antiRedstoneClock'
+
+// Main project
+include 'MAIN'
+
+include 'DIST'
+
+
+// Dependencies
+include(
+	'DEPENDENCIES:WorldGuard:WORLDGUARD_6',
+	'DEPENDENCIES:WorldGuard:WORLDGUARD_7',
+	'DEPENDENCIES:PlotSquared:PLOTSQUARED_4',
+	'DEPENDENCIES:PlotSquared:PLOTSQUARED_5'
+	)

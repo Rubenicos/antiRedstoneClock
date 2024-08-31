@@ -1,0 +1,4 @@
+dependencies {
+    compileOnly project(':MAIN')
+    compileOnly 'com.github.IntellectualSites.PlotSquared:Core:4.453'
+}

@@ -1,4 +1,9 @@
 dependencies {
     compileOnly project(':MAIN')
-    compileOnly 'com.plotsquared:PlotSquared:5.1'
+    compileOnly 'com.github.IntellectualSites.PlotSquared:PlotSquared-Core:b66e2359d1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }

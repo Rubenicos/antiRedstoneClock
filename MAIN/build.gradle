@@ -1,7 +1,7 @@
 processResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(sourceSets.main.resources.srcDirs) {
-        include '**/*.yml'
+        include 'plugin.yml'
         expand(rootProject.properties)
     }
 }

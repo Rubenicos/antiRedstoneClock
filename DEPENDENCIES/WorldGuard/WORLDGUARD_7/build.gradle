@@ -1,4 +1,9 @@
 dependencies {
     compileOnly project(':MAIN')
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.4'
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.8'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }

@@ -10,12 +10,17 @@ dependencies {
     implementation project(':DEPENDENCIES:PlotSquared:PLOTSQUARED_5')
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 jar {
     enabled = false
     dependsOn (shadowJar)
 }
 
 shadowJar {
+    archiveBaseName.set(rootProject.name)
     archiveClassifier.set('')
-    minimize()
 }

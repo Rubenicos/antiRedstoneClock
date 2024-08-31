@@ -1,2 +1,37 @@
+1.5.0:
+    - Add support for minecraft 1.17
+    - Add disableRedstoneClockCheckAbove setting to disable the verification of redstone clock above a certain Y limit.
+1.4.1:
+    - Fix a bug with checkTPS feature and click to teleport feature to admin message.
+    - Fix piston clock deletion when you disable a region or a plot.
+1.4.0:
+    - Add three parameters to disable the plugin based on your tps
+    - And a boolean to enable or disable lighting effect when a clock is destroyed
+1.3.2:
+    - Add worldGuardSupport to config.yml to enable or disable worldGuard support and avoid warning messages.
+1.3.1:
+    - Improve custom tp with $player parameter and remove decimal value
+1.3.0:
+    - Add a way to customize tp command in your config file
+1.2.0:
+    - Improve perfs.
+    - Remove PlotSquared hasn't been found! message when plotSquaredSupport is false.
+    - Modify WorldGuard flag to respect default format : anti-redstone-clock
+1.1.0:
+    - Add PlotSquared 4 support
+    - Add flag for WorldGuard
+    - Add PlotSquared to bstats metrics.
+1.0.7:
+    - Add support for plotSquared V5
+1.0.6:
+    - Add 3 new collected statistics: WorldGuard version, delay and maxpulses setting
+1.0.5:
+    - fix for the latest version of WorldGuard (7.0.0 beta 2 or newer)
+1.0.4:
+    - hotfix for an issue with the latest beta version of WorldGuard7
+1.0.3:
+    - Fix a bug with latest version of WorldGuard.
+    - Fix a bug with delay config not respected.
+    - Add the ability to teleport you to the clock with a click on the chat.
 1.0.2:
     - fix a bug with Vector in latest WorldEdit.
